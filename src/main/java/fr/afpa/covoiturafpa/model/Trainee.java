@@ -1,5 +1,10 @@
 package fr.afpa.covoiturafpa.model;
 
-public class Trainee {
-    
+import java.time.LocalDate;
+
+public class Trainee extends User {
+    private int id;
+    private LocalDate startTraining;
+    private LocalDate endTraining;
+    private Formation formation;
 }

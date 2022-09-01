@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 public class DayTimetable {
     private int id;
-    private String dayName;
+    private Day day;
     private LocalTime startMorning;
     private LocalTime endMorning;
     private LocalTime startAfternoon;

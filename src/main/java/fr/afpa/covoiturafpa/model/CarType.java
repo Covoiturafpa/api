@@ -5,4 +5,12 @@ public class CarType {
     private CarTypeName carTypeName;
     private float avgFuelConsumption;
     
+    enum CarTypeName {
+        COMPACT,
+        BERLINE,
+        SUV,
+        MONOSPACE,
+        UTILITAIRE
+    }
+
 }

@@ -5,5 +5,5 @@ public class Destination {
     private double latitude;
     private double longitude;
     private boolean isFromAfpa;
-    
+    private City city;
 }
