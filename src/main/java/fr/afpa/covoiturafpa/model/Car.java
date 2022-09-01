@@ -1,14 +1,37 @@
 package fr.afpa.covoiturafpa.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "car")
 public class Car {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String model;
+
+    @Column
     private int seats;
+
+    @Column(name = "avg_fuel_consumption")
     private float avgFuelConsumption;
+
+    @ManyToOne
+    @JoinColumn(name = "id_car_fuel_type")
     private CarType carType;
 
-    
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
 

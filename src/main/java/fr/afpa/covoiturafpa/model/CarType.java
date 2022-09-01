@@ -1,9 +1,32 @@
 package fr.afpa.covoiturafpa.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "car_type")
 public class CarType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private CarTypeName carTypeName;
+
+    @Enumerated(EnumType.STRING)
+    private CarTypeName name;
+
+    @Column(name = "avg_fuel_consumption")
     private float avgFuelConsumption;
+
+    @ManyToOne
+    @JoinColumn(name = "id_fuel")
     private Fuel fuel;
     
 
@@ -24,12 +47,12 @@ public class CarType {
         this.id = id;
     }
 
-    public CarTypeName getCarTypeName() {
-        return carTypeName;
+    public CarTypeName getName() {
+        return name;
     }
 
     public void setCarTypeName(CarTypeName carTypeName) {
-        this.carTypeName = carTypeName;
+        this.name = carTypeName;
     }
 
     public float getAvgFuelConsumption() {

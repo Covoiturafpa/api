@@ -16,7 +16,7 @@ public abstract class User {
     private LocalDateTime lastLogin;
     private ArrayList<Notification> notifications;
     private ArrayList<Car> cars;
-    private ArrayList<Ride> currentRides;
+    private ArrayList<Ride> rides;
 
 
     public int getId() {
@@ -114,12 +114,12 @@ public abstract class User {
         this.cars = cars;
     }
 
-    public ArrayList<Ride> getCurrentRides() {
-        return currentRides;
+    public ArrayList<Ride> getrides() {
+        return rides;
     }
 
-    public void setCurrentRides(ArrayList<Ride> currentRides) {
-        this.currentRides = currentRides;
+    public void setrides(ArrayList<Ride> rides) {
+        this.rides = rides;
     }
 
     public User() {
