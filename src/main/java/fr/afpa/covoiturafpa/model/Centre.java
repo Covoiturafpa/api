@@ -2,16 +2,50 @@ package fr.afpa.covoiturafpa.model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "centre")
 public class Centre {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_centre")
     private int id;
+
+    @Column
     private String name;
+
+    @Column
     private String address;
+
+    @Column
     private float latitude;
+
+    @Column
     private float longitude;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "centre")
     private ArrayList<DayTimetable> daysTimetable;
+
+    @OneToOne(mappedBy = "centre")
     private NotifConfig notifConfig;
+
+    @OneToMany(mappedBy = "centre")
     private ArrayList<Partner> partners;
+
+    @OneToMany(mappedBy = "centre")
     private ArrayList<Formation> formations;
 
 

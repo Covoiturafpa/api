@@ -2,18 +2,18 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "one_time")
 public class OneTimeRide extends Ride {
-    private int id;
+
+    @Column(name = "departure_day")
     private LocalDate departureDay;
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public LocalDate getDepartureDay() {
         return departureDay;

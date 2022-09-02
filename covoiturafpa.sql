@@ -92,7 +92,7 @@ CREATE TABLE formation(
 );
 
 CREATE TABLE day_timetable(
-   id_timetable INTEGER,
+   id_day_timetable INTEGER,
    day_name VARCHAR(20) ,
    start_morning TIME,
    end_morning TIME,

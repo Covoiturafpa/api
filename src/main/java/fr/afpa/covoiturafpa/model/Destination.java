@@ -1,10 +1,35 @@
 package fr.afpa.covoiturafpa.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "destination")
 public class Destination {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_destination")
     private int id;
+
+    @Column
     private double latitude;
+
+    @Column
     private double longitude;
+
+    @Column(name = "is_from_afpa")
     private boolean isFromAfpa;
+
+    @ManyToOne
+    @JoinColumn(name = "id_city")
     private City city;
 
 

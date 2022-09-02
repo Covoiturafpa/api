@@ -2,11 +2,35 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "notification")
 public class Notification {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_notification")
     private int id;
+
+    @Enumerated(EnumType.STRING)
+    @Column
     private TypeNotif type;
+    
+    @Column(name = "created_time")
     private LocalDateTime createdTime;
+
+    @Column(name = "is_unread")
     private boolean isUnread;
+
 
     enum TypeNotif {
         NEW_RESERVATION,
@@ -14,6 +38,7 @@ public class Notification {
         ACCEPTED_RESERVATION,
     }
 
+    
     public int getId() {
         return id;
     }

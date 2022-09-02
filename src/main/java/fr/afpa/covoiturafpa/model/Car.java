@@ -9,12 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "car")
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car")
     private int id;
 
     @Column
@@ -27,7 +29,7 @@ public class Car {
     private float avgFuelConsumption;
 
     @ManyToOne
-    @JoinColumn(name = "id_car_fuel_type")
+    @JoinColumn(name = "id_car_type")
     private CarType carType;
 
 

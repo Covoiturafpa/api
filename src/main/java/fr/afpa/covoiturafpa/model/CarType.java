@@ -11,15 +11,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "car_type")
 public class CarType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car_type")
     private int id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "name_car_type")
     private CarTypeName name;
 
     @Column(name = "avg_fuel_consumption")

@@ -2,12 +2,39 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "day_timetable")
 public class DayTimetable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_day_timetable")
     private int id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "day_name")
     private Day day;
+
+    @Column(name = "start_morning")
     private LocalTime startMorning;
+
+    @Column(name = "end_morning")
     private LocalTime endMorning;
+
+    @Column(name = "start_afternoon")
     private LocalTime startAfternoon;
+
+    @Column(name = "end_afternoon")
     private LocalTime endAfternoon;
 
 

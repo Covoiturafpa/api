@@ -2,21 +2,27 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "employee")
 public class Employee extends User {
-    private int idEmployee;
+
+    @Column
     private String role;
+
+    @Column(name = "is_admin")
     private boolean isAdmin;
+
+    @Column(name = "start_contract")
     private LocalDate startContract;
+
+    @Column(name = "end_contract")
     private LocalDate endContract;
 
-
-    public int getIdEmployee() {
-        return idEmployee;
-    }
-
-    public void setIdEmployee(int idEmployee) {
-        this.idEmployee = idEmployee;
-    }
 
     public String getRole() {
         return role;

@@ -3,19 +3,60 @@ package fr.afpa.covoiturafpa.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "person")
 public abstract class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private int id;
+
+    @Column
     private String email;
+
+    @Column
     private String password;
+
+    @Column
     private String surname;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "is_activated")
     private boolean isActivated;
+
+    @Column(name = "contact_by_sms")
     private boolean contactBySms;
+
+    @Column(name = "contact_by_mail")
     private boolean contactByMail;
+
+    @Column(name = "last_login")
     private LocalDateTime lastLogin;
+
+    @OneToMany(mappedBy = "user")
     private ArrayList<Notification> notifications;
+
+    @OneToMany(mappedBy = "user")
     private ArrayList<Car> cars;
+
     private ArrayList<Ride> rides;
 
 

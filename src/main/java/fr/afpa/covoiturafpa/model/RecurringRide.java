@@ -3,20 +3,24 @@ package fr.afpa.covoiturafpa.model;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "recurring")
 public class RecurringRide extends Ride {
-    private int id;
+
+    @Column
     private LocalDate beginning;
+
+    @Column
     private LocalDate ending;
+
+    @Column
     private Set<Day> days;
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public LocalDate getBeginning() {
         return beginning;

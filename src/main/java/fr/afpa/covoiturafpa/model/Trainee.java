@@ -2,20 +2,27 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "trainee")
 public class Trainee extends User {
-    private int idTrainee;
+
+    @Column(name = "start_training")
     private LocalDate startTraining;
+
+    @Column(name = "end_training")
     private LocalDate endTraining;
+
+    @ManyToOne
+    @JoinColumn(name = "id_formation")
     private Formation formation;
 
-
-    public int getIdTrainee() {
-        return idTrainee;
-    }
-
-    public void setIdTrainee(int idTrainee) {
-        this.idTrainee = idTrainee;
-    }
 
     public LocalDate getStartTraining() {
         return startTraining;
