@@ -1,7 +1,8 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -45,8 +47,8 @@ public abstract class Ride {
     @JoinColumn(name = "id_person")
     private User driver;
 
-    private ArrayList<User> passengers;
-    private ArrayList<User> reservations; 
+    @OneToMany(mappedBy = "user")
+    private Set<User> possiblePassengers = new HashSet<User>();
 
 
     public int getId() {
@@ -105,20 +107,12 @@ public abstract class Ride {
         this.driver = driver;
     }
 
-    public ArrayList<User> getPassengers() {
-        return passengers;
+    public Set<User> getPossiblePassengers() {
+        return possiblePassengers;
     }
 
-    public void setPassengers(ArrayList<User> passengers) {
-        this.passengers = passengers;
-    }
-
-    public ArrayList<User> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(ArrayList<User> reservations) {
-        this.reservations = reservations;
+    public void setPossiblePassengers(Set<User> passengers) {
+        this.possiblePassengers = passengers;
     }
 
     public Ride() {

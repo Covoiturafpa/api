@@ -2,6 +2,8 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,7 +59,8 @@ public abstract class User {
     @OneToMany(mappedBy = "user")
     private ArrayList<Car> cars;
 
-    private ArrayList<Ride> rides;
+    @OneToMany(mappedBy = "user")
+    private Set<Ride> rides = new HashSet<Ride>();
 
 
     public int getId() {
@@ -155,11 +158,11 @@ public abstract class User {
         this.cars = cars;
     }
 
-    public ArrayList<Ride> getrides() {
+    public Set<Ride> getRides() {
         return rides;
     }
 
-    public void setrides(ArrayList<Ride> rides) {
+    public void setRides(Set<Ride> rides) {
         this.rides = rides;
     }
 

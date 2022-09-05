@@ -4,16 +4,16 @@ CREATE TYPE status_type AS ENUM ('PENDING', 'ACCEPTED', 'FINISHED');
 
 CREATE TABLE person(
    id_person INTEGER,
-   email VARCHAR(50) ,
-   password VARCHAR(50) ,
-   surname VARCHAR(50) ,
-   first_name VARCHAR(20) ,
-   phone_number VARCHAR(20) ,
+   email VARCHAR(50),
+   password VARCHAR(50),
+   surname VARCHAR(50),
+   first_name VARCHAR(20),
+   phone_number VARCHAR(20),
    is_activated BOOLEAN,
    contact_by_sms BOOLEAN,
    contact_by_mail BOOLEAN,
    last_login TIMESTAMP,
-   photo_path VARCHAR(255) ,
+   photo_path VARCHAR(255),
    PRIMARY KEY(id_person)
 );
 
@@ -25,8 +25,8 @@ CREATE TABLE notif_config(
 
 CREATE TABLE fuel(
    id_fuel INTEGER,
-   name VARCHAR(20) ,
-   price_by_unit NUMERIC(5,2)  ,
+   name VARCHAR(20),
+   price_by_unit NUMERIC(5,2),
    PRIMARY KEY(id_fuel)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE notification(
 
 CREATE TABLE City(
    id_city INTEGER,
-   name VARCHAR(255) ,
+   name VARCHAR(255),
    PRIMARY KEY(id_city)
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE City(
 CREATE TABLE car_type(
    id_car_type INTEGER,
    name car_type_name,
-   avg_fuel_consumption NUMERIC(4,1)  ,
+   avg_fuel_consumption NUMERIC(4,1),
    seats SMALLINT,
    id_fuel INTEGER NOT NULL,
    PRIMARY KEY(id_car_type),
@@ -60,9 +60,9 @@ CREATE TABLE car_type(
 
 CREATE TABLE car(
    id_car INTEGER,
-   model VARCHAR(50) ,
+   model VARCHAR(50),
    seats SMALLINT,
-   avg_fuel_consumption NUMERIC(4,1)  ,
+   avg_fuel_consumption NUMERIC(4,1),
    id_car_type INTEGER NOT NULL,
    id_person INTEGER NOT NULL,
    PRIMARY KEY(id_car),
@@ -72,11 +72,11 @@ CREATE TABLE car(
 
 CREATE TABLE centre(
    id_centre INTEGER,
-   name VARCHAR(50) ,
+   name VARCHAR(50),
    address VARCHAR(255) ,
    latitude DOUBLE PRECISION,
    longitude DOUBLE PRECISION,
-   phone_number VARCHAR(20) ,
+   phone_number VARCHAR(20),
    id_notif_config INTEGER NOT NULL,
    PRIMARY KEY(id_centre),
    UNIQUE(id_notif_config),
@@ -85,7 +85,7 @@ CREATE TABLE centre(
 
 CREATE TABLE formation(
    id_formation INTEGER,
-   name VARCHAR(50) ,
+   name VARCHAR(50),
    id_centre INTEGER NOT NULL,
    PRIMARY KEY(id_formation),
    FOREIGN KEY(id_centre) REFERENCES centre(id_centre)
@@ -93,7 +93,7 @@ CREATE TABLE formation(
 
 CREATE TABLE day_timetable(
    id_day_timetable INTEGER,
-   day_name VARCHAR(20) ,
+   day_name VARCHAR(20),
    start_morning TIME,
    end_morning TIME,
    start_afternoon TIME,
@@ -105,8 +105,8 @@ CREATE TABLE day_timetable(
 
 CREATE TABLE partner(
    id_partner INTEGER,
-   name VARCHAR(50) ,
-   logo_picture_path VARCHAR(255) ,
+   name VARCHAR(50),
+   logo_picture_path VARCHAR(255),
    id_centre INTEGER NOT NULL,
    PRIMARY KEY(id_partner),
    FOREIGN KEY(id_centre) REFERENCES centre(id_centre)
@@ -135,7 +135,7 @@ CREATE TABLE trainee(
 
 CREATE TABLE employee(
    id_person INTEGER,
-   role VARCHAR(50) ,
+   role VARCHAR(50),
    is_admin BOOLEAN,
    start_contract DATE,
    end_contract DATE,
@@ -165,7 +165,7 @@ CREATE TABLE recurring(
    id_ride INTEGER,
    beginning DATE,
    ending DATE,
-   days VARCHAR(50) ,
+   days VARCHAR(50),
    id_ride INTEGER NOT NULL,
    PRIMARY KEY(id_ride),
    UNIQUE(id_ride),
