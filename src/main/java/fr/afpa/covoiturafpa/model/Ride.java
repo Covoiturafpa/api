@@ -48,7 +48,7 @@ public abstract class Ride {
     private User driver;
 
     @OneToMany(mappedBy = "user")
-    private Set<User> possiblePassengers = new HashSet<User>();
+    private Set<User> requestedPassengers = new HashSet<User>();
 
 
     public int getId() {
@@ -108,11 +108,11 @@ public abstract class Ride {
     }
 
     public Set<User> getPossiblePassengers() {
-        return possiblePassengers;
+        return requestedPassengers;
     }
 
     public void setPossiblePassengers(Set<User> passengers) {
-        this.possiblePassengers = passengers;
+        this.requestedPassengers = passengers;
     }
 
     public Ride() {

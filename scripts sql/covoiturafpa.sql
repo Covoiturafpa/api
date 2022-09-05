@@ -99,7 +99,7 @@ CREATE TABLE day_timetable(
    start_afternoon TIME,
    end_afternoon TIME,
    id_centre INTEGER NOT NULL,
-   PRIMARY KEY(id_timetable),
+   PRIMARY KEY(id_day_timetable),
    FOREIGN KEY(id_centre) REFERENCES centre(id_centre)
 );
 
@@ -140,7 +140,6 @@ CREATE TABLE employee(
    start_contract DATE,
    end_contract DATE,
    id_centre INTEGER NOT NULL,
-   id_person INTEGER NOT NULL,
    PRIMARY KEY(id_person),
    UNIQUE(id_person),
    FOREIGN KEY(id_centre) REFERENCES centre(id_centre),
@@ -166,7 +165,6 @@ CREATE TABLE recurring(
    beginning DATE,
    ending DATE,
    days VARCHAR(50),
-   id_ride INTEGER NOT NULL,
    PRIMARY KEY(id_ride),
    UNIQUE(id_ride),
    FOREIGN KEY(id_ride) REFERENCES ride(id_ride)
@@ -175,7 +173,6 @@ CREATE TABLE recurring(
 CREATE TABLE one_time(
    id_ride INTEGER,
    departure_day DATE,
-   id_ride INTEGER NOT NULL,
    PRIMARY KEY(id_ride),
    UNIQUE(id_ride),
    FOREIGN KEY(id_ride) REFERENCES ride(id_ride)

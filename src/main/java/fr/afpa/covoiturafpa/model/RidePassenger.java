@@ -1,3 +1,7 @@
+//https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
+//https://thorben-janssen.com/hibernate-tip-many-to-many-association-with-additional-attributes/
+
+
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
