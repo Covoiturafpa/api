@@ -25,7 +25,6 @@ public class CentreController {
     @Autowired
     private PartnerRepository partnerRepository;
 
-    
     @CrossOrigin
     @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
