@@ -62,7 +62,6 @@ public abstract class User {
     @OneToMany(mappedBy = "user")
     private Set<Ride> rides = new HashSet<Ride>();
 
-
     public int getId() {
         return id;
     }

@@ -10,9 +10,9 @@ import fr.afpa.covoiturafpa.model.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    @Query(value="DELETE FROM User usr WHERE AGE(usr.last_login, current_date) > '6 months'")
+    @Query(value="DELETE FROM User usr WHERE AGE(usr.lastLogin, current_date) > '6 months'")
     public void deleteInactiveForSixMonths();
 
-    @Query(value="UPDATE Employee emp SET is_admin = TRUE WHERE emp.id_person = :employee.id_person")
+    @Query(value="UPDATE Employee emp SET isAdmin = TRUE WHERE emp.id = :employee.id")
     public Employee setAdmin(Employee employee);
 }
