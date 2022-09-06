@@ -14,4 +14,8 @@ public interface NotificationRepository extends CrudRepository<Notification, Int
     
     @Query("UPDATE Notification noti SET noti.isUnread = FALSE WHERE noti.isUnread = TRUE AND noti.user.id = :user.id")
     public List<Notification> updateAllUnreadByUser(User user);
+
+    @Query("DELETE Notification noti WHERE noti.idUser = :user.id")
+    public void deleteAllByUser(User user);
+
 }
