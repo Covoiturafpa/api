@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import fr.afpa.covoiturafpa.model.Centre;
 import fr.afpa.covoiturafpa.model.Partner;
 import fr.afpa.covoiturafpa.repository.CentreRepository;
+import fr.afpa.covoiturafpa.repository.PartnerRepository;
 
 public class CentreController {
     @Autowired
     private CentreRepository centreRepository;
+    private PartnerRepository partnerRepository;
 
     
     @CrossOrigin
@@ -38,21 +40,21 @@ public class CentreController {
     @CrossOrigin
     @GetMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Partner> getPartner(@RequestBody(required = true) int idCentre) {
-        return centreRepository.findPartners(idCentre);
+    public Iterable<Partner> getPartner() {
+        return partnerRepository.findAll();
     }
 
     @CrossOrigin
     @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    public Optional<Partner> createPartner(@RequestBody(required = true) Partner partner, @RequestBody(required = true) int idCentre) {
-        return centreRepository.savePartner(partner.getName(), partner.getLogoPicturePath(), idCentre);
+    public Partner createPartner(@RequestBody(required = true) Partner partner) {
+        return partnerRepository.save(partner);
     }
         
     @CrossOrigin
     @DeleteMapping(value = "/centre/partners/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(required = true) int id) {
-        centreRepository.deletePartnerById(id);
+        partnerRepository.deleteById(id);;
     }
 }
