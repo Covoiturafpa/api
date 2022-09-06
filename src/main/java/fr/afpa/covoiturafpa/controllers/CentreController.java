@@ -18,8 +18,11 @@ import fr.afpa.covoiturafpa.repository.CentreRepository;
 import fr.afpa.covoiturafpa.repository.PartnerRepository;
 
 public class CentreController {
+
     @Autowired
     private CentreRepository centreRepository;
+
+    @Autowired
     private PartnerRepository partnerRepository;
 
     
