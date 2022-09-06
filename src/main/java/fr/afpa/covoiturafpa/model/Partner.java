@@ -17,6 +17,9 @@ public class Partner {
     @Column(name = "id_partner")
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "logo_picture_path")
     private String logoPicturePath;
 
@@ -29,6 +32,14 @@ public class Partner {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getLogoPicturePath() {
         return logoPicturePath;
     }
