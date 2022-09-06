@@ -1,5 +1,11 @@
 package fr.afpa.covoiturafpa.repository;
 
-public class FuelRepository {
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import fr.afpa.covoiturafpa.model.Fuel;
+
+@Repository
+public interface FuelRepository extends CrudRepository<Fuel, Integer> {
     
 }
