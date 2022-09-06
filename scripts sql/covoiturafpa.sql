@@ -46,8 +46,6 @@ CREATE TABLE City(
    PRIMARY KEY(id_city)
 );
 
-
-
 CREATE TABLE car_type(
    id_car_type INTEGER,
    name car_type_name,
@@ -159,6 +157,8 @@ CREATE TABLE ride(
    FOREIGN KEY(id_person) REFERENCES person(id_person),
    FOREIGN KEY(id_car) REFERENCES car(id_car)
 );
+ALTER TABLE "CovoiturAFPA".ride ALTER COLUMN price TYPE numeric(5, 2) USING price::numeric;
+
 
 CREATE TABLE recurring(
    id_ride INTEGER,
