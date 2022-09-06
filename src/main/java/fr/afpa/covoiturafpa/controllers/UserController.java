@@ -33,14 +33,14 @@ public class UserController {
     private NotificationRepository notificationRepository;
 
     @CrossOrigin
-    @GetMapping(value = "/", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<User> list() {
         return userRepository.findAll();
     }
 
     @CrossOrigin
-    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Optional<User> get(@PathVariable(required = true) Integer id) {
         return userRepository.findById(id);
@@ -48,7 +48,7 @@ public class UserController {
 
     // TODO: POST
     @CrossOrigin
-    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public User create() {
         return null;
@@ -56,7 +56,7 @@ public class UserController {
 
     // TODO: {id} PUT
     @CrossOrigin
-    @PutMapping(value = "/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PutMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public User update(@PathVariable(required = true) Integer id) {
         return null;
