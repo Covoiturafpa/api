@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@DiscriminatorColumn(name="user_type")
+@DiscriminatorColumn(name="person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
 public abstract class User {
