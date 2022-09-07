@@ -66,7 +66,7 @@ public class UserController {
     @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInactiveUsersForSixMonths() {
-        userRepository.deleteInactiveForSixMonths();
+        //userRepository.deleteInactiveForSixMonths();
     }
 
     @CrossOrigin

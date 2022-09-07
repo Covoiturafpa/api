@@ -36,7 +36,7 @@ public class FuelController {
     }
     
     @CrossOrigin
-    @PostMapping(value = "/rides/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody String jsonString) {
         return null;

@@ -1,6 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,17 +36,17 @@ public class Centre {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "centre")
-    private ArrayList<DayTimetable> daysTimetable;
+    @OneToMany
+    private Set<DayTimetable> daysTimetable;
 
-    @OneToOne(mappedBy = "centre")
+    @OneToOne
     private NotifConfig notifConfig;
 
-    @OneToMany(mappedBy = "centre")
-    private ArrayList<Partner> partners;
+    @OneToMany
+    private Set<Partner> partners;
 
-    @OneToMany(mappedBy = "centre")
-    private ArrayList<Formation> formations;
+    @OneToMany
+    private Set<Formation> formations;
 
 
     public int getId() {
@@ -97,11 +97,11 @@ public class Centre {
         this.phoneNumber = phoneNumber;
     }
 
-    public ArrayList<DayTimetable> getDaysTimetable() {
+    public Set<DayTimetable> getDaysTimetable() {
         return daysTimetable;
     }
 
-    public void setDaysTimetable(ArrayList<DayTimetable> daysTimetable) {
+    public void setDaysTimetable(Set<DayTimetable> daysTimetable) {
         this.daysTimetable = daysTimetable;
     }
 
@@ -113,19 +113,23 @@ public class Centre {
         this.notifConfig = notifConfig;
     }
 
-    public ArrayList<Partner> getPartners() {
+    public Set<Partner> getPartners() {
         return partners;
     }
 
-    public void setPartners(ArrayList<Partner> partners) {
+    public void setPartners(Set<Partner> partners) {
         this.partners = partners;
     }
 
-    public ArrayList<Formation> getFormations() {
+    public Set<Formation> getFormations() {
         return formations;
     }
 
-    public void setFormations(ArrayList<Formation> formations) {
+    public void setFormations(Set<Formation> formations) {
         this.formations = formations;
+    }
+
+    public Centre() {
+
     }
 }

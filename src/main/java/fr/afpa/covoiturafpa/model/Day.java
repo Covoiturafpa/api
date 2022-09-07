@@ -3,7 +3,7 @@ package fr.afpa.covoiturafpa.model;
 public enum Day {
     MONDAY,
     TUESDAY,
-    WENESDAY, 
+    WEDNESDAY, 
     THURSDAY, 
     FRIDAY, 
     SATURDAY,
