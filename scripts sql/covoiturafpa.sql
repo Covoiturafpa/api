@@ -3,7 +3,7 @@ CREATE TYPE notification_type AS ENUM ('NEW_RESERVATION', 'ACCEPTED_RESERVATION'
 CREATE TYPE status_type AS ENUM ('PENDING', 'ACCEPTED', 'FINISHED');
 
 CREATE TABLE person(
-   id_person INTEGER,
+   id_person SERIAL,
    email VARCHAR(50),
    password VARCHAR(50),
    surname VARCHAR(50),
@@ -18,20 +18,20 @@ CREATE TABLE person(
 );
 
 CREATE TABLE notif_config(
-   id_notif_config INTEGER,
+   id_notif_config SERIAL,
    contact_by_sms BOOLEAN,
    PRIMARY KEY(id_notif_config)
 );
 
 CREATE TABLE fuel(
-   id_fuel INTEGER,
+   id_fuel SERIAL,
    name VARCHAR(20),
    price_by_unit NUMERIC(5,2),
    PRIMARY KEY(id_fuel)
 );
 
 CREATE TABLE notification(
-   id_notification INTEGER,
+   id_notification SERIAL,
    type notification_type,
    created_time TIMESTAMP,
    is_unread BOOLEAN,
@@ -41,13 +41,13 @@ CREATE TABLE notification(
 );
 
 CREATE TABLE City(
-   id_city INTEGER,
+   id_city SERIAL,
    name VARCHAR(255),
    PRIMARY KEY(id_city)
 );
 
 CREATE TABLE car_type(
-   id_car_type INTEGER,
+   id_car_type SERIAL,
    name car_type_name,
    avg_fuel_consumption NUMERIC(4,1),
    seats SMALLINT,
@@ -57,7 +57,7 @@ CREATE TABLE car_type(
 );
 
 CREATE TABLE car(
-   id_car INTEGER,
+   id_car SERIAL,
    model VARCHAR(50),
    seats SMALLINT,
    avg_fuel_consumption NUMERIC(4,1),
@@ -69,7 +69,7 @@ CREATE TABLE car(
 );
 
 CREATE TABLE centre(
-   id_centre INTEGER,
+   id_centre SERIAL,
    name VARCHAR(50),
    address VARCHAR(255) ,
    latitude DOUBLE PRECISION,
@@ -82,7 +82,7 @@ CREATE TABLE centre(
 );
 
 CREATE TABLE formation(
-   id_formation INTEGER,
+   id_formation SERIAL,
    name VARCHAR(50),
    id_centre INTEGER NOT NULL,
    PRIMARY KEY(id_formation),
@@ -90,7 +90,7 @@ CREATE TABLE formation(
 );
 
 CREATE TABLE day_timetable(
-   id_day_timetable INTEGER,
+   id_day_timetable SERIAL,
    day_name VARCHAR(20),
    start_morning TIME,
    end_morning TIME,
@@ -102,7 +102,7 @@ CREATE TABLE day_timetable(
 );
 
 CREATE TABLE partner(
-   id_partner INTEGER,
+   id_partner SERIAL,
    name VARCHAR(50),
    logo_picture_path VARCHAR(255),
    id_centre INTEGER NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE partner(
 );
 
 CREATE TABLE destination(
-   id_destination INTEGER,
+   id_destination SERIAL,
    latitude DOUBLE PRECISION,
    longitude DOUBLE PRECISION,
    is_from_afpa BOOLEAN,
@@ -145,7 +145,7 @@ CREATE TABLE employee(
 );
 
 CREATE TABLE ride(
-   id_ride INTEGER,
+   id_ride SERIAL,
    is_active BOOLEAN,
    departure_time TIME,
    comment VARCHAR(255) ,
