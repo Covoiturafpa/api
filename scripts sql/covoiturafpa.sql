@@ -150,7 +150,6 @@ CREATE TABLE ride(
    departure_time TIME,
    comment VARCHAR(255) ,
    id_destination INTEGER NOT NULL,
-   id_person INTEGER NOT NULL,
    id_car INTEGER NOT NULL,
    PRIMARY KEY(id_ride),
    FOREIGN KEY(id_destination) REFERENCES destination(id_destination),
