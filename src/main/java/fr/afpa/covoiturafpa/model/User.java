@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 
 
 @Entity
+@DiscriminatorColumn(name="user_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
 public abstract class User {

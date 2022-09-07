@@ -1,6 +1,5 @@
 package fr.afpa.covoiturafpa.model;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.Column;

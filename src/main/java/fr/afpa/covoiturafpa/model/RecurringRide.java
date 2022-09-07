@@ -1,16 +1,16 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "recurring")
+@DiscriminatorValue("R")
 public class RecurringRide extends Ride {
 
     @Column
