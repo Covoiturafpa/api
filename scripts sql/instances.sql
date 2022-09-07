@@ -319,23 +319,6 @@ cross join lateral json_populate_recordset(null::centre, doc) as p;
 
 with customer_json (doc) as (
    values 
-    ('[{
-        "id_destination": 1,
-        "latitude": 59.9211,
-        "longitude": 81.1344,
-        "is_from_afpa": false,
-        "id_city": 1
-    }]'::json)
-)
-insert into destination  
-select p.*
-from customer_json l
-cross join lateral json_populate_recordset(null::destination, doc) as p;
-
-
-
-with customer_json (doc) as (
-   values 
     ('[
         {
             "id_formation": "1",
@@ -371,3 +354,213 @@ cross join lateral json_populate_recordset(null::formation, doc) as p;
 
 
 
+with customer_json (doc) as (
+   values 
+    ('[
+        {
+            "id_day_timetable": "1",
+            "day_name": "lundi",
+            "id_centre": 28,
+			"start_morning": "00:00:00.000",
+			"end_morning": "00:00:00.000",
+			"start_afternoon": "00:00:00.000",
+			"end_afternoon": "00:00:00.000",
+			"id_centre": 28
+        }
+    ]'::json)
+)
+insert into day_timetable  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::day_timetable, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[
+        {
+            "id_partner": 5,
+            "name": "Wolff",
+            "logo_picture_path": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/634.jpg",
+            "id_centre": 28
+        },
+        {
+            "id_partner": 4,
+            "name": "Botsford",
+            "logo_picture_path": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/119.jpg",
+            "id_centre": 28
+        }
+    ]'::json)
+)
+insert into partner  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::partner, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[{
+        "id_destination": 1,
+        "latitude": 59.9211,
+        "longitude": 81.1344,
+        "is_from_afpa": false,
+        "id_city": 1
+    }]'::json)
+)
+insert into destination  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::destination, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[{
+                "id_person": 43,
+                "start_training": "2022-01-01 00:00:00.000",
+                "end_training": "2022-01-01 00:00:00.000",
+                "id_formation": 1
+            },
+        {
+                "id_person": 45,
+                "start_training": "2022-01-01 00:00:00.000",
+                "end_training": "2022-01-01 00:00:00.000",
+                "id_formation": 4
+            }
+]'::json)
+)
+insert into trainee  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::trainee, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[{
+                "id_person": 57,
+                "role": "administration",
+                "is_admin": false,
+                "start_contract": "2022-01-01 00:00:00.000",
+                "end_contract": "2022-01-01 00:00:00.000",
+				"id_centre": 28
+            }
+        ,
+        {
+                "id_person": 51,
+                "role": "formateur",
+                "is_admin": false,
+                "start_contract": "2022-01-01 00:00:00.000",
+                "end_contract": "2022-01-01 00:00:00.000",
+				"id_centre": 28
+        },
+        {
+                "id_person": 97,
+                "role": "restauration",
+                "is_admin": true,
+                "start_contract": "2022-01-01 00:00:00.000",
+                "end_contract": "2022-01-01 00:00:00.000",
+				"id_centre": 28
+            }]'::json)
+)
+insert into employee  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::employee, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[
+        {
+            "id_ride": 6,
+            "is_active": true,
+            "departure_time":  "00:00:00",
+            "comment": "Es. Re ullam accusantium neque odio repudiandae natus. Inventore numquam accusantium sed sint.",
+            "id_destination": 1,
+            "id_car": 4,
+            "price": 10
+        },
+        {
+            "id_ride": 3,
+            "is_active": true,
+            "departure_time":  "00:00:00",
+            "comment": "Et doloribus velit rem. Quidem dolore consequatur voluptate excepturi aut accusamus a.",
+            "id_destination": 1,
+            "id_car": 2,
+            "price": 15
+        }
+    ]'::json)
+)
+insert into ride  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::ride, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[
+        {
+            "id_ride": 6,
+            "departure_day": "2022-01-01 00:00:00"
+}
+    ]'::json)
+)
+insert into one_time  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::one_time, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[
+        {
+            "id_ride": 3,
+            "beginning": "2022-01-01 00:00:00",
+			"ending": "2022-03-01 00:00:00",
+			"days": ["Monday", "Friday"]
+}
+    ]'::json)
+)
+insert into recurring  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::recurring, doc) as p;
+
+
+
+with customer_json (doc) as (
+   values 
+    ('[
+        {
+            "id_ride": 3,
+            "id_person": 51,
+			"last_update": "2022-03-01 00:00:00"
+},
+{
+            "id_ride": 3,
+            "id_person": 57,
+			"last_update": "2022-03-01 00:00:00"
+},
+{
+            "id_ride": 6,
+            "id_person": 51,
+			"last_update": "2022-03-01 00:00:00"
+}
+    ]'::json)
+)
+insert into ride_passenger  
+select p.*
+from customer_json l
+cross join lateral json_populate_recordset(null::ride_passenger, doc) as p;
+UPDATE ride_passenger SET status = 'PENDING';
