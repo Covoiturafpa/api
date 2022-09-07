@@ -1,6 +1,7 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,10 +19,6 @@ public class RecurringRide extends Ride {
     @Column
     private LocalDate ending;
 
-    @Column
-    private Set<Day> days;
-
-
     public LocalDate getBeginning() {
         return beginning;
     }
@@ -36,14 +33,6 @@ public class RecurringRide extends Ride {
 
     public void setEnding(LocalDate ending) {
         this.ending = ending;
-    }
-
-    public Set<Day> getDays() {
-        return days;
-    }
-    
-    public void setDays(Set<Day> days) {
-        this.days = days;
     }
 
     public RecurringRide() {

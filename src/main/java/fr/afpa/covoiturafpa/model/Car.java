@@ -32,6 +32,10 @@ public class Car {
     @JoinColumn(name = "id_car_type")
     private CarType carType;
 
+    @ManyToOne
+    @JoinColumn(name= "id_person")
+    private User user;
+
 
     public Integer getId() {
         return id;
@@ -71,6 +75,14 @@ public class Car {
 
     public void setCarType(CarType carType) {
         this.carType = carType;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public Car() {

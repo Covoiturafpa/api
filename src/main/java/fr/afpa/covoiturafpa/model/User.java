@@ -1,7 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,13 +53,13 @@ public abstract class User {
     private LocalDateTime lastLogin;
 
     @OneToMany(mappedBy = "user")
-    private ArrayList<Notification> notifications;
+    private Set<Notification> notifications;
 
     @OneToMany(mappedBy = "user")
-    private ArrayList<Car> cars;
+    private Set<Car> cars;
 
     @OneToMany(mappedBy = "user")
-    private Set<Ride> rides = new HashSet<Ride>();
+    private Set<RidePassenger> rides = new HashSet<RidePassenger>();
 
     public int getId() {
         return id;
@@ -141,27 +140,27 @@ public abstract class User {
         this.lastLogin = lastLogin;
     }
 
-    public ArrayList<Notification> getNotifications() {
+    public Set<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(ArrayList<Notification> notifications) {
+    public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
     }
 
-    public ArrayList<Car> getCars() {
+    public Set<Car> getCars() {
         return cars;
     }
 
-    public void setCars(ArrayList<Car> cars) {
+    public void setCars(Set<Car> cars) {
         this.cars = cars;
     }
 
-    public Set<Ride> getRides() {
+    public Set<RidePassenger> getRides() {
         return rides;
     }
 
-    public void setRides(Set<Ride> rides) {
+    public void setRides(Set<RidePassenger> rides) {
         this.rides = rides;
     }
 

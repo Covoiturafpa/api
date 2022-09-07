@@ -14,9 +14,9 @@ import fr.afpa.covoiturafpa.model.Ride;
 @Repository
 public interface RideRepository extends CrudRepository<Ride, Integer> {
 
-    @Query("SELECT OneTimeRide ride WHERE ride.departureDay = ?1")
-    public List<OneTimeRide> findOneTimeRidesByDate(LocalDate date);
+    // @Query("SELECT OneTimeRide ride WHERE ride.departureDay = ?1")
+    // public List<OneTimeRide> findOneTimeRidesByDate(LocalDate date);
 
-    @Query("SELECT RecurringRide ride WHERE ride.beginning = ?1")
-    public List<RecurringRide> findRecurringRidesByDate(LocalDate date);
+    // @Query("SELECT RecurringRide ride WHERE ride.beginning = ?1")
+    // public List<RecurringRide> findRecurringRidesByDate(LocalDate date);
 }

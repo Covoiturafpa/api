@@ -22,7 +22,7 @@ public class DayTimetable {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "day_name")
+    @Column(name = "day")
     private Day day;
 
     @Column(name = "start_morning")

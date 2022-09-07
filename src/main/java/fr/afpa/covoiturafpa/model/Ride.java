@@ -43,13 +43,8 @@ public abstract class Ride {
     @JoinColumn(name = "id_car")
     private Car car;
 
-    @ManyToOne
-    @JoinColumn(name = "id_person")
-    private User driver;
-
     @OneToMany(mappedBy = "user")
-    private Set<User> requestedPassengers = new HashSet<User>();
-
+    private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
 
     public int getId() {
         return id;
@@ -99,19 +94,11 @@ public abstract class Ride {
         this.car = car;
     }
 
-    public User getDriver() {
-        return driver;
-    }
-
-    public void setDriver(User driver) {
-        this.driver = driver;
-    }
-
-    public Set<User> getPossiblePassengers() {
+    public Set<RidePassenger> getPossiblePassengers() {
         return requestedPassengers;
     }
 
-    public void setPossiblePassengers(Set<User> passengers) {
+    public void setPossiblePassengers(Set<RidePassenger> passengers) {
         this.requestedPassengers = passengers;
     }
 
