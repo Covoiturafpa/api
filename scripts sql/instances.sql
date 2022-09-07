@@ -359,7 +359,6 @@ with customer_json (doc) as (
     ('[
         {
             "id_day_timetable": "1",
-            "day_name": "lundi",
             "id_centre": 28,
 			"start_morning": "00:00:00.000",
 			"end_morning": "00:00:00.000",
@@ -528,7 +527,6 @@ with customer_json (doc) as (
             "id_ride": 3,
             "beginning": "2022-01-01 00:00:00",
 			"ending": "2022-03-01 00:00:00",
-			"days": ["Monday", "Friday"]
 }
     ]'::json)
 )
