@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "destination")
@@ -57,11 +59,11 @@ public class Destination {
         this.longitude = longitude;
     }
 
-    public boolean isFromAfpa() {
+    public boolean getIsFromAfpa() {
         return isFromAfpa;
     }
 
-    public void setFromAfpa(boolean isFromAfpa) {
+    public void setIsFromAfpa(boolean isFromAfpa) {
         this.isFromAfpa = isFromAfpa;
     }
 

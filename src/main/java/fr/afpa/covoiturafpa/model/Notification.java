@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
@@ -70,11 +71,11 @@ public class Notification {
         this.createdTime = createdTime;
     }
 
-    public boolean isUnread() {
+    public boolean getIsUnread() {
         return isUnread;
     }
 
-    public void setUnread(boolean isUnread) {
+    public void setIsUnread(boolean isUnread) {
         this.isUnread = isUnread;
     }
 

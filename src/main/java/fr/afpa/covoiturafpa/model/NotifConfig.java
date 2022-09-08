@@ -44,7 +44,7 @@ public class NotifConfig {
         this.id = id;
     }
 
-    public boolean isContactBySms() {
+    public boolean getContactBySms() {
         return contactBySms;
     }
 

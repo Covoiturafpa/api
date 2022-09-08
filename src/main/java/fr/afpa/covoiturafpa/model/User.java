@@ -118,10 +118,10 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isActivated() {
+    public boolean getIsActivated() {
         return isActivated;
     }
-    public void setActivated(boolean isActivated) {
+    public void setIsActivated(boolean isActivated) {
         this.isActivated = isActivated;
     }
 
