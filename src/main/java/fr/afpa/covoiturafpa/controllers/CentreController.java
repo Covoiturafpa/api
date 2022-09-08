@@ -2,6 +2,8 @@ package fr.afpa.covoiturafpa.controllers;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
@@ -31,8 +33,16 @@ public class CentreController {
     @CrossOrigin
     @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Centre> get() {
-        return centreRepository.findById(28);
+    public Centre get() {
+        if (centreRepository.countAll() == 1) {
+            Iterable<Centre> result = centreRepository.findAll();
+            return result.iterator().next();
+        }
+        else {
+            Logger logger = LoggerFactory.getLogger(CentreController.class);
+            logger.warn("Attention, plusieurs entrees dans la table Centre detectees");
+        }
+        return null;
     }
     
     @CrossOrigin
