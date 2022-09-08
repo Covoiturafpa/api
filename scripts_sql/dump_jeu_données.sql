@@ -104,8 +104,7 @@ ALTER SEQUENCE "covoiturafpa".car_id_car_seq OWNED BY "covoiturafpa".car.id_car;
 
 CREATE TABLE "covoiturafpa".car_type (
     id_car_type integer NOT NULL,
-    name "covoiturafpa
-".car_type_name,
+    name "covoiturafpa".car_type_name,
     avg_fuel_consumption numeric(4,1),
     id_fuel integer NOT NULL
 );
@@ -214,8 +213,7 @@ ALTER SEQUENCE "covoiturafpa".city_id_city_seq OWNED BY "covoiturafpa".city.id_c
 
 CREATE TABLE "covoiturafpa".day_timetable (
     id_day_timetable integer NOT NULL,
-    day "covoiturafpa
-".day_name,
+    day "covoiturafpa".day_name,
     start_morning time without time zone,
     end_morning time without time zone,
     start_afternoon time without time zone,
@@ -254,8 +252,7 @@ ALTER SEQUENCE "covoiturafpa".day_timetable_id_day_timetable_seq OWNED BY "covoi
 
 CREATE TABLE "covoiturafpa".day_week (
     id_day_week integer NOT NULL,
-    name "covoiturafpa
-".day_name
+    name "covoiturafpa".day_name
 );
 
 
@@ -456,8 +453,7 @@ ALTER SEQUENCE "covoiturafpa".notif_config_id_notif_config_seq OWNED BY "covoitu
 
 CREATE TABLE "covoiturafpa".notification (
     id_notification integer NOT NULL,
-    type "covoiturafpa
-".notification_type,
+    type "covoiturafpa".notification_type,
     created_time timestamp without time zone,
     is_unread boolean,
     id_person integer NOT NULL
@@ -638,8 +634,8 @@ ALTER SEQUENCE "covoiturafpa".ride_id_ride_seq OWNED BY "covoiturafpa".ride.id_r
 CREATE TABLE "covoiturafpa".ride_passenger (
     id_person integer NOT NULL,
     id_ride integer NOT NULL,
-    status "covoiturafpa
-".status_type,
+    is_driver boolean,
+    status "covoiturafpa".status_type,
     last_update timestamp without time zone
 );
 
