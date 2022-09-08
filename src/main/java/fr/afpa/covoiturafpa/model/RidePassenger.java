@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ride_passenger")
 public class RidePassenger {
@@ -26,6 +29,7 @@ public class RidePassenger {
         FINISHED
     }
 
+    @JsonIgnore
     @EmbeddedId
     private RidePassengerId id = new RidePassengerId();
 
@@ -37,6 +41,7 @@ public class RidePassenger {
     @ManyToOne
     @MapsId("idRide")
     @JoinColumn(name="id_ride")
+    @JsonBackReference
     private Ride ride;
 
     @Enumerated(EnumType.STRING)
@@ -45,6 +50,9 @@ public class RidePassenger {
 
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
+
+    @Column(name = "is_driver")
+    private boolean isDriver;
 
 
 
@@ -86,6 +94,14 @@ public class RidePassenger {
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public boolean getIsDriver() {
+        return isDriver;
+    }
+
+    public void setIsDriver(boolean isDriver) {
+        this.isDriver = isDriver;
     }
 
     public RidePassenger() {

@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name="ride_type")
@@ -45,6 +47,7 @@ public abstract class Ride {
     @JoinColumn(name = "id_car")
     private Car car;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "ride")
     private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
 
