@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.User;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
@@ -80,7 +81,7 @@ public class UserController {
         }
     }
     
-    // TODO: {id}/cars 
+    // TODO: {id}/cars
 
     // TODO: {id}/notifications
     

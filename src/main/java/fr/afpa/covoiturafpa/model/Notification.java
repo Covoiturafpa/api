@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Table(name = "notification")
@@ -34,6 +36,7 @@ public class Notification {
     private boolean isUnread;
 
     @ManyToOne
+    @JsonBackReference 
     @JoinColumn(name="id_person")
     private User user;
 
@@ -42,7 +45,6 @@ public class Notification {
         REJECTED_RESERVATION,
         ACCEPTED_RESERVATION,
     }
-
     
     public int getId() {
         return id;

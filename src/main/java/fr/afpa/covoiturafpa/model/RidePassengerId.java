@@ -3,13 +3,18 @@ package fr.afpa.covoiturafpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class RidePassengerId implements Serializable {
     
     private static final long serialVersionUID = 1L;
+
+    @Column(name="id_person")
     private Integer idUser;
+
+    @Column(name="id_ride")
     private Integer idRide;
 
 

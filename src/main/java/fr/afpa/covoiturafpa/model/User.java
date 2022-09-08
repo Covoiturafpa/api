@@ -12,8 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -24,7 +27,7 @@ public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
+    @Column(name = "id_person")
     private int id;
 
     @Column
@@ -54,12 +57,15 @@ public abstract class User {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private Set<Notification> notifications;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private Set<Car> cars;
 
+    
     @OneToMany(mappedBy = "user")
     private Set<RidePassenger> rides = new HashSet<RidePassenger>();
 

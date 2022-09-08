@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Table(name = "car")
@@ -32,10 +34,10 @@ public class Car {
     @JoinColumn(name = "id_car_type")
     private CarType carType;
 
+    @JsonBackReference(value="user")
     @ManyToOne
     @JoinColumn(name= "id_person")
     private User user;
-
 
     public Integer getId() {
         return id;

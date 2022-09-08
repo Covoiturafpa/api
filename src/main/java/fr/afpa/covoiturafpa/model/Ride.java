@@ -45,7 +45,7 @@ public abstract class Ride {
     @JoinColumn(name = "id_car")
     private Car car;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "ride")
     private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
 
     public int getId() {
@@ -106,7 +106,6 @@ public abstract class Ride {
 
     public Ride() {
     }
-
 
     public int countFreeSeats() {
         return 0;

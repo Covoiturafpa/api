@@ -22,7 +22,7 @@ public class CarType {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "name_car_type")
+    @Column(name = "name")
     private CarTypeName name;
 
     @Column(name = "avg_fuel_consumption")

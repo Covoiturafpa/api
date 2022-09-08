@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -17,28 +20,32 @@ import javax.persistence.Table;
 @Table(name = "ride_passenger")
 public class RidePassenger {
 
+    enum Status {
+        PENDING,
+        ACCEPTED,
+        FINISHED
+    }
+
     @EmbeddedId
     private RidePassengerId id = new RidePassengerId();
 
     @ManyToOne
     @MapsId("idUser")
+    @JoinColumn(name="id_person")
     private User user;
 
     @ManyToOne
     @MapsId("idRide")
+    @JoinColumn(name="id_ride")
     private Ride ride;
 
-    @Column(name = "status_type")
-    private Status status_type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status statusType;
 
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    enum Status {
-        WAITING,
-        DOING,
-        FINISHED
-    }
 
 
     public RidePassengerId getId() {
@@ -66,11 +73,11 @@ public class RidePassenger {
     }
 
     public Status getStatus_type() {
-        return status_type;
+        return statusType;
     }
 
     public void setStatus_type(Status status_type) {
-        this.status_type = status_type;
+        this.statusType = status_type;
     }
 
     public LocalDateTime getLastUpdate() {
