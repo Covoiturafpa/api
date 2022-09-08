@@ -634,9 +634,9 @@ ALTER SEQUENCE "covoiturafpa".ride_id_ride_seq OWNED BY "covoiturafpa".ride.id_r
 CREATE TABLE "covoiturafpa".ride_passenger (
     id_person integer NOT NULL,
     id_ride integer NOT NULL,
-    is_driver boolean,
     status "covoiturafpa".status_type,
-    last_update timestamp without time zone
+    last_update timestamp without time zone,
+    is_driver boolean
 );
 
 
@@ -995,9 +995,11 @@ INSERT INTO "covoiturafpa".ride VALUES (3, true, '00:00:00', 'Et doloribus velit
 -- Data for Name: ride_passenger; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
 --
 
-INSERT INTO "covoiturafpa".ride_passenger VALUES (51, 3, 'PENDING', '2022-03-01 00:00:00');
-INSERT INTO "covoiturafpa".ride_passenger VALUES (57, 3, 'PENDING', '2022-03-01 00:00:00');
-INSERT INTO "covoiturafpa".ride_passenger VALUES (51, 6, 'PENDING', '2022-03-01 00:00:00');
+INSERT INTO "covoiturafpa".ride_passenger VALUES (51, 3, 'PENDING', '2022-03-01 00:00:00', false);
+INSERT INTO "covoiturafpa".ride_passenger VALUES (57, 3, 'PENDING', '2022-03-01 00:00:00', false);
+INSERT INTO "covoiturafpa".ride_passenger VALUES (51, 6, 'PENDING', '2022-03-01 00:00:00', false);
+INSERT INTO "covoiturafpa".ride_passenger VALUES (43, 3, 'ACCEPTED', '2022-03-01 00:00:00', true);
+INSERT INTO "covoiturafpa".ride_passenger VALUES (43, 6, 'ACCEPTED', '2022-03-01 00:00:00', true);
 
 
 --
