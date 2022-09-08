@@ -31,8 +31,8 @@ public class CentreController {
     @CrossOrigin
     @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Centre> get(@RequestBody(required = true) int id) {
-        return centreRepository.findById(id);
+    public Optional<Centre> get() {
+        return centreRepository.findById(28);
     }
     
     @CrossOrigin

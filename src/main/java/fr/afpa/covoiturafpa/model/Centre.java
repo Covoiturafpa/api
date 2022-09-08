@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -36,16 +39,24 @@ public class Centre {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany
-    private Set<DayTimetable> daysTimetable;
-
     @OneToOne
+    @JoinColumn(name = "id_notif_config", referencedColumnName = "id_notif_config")
+    @JsonManagedReference
     private NotifConfig notifConfig;
 
     @OneToMany
+    @JoinColumn(name = "id_centre")
+    @JsonManagedReference
+    private Set<DayTimetable> daysTimetable;
+
+    @OneToMany
+    @JoinColumn(name = "id_centre")
+    @JsonManagedReference
     private Set<Partner> partners;
 
     @OneToMany
+    @JoinColumn(name = "id_centre")
+    @JsonManagedReference
     private Set<Formation> formations;
 
 

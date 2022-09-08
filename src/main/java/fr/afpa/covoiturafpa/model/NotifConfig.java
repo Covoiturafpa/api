@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
@@ -20,6 +23,18 @@ public class NotifConfig {
     @Column(name = "contact_by_sms")
     private boolean contactBySms;
 
+    @OneToOne(mappedBy = "notifConfig")
+    @JsonBackReference
+    private Centre centre;
+
+
+    public Centre getCentre() {
+        return centre;
+    }
+
+    public void setCentre(Centre centre) {
+        this.centre = centre;
+    }
 
     public int getId() {
         return id;
