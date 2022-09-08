@@ -1,5 +1,7 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +30,21 @@ public class CentreController {
     @Autowired
     private PartnerRepository partnerRepository;
 
+    @PostConstruct
+    public void verifyDatabase() throws Error {
+        if (centreRepository.countAll() != 1) {
+            Logger logger = LoggerFactory.getLogger(CentreController.class);
+            logger.error("Attention, plusieurs entrees dans la table Centre detectees");
+            throw new Error("Database contains invalid entries count in the table 'Centre' (max = 1)");
+        }
+    }
+
     @CrossOrigin
     @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre get() {
-        if (centreRepository.countAll() == 1) {
-            Iterable<Centre> result = centreRepository.findAll();
-            return result.iterator().next();
-        }
-        else {
-            Logger logger = LoggerFactory.getLogger(CentreController.class);
-            logger.error("Attention, plusieurs entrees dans la table Centre detectees");
-        }
-        return null;
+        Iterable<Centre> result = centreRepository.findAll();
+        return result.iterator().next();
     }
     
     @CrossOrigin
