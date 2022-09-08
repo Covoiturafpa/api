@@ -6,16 +6,10 @@ CREATE ROLE "user" WITH
 	INHERIT
 	NOREPLICATION
 	CONNECTION LIMIT -1
-	PASSWORD 'xxxxxx'; --"userpassword"
+	PASSWORD 'usermdp'; 
 COMMENT ON ROLE "user" IS 'Classic user';
 
-ALTER ROLE "user"
-	SUPERUSER
-	CREATEDB
-	CREATEROLE;
-
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres;
-GRANT INSERT, SELECT, UPDATE, DELETE ON TABLES TO "user";
+GRANT USAGE ON SCHEMA "CovoiturAFPA" TO "user"; 
 
 GRANT ALL ON TABLE "CovoiturAFPA".car TO "user";
 GRANT ALL ON TABLE "CovoiturAFPA".car_type TO "user";
@@ -35,3 +29,5 @@ GRANT ALL ON TABLE "CovoiturAFPA".recurring TO "user";
 GRANT ALL ON TABLE "CovoiturAFPA".ride TO "user";
 GRANT ALL ON TABLE "CovoiturAFPA".ride_passenger TO "user";
 GRANT ALL ON TABLE "CovoiturAFPA".trainee TO "user";
+GRANT ALL ON TABLE "CovoiturAFPA".day_week TO "user";
+GRANT ALL ON TABLE "CovoiturAFPA".happen TO "user";
