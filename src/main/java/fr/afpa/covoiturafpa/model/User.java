@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -65,7 +66,7 @@ public abstract class User {
     @OneToMany(mappedBy = "user")
     private Set<Car> cars;
 
-    
+    @JsonBackReference
     @OneToMany(mappedBy = "user")
     private Set<RidePassenger> rides = new HashSet<RidePassenger>();
 
