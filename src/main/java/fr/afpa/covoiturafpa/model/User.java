@@ -58,6 +58,9 @@ public abstract class User {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
+    @Column(name="person_type")
+    private Character userType;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private Set<Notification> notifications;
@@ -174,5 +177,13 @@ public abstract class User {
     }
 
     public User() {
+    }
+
+    public Character getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Character userType) {
+        this.userType = userType;
     }
 }

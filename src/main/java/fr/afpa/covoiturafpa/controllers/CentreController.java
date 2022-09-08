@@ -38,7 +38,7 @@ public class CentreController {
         }
         else {
             Logger logger = LoggerFactory.getLogger(CentreController.class);
-            logger.warn("Attention, plusieurs entrees dans la table Centre detectees");
+            logger.error("Attention, plusieurs entrees dans la table Centre detectees");
         }
         return null;
     }
