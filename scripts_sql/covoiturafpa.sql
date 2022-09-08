@@ -16,6 +16,7 @@ CREATE TABLE person(
    contact_by_mail BOOLEAN,
    last_login TIMESTAMP,
    photo_path VARCHAR(255),
+   person_type VARCHAR(1) NOT NULL, 
    PRIMARY KEY(id_person)
 );
 
@@ -162,6 +163,7 @@ CREATE TABLE ride(
    id_person INTEGER NOT NULL,
    id_car INTEGER NOT NULL,
    price NUMERIC(5, 2),
+   ride_type VARCHAR(1) NOT NULL,
    PRIMARY KEY(id_ride),
    FOREIGN KEY(id_destination) REFERENCES destination(id_destination),
    FOREIGN KEY(id_person) REFERENCES person(id_person),
