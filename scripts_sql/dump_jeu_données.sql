@@ -1333,8 +1333,7 @@ ALTER TABLE ONLY "covoiturafpa".trainee
 --
 
 ALTER TABLE ONLY "covoiturafpa".car
-    ADD CONSTRAINT car_id_car_type_fkey FOREIGN KEY (id_car_type) REFERENCES "covoiturafpa
-".car_type(id_car_type);
+    ADD CONSTRAINT car_id_car_type_fkey FOREIGN KEY (id_car_type) REFERENCES "covoiturafpa".car_type(id_car_type);
 
 
 --
@@ -1343,8 +1342,7 @@ ALTER TABLE ONLY "covoiturafpa".car
 --
 
 ALTER TABLE ONLY "covoiturafpa".car
-    ADD CONSTRAINT car_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT car_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1353,8 +1351,7 @@ ALTER TABLE ONLY "covoiturafpa".car
 --
 
 ALTER TABLE ONLY "covoiturafpa".car_type
-    ADD CONSTRAINT car_type_id_fuel_fkey FOREIGN KEY (id_fuel) REFERENCES "covoiturafpa
-".fuel(id_fuel);
+    ADD CONSTRAINT car_type_id_fuel_fkey FOREIGN KEY (id_fuel) REFERENCES "covoiturafpa".fuel(id_fuel);
 
 
 --
@@ -1363,8 +1360,7 @@ ALTER TABLE ONLY "covoiturafpa".car_type
 --
 
 ALTER TABLE ONLY "covoiturafpa".centre
-    ADD CONSTRAINT centre_id_notif_config_fkey FOREIGN KEY (id_notif_config) REFERENCES "covoiturafpa
-".notif_config(id_notif_config);
+    ADD CONSTRAINT centre_id_notif_config_fkey FOREIGN KEY (id_notif_config) REFERENCES "covoiturafpa".notif_config(id_notif_config);
 
 
 --
@@ -1373,8 +1369,7 @@ ALTER TABLE ONLY "covoiturafpa".centre
 --
 
 ALTER TABLE ONLY "covoiturafpa".day_timetable
-    ADD CONSTRAINT day_timetable_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT day_timetable_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1383,8 +1378,7 @@ ALTER TABLE ONLY "covoiturafpa".day_timetable
 --
 
 ALTER TABLE ONLY "covoiturafpa".destination
-    ADD CONSTRAINT destination_id_city_fkey FOREIGN KEY (id_city) REFERENCES "covoiturafpa
-".city(id_city);
+    ADD CONSTRAINT destination_id_city_fkey FOREIGN KEY (id_city) REFERENCES "covoiturafpa".city(id_city);
 
 
 --
@@ -1393,8 +1387,7 @@ ALTER TABLE ONLY "covoiturafpa".destination
 --
 
 ALTER TABLE ONLY "covoiturafpa".employee
-    ADD CONSTRAINT employee_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT employee_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1403,8 +1396,7 @@ ALTER TABLE ONLY "covoiturafpa".employee
 --
 
 ALTER TABLE ONLY "covoiturafpa".employee
-    ADD CONSTRAINT employee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT employee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1413,8 +1405,7 @@ ALTER TABLE ONLY "covoiturafpa".employee
 --
 
 ALTER TABLE ONLY "covoiturafpa".formation
-    ADD CONSTRAINT formation_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT formation_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1423,8 +1414,7 @@ ALTER TABLE ONLY "covoiturafpa".formation
 --
 
 ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES "covoiturafpa
-".day_week(id_day_week);
+    ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES "covoiturafpa".day_week(id_day_week);
 
 
 --
@@ -1433,8 +1423,7 @@ ALTER TABLE ONLY "covoiturafpa".happen
 --
 
 ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".recurring(id_ride);
+    ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".recurring(id_ride);
 
 
 --
@@ -1443,8 +1432,7 @@ ALTER TABLE ONLY "covoiturafpa".happen
 --
 
 ALTER TABLE ONLY "covoiturafpa".notification
-    ADD CONSTRAINT notification_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT notification_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1453,8 +1441,7 @@ ALTER TABLE ONLY "covoiturafpa".notification
 --
 
 ALTER TABLE ONLY "covoiturafpa".one_time
-    ADD CONSTRAINT one_time_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".ride(id_ride);
+    ADD CONSTRAINT one_time_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".ride(id_ride);
 
 
 --
@@ -1463,8 +1450,7 @@ ALTER TABLE ONLY "covoiturafpa".one_time
 --
 
 ALTER TABLE ONLY "covoiturafpa".partner
-    ADD CONSTRAINT partner_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT partner_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1473,8 +1459,7 @@ ALTER TABLE ONLY "covoiturafpa".partner
 --
 
 ALTER TABLE ONLY "covoiturafpa".recurring
-    ADD CONSTRAINT recurring_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".ride(id_ride);
+    ADD CONSTRAINT recurring_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".ride(id_ride);
 
 
 --
@@ -1483,8 +1468,7 @@ ALTER TABLE ONLY "covoiturafpa".recurring
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride
-    ADD CONSTRAINT ride_id_car_fkey FOREIGN KEY (id_car) REFERENCES "covoiturafpa
-".car(id_car);
+    ADD CONSTRAINT ride_id_car_fkey FOREIGN KEY (id_car) REFERENCES "covoiturafpa".car(id_car);
 
 
 --
@@ -1493,8 +1477,7 @@ ALTER TABLE ONLY "covoiturafpa".ride
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride
-    ADD CONSTRAINT ride_id_destination_fkey FOREIGN KEY (id_destination) REFERENCES "covoiturafpa
-".destination(id_destination);
+    ADD CONSTRAINT ride_id_destination_fkey FOREIGN KEY (id_destination) REFERENCES "covoiturafpa".destination(id_destination);
 
 
 --
@@ -1503,8 +1486,7 @@ ALTER TABLE ONLY "covoiturafpa".ride
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride_passenger
-    ADD CONSTRAINT ride_passenger_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT ride_passenger_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1513,8 +1495,7 @@ ALTER TABLE ONLY "covoiturafpa".ride_passenger
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride_passenger
-    ADD CONSTRAINT ride_passenger_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".ride(id_ride);
+    ADD CONSTRAINT ride_passenger_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".ride(id_ride);
 
 
 --
@@ -1523,8 +1504,7 @@ ALTER TABLE ONLY "covoiturafpa".ride_passenger
 --
 
 ALTER TABLE ONLY "covoiturafpa".trainee
-    ADD CONSTRAINT trainee_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES "covoiturafpa
-".formation(id_formation);
+    ADD CONSTRAINT trainee_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES "covoiturafpa".formation(id_formation);
 
 
 --
@@ -1533,8 +1513,7 @@ ALTER TABLE ONLY "covoiturafpa".trainee
 --
 
 ALTER TABLE ONLY "covoiturafpa".trainee
-    ADD CONSTRAINT trainee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT trainee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 -- Completed on 2022-09-07 16:01:13

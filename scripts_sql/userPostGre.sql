@@ -9,25 +9,27 @@ CREATE ROLE "user" WITH
 	PASSWORD 'usermdp'; 
 COMMENT ON ROLE "user" IS 'Classic user';
 
-GRANT USAGE ON SCHEMA "CovoiturAFPA" TO "user"; 
+GRANT USAGE ON SCHEMA "covoiturafpa" TO "user"; 
 
-GRANT ALL ON TABLE "CovoiturAFPA".car TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".car_type TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".centre TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".city TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".day_timetable TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".destination TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".employee TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".formation TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".fuel TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".notif_config TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".notification TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".one_time TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".partner TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".person TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".recurring TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".ride TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".ride_passenger TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".trainee TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".day_week TO "user";
-GRANT ALL ON TABLE "CovoiturAFPA".happen TO "user";
+GRANT ALL ON TABLE "covoiturafpa".car TO "user";
+GRANT ALL ON TABLE "covoiturafpa".car_type TO "user";
+GRANT ALL ON TABLE "covoiturafpa".centre TO "user";
+GRANT ALL ON TABLE "covoiturafpa".city TO "user";
+GRANT ALL ON TABLE "covoiturafpa".day_timetable TO "user";
+GRANT ALL ON TABLE "covoiturafpa".destination TO "user";
+GRANT ALL ON TABLE "covoiturafpa".employee TO "user";
+GRANT ALL ON TABLE "covoiturafpa".formation TO "user";
+GRANT ALL ON TABLE "covoiturafpa".fuel TO "user";
+GRANT ALL ON TABLE "covoiturafpa".notif_config TO "user";
+GRANT ALL ON TABLE "covoiturafpa".notification TO "user";
+GRANT ALL ON TABLE "covoiturafpa".one_time TO "user";
+GRANT ALL ON TABLE "covoiturafpa".partner TO "user";
+GRANT ALL ON TABLE "covoiturafpa".person TO "user";
+GRANT ALL ON TABLE "covoiturafpa".recurring TO "user";
+GRANT ALL ON TABLE "covoiturafpa".ride TO "user";
+GRANT ALL ON TABLE "covoiturafpa".ride_passenger TO "user";
+GRANT ALL ON TABLE "covoiturafpa".trainee TO "user";
+GRANT ALL ON TABLE "covoiturafpa".day_week TO "user";
+GRANT ALL ON TABLE "covoiturafpa".happen TO "user";
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA "covoiturafpa" TO "user";
