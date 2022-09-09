@@ -65,6 +65,7 @@ public class CentreController {
     @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Partner createPartner(@RequestBody(required = true) Partner partner) {
+        partner.setCentre(get());
         return partnerRepository.save(partner);
     }
         
