@@ -40,7 +40,7 @@ public class CentreController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre get() {
         Iterable<Centre> result = centreRepository.findAll();
@@ -48,21 +48,21 @@ public class CentreController {
     }
     
     @CrossOrigin
-    @PostMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre update(@RequestBody(required = true) int id, @RequestBody String jsonString) {
         return null;
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Partner> getPartner() {
         return partnerRepository.findAll();
     }
 
     @CrossOrigin
-    @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Partner createPartner(@RequestBody(required = true) Partner partner) {
         partner.setCentre(get());

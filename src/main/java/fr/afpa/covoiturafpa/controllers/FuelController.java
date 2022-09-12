@@ -22,21 +22,21 @@ public class FuelController {
     private FuelRepository fuelRepository;
     
     @CrossOrigin
-    @GetMapping(value = "/fuels", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/fuels", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Fuel> list() {
         return fuelRepository.findAll();
     }
 
     @CrossOrigin
-    @GetMapping(value = "/fuels/{id}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/fuels/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Optional<Fuel> get(@PathVariable(required = true) int id) {
         return fuelRepository.findById(id);
     }
     
     @CrossOrigin
-    @PostMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody String jsonString) {
         return fuelRepository.save(new Fuel());

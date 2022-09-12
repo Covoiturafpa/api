@@ -34,14 +34,14 @@ public class UserController {
     private NotificationRepository notificationRepository;
 
     @CrossOrigin
-    @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<User> list() {
         return userRepository.findAll();
     }
 
     @CrossOrigin
-    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Optional<User> get(@PathVariable(required = true) Integer id) {
         return userRepository.findById(id);
@@ -49,7 +49,7 @@ public class UserController {
 
     // TODO: POST
     @CrossOrigin
-    @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public User create() {
         return null;
@@ -57,21 +57,21 @@ public class UserController {
 
     // TODO: {id} PUT
     @CrossOrigin
-    @PutMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PutMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public User update(@PathVariable(required = true) Integer id) {
         return null;
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInactiveUsersForSixMonths() {
         //userRepository.deleteInactiveForSixMonths();
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @DeleteMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(required = true) int id) {
         Optional<User> optUser = userRepository.findById(id);
