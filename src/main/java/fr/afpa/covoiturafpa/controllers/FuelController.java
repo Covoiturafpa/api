@@ -39,6 +39,6 @@ public class FuelController {
     @PostMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody String jsonString) {
-        return null;
+        return fuelRepository.save(new Fuel());
     }
 }
