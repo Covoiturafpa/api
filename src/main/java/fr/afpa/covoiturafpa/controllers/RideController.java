@@ -23,15 +23,15 @@ public class RideController {
     @CrossOrigin
     @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Ride> list() {
+    public Iterable<Ride> search() {
         return rideRepository.findAll();
     }
 
     @CrossOrigin
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Ride create(@RequestBody String jsonString) {
-        return null;
+    public Ride create(@RequestBody Ride ride) {
+        return rideRepository.save(ride);
     }
 
     @CrossOrigin

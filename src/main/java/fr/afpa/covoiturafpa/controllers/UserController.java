@@ -3,6 +3,7 @@ package fr.afpa.covoiturafpa.controllers;
 import org.springframework.http.MediaType;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.afpa.covoiturafpa.model.Car;
+import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.User;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
@@ -41,10 +44,14 @@ public class UserController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Optional<User> get(@PathVariable(required = true) Integer id) {
-        return userRepository.findById(id);
+    public Set<Notification> getNotifications(@PathVariable(required = true) int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get().getNotifications();
+        }
+        return null;
     }
 
     // TODO: POST
@@ -82,8 +89,26 @@ public class UserController {
     }
     
     // TODO: {id}/cars
+    @CrossOrigin
+    @PostMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public Car createCar(@PathVariable(required = true) int id, @RequestBody Car car) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            car.setUser(user.get());
+            return carRepository.save(car);
+        }
+        return null;
+    }
+    
+
 
     // TODO: {id}/notifications
+    @CrossOrigin
+    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<User> get(@PathVariable(required = true) Integer id) {
+        return userRepository.findById(id);
+    }
     
     // TODO: {id}/rides
 }

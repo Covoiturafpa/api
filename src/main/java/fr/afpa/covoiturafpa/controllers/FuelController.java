@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,9 +36,9 @@ public class FuelController {
     }
     
     @CrossOrigin
-    @PostMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody String jsonString) {
-        return fuelRepository.save(new Fuel());
+    public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody Fuel fuel) {
+        return fuelRepository.save(fuel);
     }
 }

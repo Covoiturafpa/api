@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,10 +49,10 @@ public class CentreController {
     }
     
     @CrossOrigin
-    @PostMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Centre update(@RequestBody(required = true) int id, @RequestBody String jsonString) {
-        return null;
+    public Centre update(@RequestBody(required = true) int id, @RequestBody Centre centre) {
+        return centreRepository.save(centre);
     }
 
     @CrossOrigin
@@ -68,11 +69,18 @@ public class CentreController {
         partner.setCentre(get());
         return partnerRepository.save(partner);
     }
-        
+    
+    @CrossOrigin
+    @PutMapping(value = "/centre/partners/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Partner updatePartner(@PathVariable(required = true) int id, @RequestBody(required = true) Partner partner) {
+        return partnerRepository.save(partner);
+    }
+
     @CrossOrigin
     @DeleteMapping(value = "/centre/partners/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(required = true) int id) {
-        partnerRepository.deleteById(id);;
+        partnerRepository.deleteById(id);
     }
 }

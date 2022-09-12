@@ -110,7 +110,10 @@ public abstract class Ride {
     public Ride() {
     }
 
+    //TODO: methode countFreeSeat
     public int countFreeSeats() {
         return 0;
     }
+
+    //TODO: methode cout trajet
 }
