@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 @Entity
@@ -47,6 +47,28 @@ public class Notification {
         ACCEPTED_RESERVATION,
     }
     
+    //TODO: retrouver les variables
+    @JsonSerialize
+    public String getContent() {
+        String content = "";
+        switch(this.type) {
+            case NEW_RESERVATION:
+                content = "Bonjour, " + this.type + " est intéressé.e par votre trajet " + this.type + ". Vous pouvez l’appeler au " + this.type + " pour vous organiser.";
+                break;
+            case REJECTED_RESERVATION:
+                content = "Bonjour, malheureusement " + this.type + " n’a pas accepté votre demande de trajet. D’autres sont sûrement disponibles !";
+                break;
+            case ACCEPTED_RESERVATION:
+                content = "Bonjour, " + this.type + " vient d’accepter votre demande de trajet. Bon covoiturage !";
+                break;
+        }
+        return(content);
+    }
+
+    // public void setContentString(String contentString) {
+    //     this.contentString = contentString;
+    // }
+
     public int getId() {
         return id;
     }

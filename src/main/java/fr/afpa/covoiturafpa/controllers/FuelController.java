@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,23 +22,23 @@ public class FuelController {
     private FuelRepository fuelRepository;
     
     @CrossOrigin
-    @GetMapping(value = "/fuels", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/fuels", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Fuel> list() {
         return fuelRepository.findAll();
     }
 
     @CrossOrigin
-    @GetMapping(value = "/fuels/{id}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/fuels/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Optional<Fuel> get(@PathVariable(required = true) int id) {
         return fuelRepository.findById(id);
     }
     
     @CrossOrigin
-    @PostMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PutMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody String jsonString) {
-        return null;
+    public Fuel updatePrice(@PathVariable(required = true) int id, @RequestBody Fuel fuel) {
+        return fuelRepository.save(fuel);
     }
 }

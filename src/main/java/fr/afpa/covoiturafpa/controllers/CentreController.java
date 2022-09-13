@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ public class CentreController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre get() {
         Iterable<Centre> result = centreRepository.findAll();
@@ -48,31 +49,38 @@ public class CentreController {
     }
     
     @CrossOrigin
-    @PostMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PutMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Centre update(@RequestBody(required = true) int id, @RequestBody String jsonString) {
-        return null;
+    public Centre update(@RequestBody(required = true) int id, @RequestBody Centre centre) {
+        return centreRepository.save(centre);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Partner> getPartner() {
         return partnerRepository.findAll();
     }
 
     @CrossOrigin
-    @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Partner createPartner(@RequestBody(required = true) Partner partner) {
         partner.setCentre(get());
         return partnerRepository.save(partner);
     }
-        
+    
+    @CrossOrigin
+    @PutMapping(value = "/centre/partners/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Partner updatePartner(@PathVariable(required = true) int id, @RequestBody(required = true) Partner partner) {
+        return partnerRepository.save(partner);
+    }
+
     @CrossOrigin
     @DeleteMapping(value = "/centre/partners/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(required = true) int id) {
-        partnerRepository.deleteById(id);;
+        partnerRepository.deleteById(id);
     }
 }
