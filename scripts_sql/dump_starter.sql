@@ -1133,6 +1133,7 @@ ALTER TABLE ONLY "covoiturafpa".recurring
     ADD CONSTRAINT recurring_pkey PRIMARY KEY (id_ride);
 
 
+
 --
 -- TOC entry 3379 (class 2606 OID 17795)
 -- Name: ride_passenger ride_passenger_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: -
@@ -1376,3 +1377,20 @@ ALTER TABLE ONLY "covoiturafpa".trainee
 -- PostgreSQL database dump complete
 --
 
+-- covoiturafpa.recurring_days definition
+
+-- Drop table
+
+-- DROP TABLE covoiturafpa.recurring_days;
+
+CREATE TABLE covoiturafpa.recurring_days (
+	id_ride int4 NOT NULL,
+	id_day_week int4 NOT NULL,
+	CONSTRAINT happen_pkey PRIMARY KEY (id_ride, id_day_week)
+);
+
+
+-- covoiturafpa.recurring_days foreign keys
+
+ALTER TABLE covoiturafpa.recurring_days ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES covoiturafpa.day_week(id_day_week);
+ALTER TABLE covoiturafpa.recurring_days ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES covoiturafpa.recurring(id_ride);
