@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import fr.afpa.covoiturafpa.model.Employee;
+import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.User;
 
 @Repository
@@ -16,4 +17,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query(value="UPDATE Employee emp SET emp.isAdmin = TRUE WHERE emp.id = :id")
     public Employee setAdmin(@Param("id") Integer id);
+
+
 }

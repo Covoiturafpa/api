@@ -2,6 +2,7 @@ package fr.afpa.covoiturafpa.controllers;
 
 import org.springframework.http.MediaType;
 
+import java.lang.StackWalker.Option;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
+import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.User;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
+import fr.afpa.covoiturafpa.repository.RideRepository;
 import fr.afpa.covoiturafpa.repository.UserRepository;
 
 @RestController
@@ -29,6 +33,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RideRepository rideRepository;
 
     @Autowired
     private CarRepository carRepository;
@@ -41,6 +48,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public Iterable<User> list() {
         return userRepository.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<Ride> getRidesToUser(@PathVariable(required = true) Integer id) {
+        return rideRepository.rideToUser(id);
+
     }
 
     @CrossOrigin
@@ -109,6 +124,5 @@ public class UserController {
     public Optional<User> get(@PathVariable(required = true) Integer id) {
         return userRepository.findById(id);
     }
-    
-    // TODO: {id}/rides
+
 }
