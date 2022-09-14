@@ -1,6 +1,8 @@
+create extension cube schema covoiturafpa;
+create extension earthdistance schema covoiturafpa;
+
 CREATE OR REPLACE FUNCTION covoiturafpa.get_distance(latitude_1 double precision, longitude_1 double precision, latitude_2 double precision, longitude_2 double precision)
  RETURNS double precision
  LANGUAGE sql
  IMMUTABLE STRICT
-RETURN sqrt((((latitude_1 - latitude_2) * (latitude_1 - latitude_2)) + ((longitude_1 - longitude_2) * (longitude_1 - longitude_2))));
-GRANT ALL ON FUNCTION covoiturafpa.get_distance(float8, float8, float8, float8) TO "user";
+RETURN covoiturafpa.earth_distance(covoiturafpa.ll_to_earth(latitude_1, longitude_1), covoiturafpa.ll_to_earth(latitude_2, longitude_2)) / 1000;

@@ -22,17 +22,17 @@ public class RideController {
     @Autowired
     private RideRepository rideRepository;
     
-    @CrossOrigin
-    @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
-        if (ride instanceof RecurringRide) {
-            return rideRepository.findRecurringRides(ride.getDestination(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding(), ((RecurringRide) ride).getDaysWeek() );
-        }
-        else {
-            return rideRepository.findOneTimeRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay(), );
-        }
-    }
+    // @CrossOrigin
+    // @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
+    // @ResponseStatus(HttpStatus.OK)
+    // public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
+    //     if (ride instanceof RecurringRide) {
+    //         return rideRepository.findRecurringRides(ride.getDestination(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding(), ((RecurringRide) ride).getDaysWeek() );
+    //     }
+    //     else {
+    //         return rideRepository.findOneTimeRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay(), );
+    //     }
+    // }
 
     
 
