@@ -39,6 +39,9 @@ public abstract class Ride {
     @Column
     private String comment;
 
+    @Column
+    private int price;
+
     @ManyToOne
     @JoinColumn(name = "id_destination")
     private Destination destination;
@@ -83,6 +86,14 @@ public abstract class Ride {
         this.comment = comment;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    
     public Destination getDestination() {
         return destination;
     }

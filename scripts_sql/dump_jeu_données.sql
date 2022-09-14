@@ -1522,3 +1522,15 @@ ALTER TABLE ONLY "covoiturafpa".trainee
 -- PostgreSQL database dump complete
 --
 
+INSERT INTO covoiturafpa.recurring_days
+(id_ride, id_day_week)
+VALUES(3, 1);
+INSERT INTO covoiturafpa.recurring_days
+(id_ride, id_day_week)
+VALUES(3, 2);
+INSERT INTO covoiturafpa.recurring_days
+(id_ride, id_day_week)
+VALUES(3, 3);
+INSERT INTO covoiturafpa.recurring_days
+(id_ride, id_day_week)
+VALUES(3, 4);
