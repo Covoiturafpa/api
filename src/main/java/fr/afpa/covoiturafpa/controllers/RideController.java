@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.model.OneTimeRide;;
 
 @RestController
 public class RideController {
@@ -23,9 +25,16 @@ public class RideController {
     @CrossOrigin
     @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Ride> search() {
-        return rideRepository.findAll();
+    public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
+        if (ride instanceof RecurringRide) {
+            return rideRepository.findRecurringRides(ride.getDestination(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding(), ((RecurringRide) ride).getDaysWeek() );
+        }
+        else {
+            return rideRepository.findOneTimeRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay(), );
+        }
     }
+
+    
 
     @CrossOrigin
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
