@@ -33,3 +33,4 @@ GRANT ALL ON TABLE "covoiturafpa".day_week TO "user";
 GRANT ALL ON TABLE "covoiturafpa".happen TO "user";
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA "covoiturafpa" TO "user";
+GRANT EXECUTE ON FUNCTION covoiturafpa.get_distance(float8, float8, float8, float8) TO "user";
