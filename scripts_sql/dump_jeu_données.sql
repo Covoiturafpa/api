@@ -537,8 +537,8 @@ ALTER SEQUENCE "covoiturafpa".partner_id_partner_seq OWNED BY "covoiturafpa".par
 
 CREATE TABLE "covoiturafpa".person (
     id_person integer NOT NULL,
-    email character varying(50),
-    password character varying(50),
+    email character varying(50) UNIQUE,
+    password character varying(255),
     surname character varying(50),
     first_name character varying(20),
     phone_number character varying(20),
