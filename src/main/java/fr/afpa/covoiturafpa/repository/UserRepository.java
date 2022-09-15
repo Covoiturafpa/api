@@ -20,5 +20,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(value="UPDATE Employee emp SET emp.isAdmin = TRUE WHERE emp.id = :id")
     public Employee setAdmin(@Param("id") Integer id);
 
-    public List<Optional<User>> findByEmail(String email);
+    public Optional<User> findByEmail(String email);
 }
