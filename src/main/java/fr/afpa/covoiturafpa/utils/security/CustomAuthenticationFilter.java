@@ -24,12 +24,16 @@ import java.util.stream.Collectors;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-@RequiredArgsConstructor
+
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final String BAD_CREDENTIAL_MESSAGE = "Authentication failed for username: %s and password: %s";
 
     private final AuthenticationManager authenticationManager;
+
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     @SneakyThrows
     @Override
