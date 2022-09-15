@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.utils.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findById(45);
-        if (user.isPresent()) {
-            // attention gestion authorities
-            
-            return user.get();
-        }  else {
-            // gestion de l'erreur
-            // message de log
-            return null;
+        List<Optional<User>> usersWithUsername = userRepository.findByEmail(username);
+        if (usersWithUsername.size() > 0 || usersWithUsername.get(0).isPresent()) {
+            return usersWithUsername.get(0).get();
         }
-        
+        else {
+            throw new UsernameNotFoundException("No user found with this email");
+        }
     }
 }
