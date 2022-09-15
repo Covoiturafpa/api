@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @DiscriminatorColumn(name="person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
-public abstract class User implements UserDetails {
+public abstract class Person implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -214,7 +214,7 @@ public abstract class User implements UserDetails {
         this.rides = rides;
     }
 
-    public User() {
+    public Person() {
     }
 
     public Character getUserType() {

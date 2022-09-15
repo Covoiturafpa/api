@@ -26,6 +26,6 @@ public interface RideRepository extends CrudRepository<Ride, Integer> {
     @Query("SELECT ride FROM RecurringRide ride WHERE ride.beginning = :date")
     public List<Ride> findRecurringRidesByDate(@Param("date") LocalDate date);
 
-    @Query("SELECT rde FROM User usr JOIN RidePassenger rp ON usr.id = rp.id.idUser JOIN Ride rde ON rp.id.idRide = rde.id WHERE rp.id.idUser = :id")
+    @Query("SELECT rde FROM Person usr JOIN RidePassenger rp ON usr.id = rp.id.idUser JOIN Ride rde ON rp.id.idRide = rde.id WHERE rp.id.idUser = :id")
     public Iterable<Ride> rideToUser(@Param("id") int id);
 }

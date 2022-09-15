@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "trainee")
 @DiscriminatorValue("T")
-public class Trainee extends User {
+public class Trainee extends Person {
 
     @Column(name = "start_training")
     private LocalDate startTraining;

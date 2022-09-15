@@ -37,7 +37,7 @@ public class Car {
     @JsonBackReference(value="user")
     @ManyToOne
     @JoinColumn(name= "id_person")
-    private User user;
+    private Person user;
 
     public Integer getId() {
         return id;
@@ -79,11 +79,11 @@ public class Car {
         this.carType = carType;
     }
 
-    public User getUser() {
+    public Person getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Person user) {
         this.user = user;
     }
     

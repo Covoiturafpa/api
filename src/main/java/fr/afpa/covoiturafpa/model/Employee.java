@@ -17,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Entity
 @DiscriminatorValue("E")
 @Table(name = "employee")
-public class Employee extends User {
+public class Employee extends Person {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
