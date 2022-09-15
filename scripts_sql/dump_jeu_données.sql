@@ -325,6 +325,7 @@ CREATE TABLE "covoiturafpa".employee (
     id_person integer NOT NULL,
     role character varying(50),
     is_admin boolean,
+    is_teacher boolean,
     start_contract date,
     end_contract date,
     id_centre integer NOT NULL
@@ -403,10 +404,10 @@ ALTER SEQUENCE "covoiturafpa".fuel_id_fuel_seq OWNED BY "covoiturafpa".fuel.id_f
 
 --
 -- TOC entry 261 (class 1259 OID 17806)
--- Name: happen; Type: TABLE; Schema: covoiturafpa; Owner: -
+-- Name: recurring_days; Type: TABLE; Schema: covoiturafpa; Owner: -
 --
 
-CREATE TABLE "covoiturafpa".happen (
+CREATE TABLE "covoiturafpa".recurring_days (
     id_ride integer NOT NULL,
     id_day_week integer NOT NULL
 );
@@ -868,9 +869,9 @@ INSERT INTO "covoiturafpa".destination VALUES (2, 59.9211, 81.1344, true, 2);
 -- Data for Name: employee; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
 --
 
-INSERT INTO "covoiturafpa".employee VALUES (57, 'administration', false, '2022-01-01', '2022-01-01', 28);
-INSERT INTO "covoiturafpa".employee VALUES (51, 'formateur', false, '2022-01-01', '2022-01-01', 28);
-INSERT INTO "covoiturafpa".employee VALUES (97, 'restauration', true, '2022-01-01', '2022-01-01', 28);
+INSERT INTO "covoiturafpa".employee VALUES (57, 'administration', false, true, '2022-01-01', '2022-01-01', 28);
+INSERT INTO "covoiturafpa".employee VALUES (51, 'formateur', false, true, '2022-01-01', '2022-01-01', 28);
+INSERT INTO "covoiturafpa".employee VALUES (97, 'restauration', true, false, '2022-01-01', '2022-01-01', 28);
 
 
 --
@@ -902,13 +903,13 @@ INSERT INTO "covoiturafpa".fuel VALUES (5, 'GPL', 0.87);
 --
 -- TOC entry 3575 (class 0 OID 17806)
 -- Dependencies: 261
--- Data for Name: happen; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
+-- Data for Name: recurring_days; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
 --
 
-INSERT INTO "covoiturafpa".happen VALUES (3, 1);
-INSERT INTO "covoiturafpa".happen VALUES (3, 2);
-INSERT INTO "covoiturafpa".happen VALUES (3, 3);
-INSERT INTO "covoiturafpa".happen VALUES (3, 4);
+INSERT INTO "covoiturafpa".recurring_days VALUES (3, 1);
+INSERT INTO "covoiturafpa".recurring_days VALUES (3, 2);
+INSERT INTO "covoiturafpa".recurring_days VALUES (3, 3);
+INSERT INTO "covoiturafpa".recurring_days VALUES (3, 4);
 
 
 --
@@ -1239,11 +1240,11 @@ ALTER TABLE ONLY "covoiturafpa".fuel
 
 --
 -- TOC entry 3381 (class 2606 OID 17810)
--- Name: happen happen_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: -
+-- Name: recurring_days recurring_days_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: -
 --
 
-ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_pkey PRIMARY KEY (id_ride, id_day_week);
+ALTER TABLE ONLY "covoiturafpa".recurring_days
+    ADD CONSTRAINT recurring_days_pkey PRIMARY KEY (id_ride, id_day_week);
 
 
 --
@@ -1410,20 +1411,20 @@ ALTER TABLE ONLY "covoiturafpa".formation
 
 --
 -- TOC entry 3402 (class 2606 OID 17816)
--- Name: happen happen_id_day_week_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: -
+-- Name: recurring_days recurring_days_id_day_week_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: -
 --
 
-ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES "covoiturafpa".day_week(id_day_week);
+ALTER TABLE ONLY "covoiturafpa".recurring_days
+    ADD CONSTRAINT recurring_days_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES "covoiturafpa".day_week(id_day_week);
 
 
 --
 -- TOC entry 3401 (class 2606 OID 17811)
--- Name: happen happen_id_ride_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: -
+-- Name: recurring_days recurring_days_id_ride_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: -
 --
 
-ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".recurring(id_ride);
+ALTER TABLE ONLY "covoiturafpa".recurring_days
+    ADD CONSTRAINT recurring_days_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".recurring(id_ride);
 
 
 --
@@ -1521,16 +1522,3 @@ ALTER TABLE ONLY "covoiturafpa".trainee
 --
 -- PostgreSQL database dump complete
 --
-
-INSERT INTO covoiturafpa.recurring_days
-(id_ride, id_day_week)
-VALUES(3, 1);
-INSERT INTO covoiturafpa.recurring_days
-(id_ride, id_day_week)
-VALUES(3, 2);
-INSERT INTO covoiturafpa.recurring_days
-(id_ride, id_day_week)
-VALUES(3, 3);
-INSERT INTO covoiturafpa.recurring_days
-(id_ride, id_day_week)
-VALUES(3, 4);

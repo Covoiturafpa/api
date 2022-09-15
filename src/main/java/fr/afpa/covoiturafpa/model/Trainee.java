@@ -1,6 +1,7 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -8,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
 
 
 @Entity
@@ -52,4 +55,5 @@ public class Trainee extends Person {
 
     public Trainee() {
     }
+
 }

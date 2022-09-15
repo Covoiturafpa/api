@@ -23,18 +23,15 @@ public class PersonService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Person> userWithUsername = userRepository.findByEmail(username);
-        org.springframework.security.core.userdetails.User user = null;
+        org.springframework.security.core.userdetails.User person = null;
         if (userWithUsername.isPresent()) {
-            // if (userWithUsername.get() instanceof Trainee) {
-            //     Trainee trainee = new Trainee();
-            //     return trainee = ((Trainee)userWithUsername).get();
-            // }
-            // else {
-            //     Employee employee = new Employee();
-            //     return employee = ((Employee)userWithUsername).get();
-            // }
-            user = new org.springframework.security.core.userdetails.User(userWithUsername.get().getEmail(), userWithUsername.get().getPassword(), userWithUsername.get().getAuthorities());
-            return user;
+            User foundUser = userWithUsername.get();
+            person = new org.springframework.security.core.userdetails.User(
+                foundUser.getEmail(), 
+                foundUser.getPassword(), 
+                foundUser.getAuthorities()
+            );
+            return person;
         }
         else {
             throw new UsernameNotFoundException("No user found with this email");

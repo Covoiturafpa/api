@@ -24,9 +24,12 @@ public class Employee extends Person {
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        if (this.isAdmin)
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        authorities.add(new SimpleGrantedAuthority("SUPERADMIN"));
+        if (this.isAdmin) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        if (this.isTeacher) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+        }
         return authorities;
     }
 
@@ -35,6 +38,9 @@ public class Employee extends Person {
 
     @Column(name = "is_admin")
     private boolean isAdmin;
+
+    @Column(name = "is_teacher")
+    private boolean isTeacher;
 
     @Column(name = "start_contract")
     private LocalDate startContract;
@@ -55,8 +61,16 @@ public class Employee extends Person {
         return isAdmin;
     }
 
+    public boolean getIsTeacher() {
+        return isAdmin;
+    }
+
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public void setIsTeacher(boolean isTeacher) {
+        this.isTeacher = isTeacher;
     }
 
     public LocalDate getStartContract() {
