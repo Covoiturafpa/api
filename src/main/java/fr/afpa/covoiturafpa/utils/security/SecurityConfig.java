@@ -29,8 +29,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers(HttpMethod.POST, "/login/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/**").hasAuthority("ROLE_ADMIN")
-                        .anyRequest().authenticated()
+                        .antMatchers(HttpMethod.GET, "/users").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
                 )
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))
                 .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)

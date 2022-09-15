@@ -25,16 +25,16 @@ public class PersonService implements UserDetailsService {
         Optional<Person> userWithUsername = userRepository.findByEmail(username);
         org.springframework.security.core.userdetails.User person = null;
         if (userWithUsername.isPresent()) {
-            User foundUser = userWithUsername.get();
+            Person foundPerson = userWithUsername.get();
             person = new org.springframework.security.core.userdetails.User(
-                foundUser.getEmail(), 
-                foundUser.getPassword(), 
-                foundUser.getAuthorities()
+                foundPerson.getEmail(), 
+                foundPerson.getPassword(), 
+                foundPerson.getAuthorities()
             );
             return person;
         }
         else {
-            throw new UsernameNotFoundException("No user found with this email");
+            throw new UsernameNotFoundException("No person found with this email");
         }
     }
 }

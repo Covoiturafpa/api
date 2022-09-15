@@ -1,6 +1,7 @@
 package fr.afpa.covoiturafpa.controllers;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 
 import java.lang.StackWalker.Option;
 import java.util.Optional;
