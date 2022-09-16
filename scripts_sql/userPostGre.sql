@@ -30,7 +30,7 @@ GRANT ALL ON TABLE "covoiturafpa".ride TO "user";
 GRANT ALL ON TABLE "covoiturafpa".ride_passenger TO "user";
 GRANT ALL ON TABLE "covoiturafpa".trainee TO "user";
 GRANT ALL ON TABLE "covoiturafpa".day_week TO "user";
-GRANT ALL ON TABLE "covoiturafpa".happen TO "user";
+GRANT ALL ON TABLE "covoiturafpa".recurring_days TO "user";
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA "covoiturafpa" TO "user";
 GRANT EXECUTE ON FUNCTION covoiturafpa.get_distance(float8, float8, float8, float8) TO "user";
