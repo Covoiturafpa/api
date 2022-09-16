@@ -1,7 +1,6 @@
 package fr.afpa.covoiturafpa.utils.security;
 
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,18 +22,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests((authz) -> authz
-                        .antMatchers(HttpMethod.POST, "/login/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/users").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
-                )
-                .addFilter(new CustomAuthenticationFilter(authenticationManager))
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .headers().cacheControl();
-
+        http.csrf().disable().authorizeRequests().anyRequest().permitAll(); 
         return http.build();
     }
 }
