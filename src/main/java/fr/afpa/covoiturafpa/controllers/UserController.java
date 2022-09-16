@@ -44,9 +44,8 @@ public class UserController {
     @Autowired
     private NotificationRepository notificationRepository;
 
-
-
     @CrossOrigin
+    @Secured("ROLE_TEACHER")
     @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Person> list() {
