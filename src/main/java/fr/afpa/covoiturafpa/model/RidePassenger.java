@@ -34,9 +34,9 @@ public class RidePassenger {
     private RidePassengerId id = new RidePassengerId();
 
     @ManyToOne
-    @MapsId("idUser")
+    @MapsId("idPerson")
     @JoinColumn(name="id_person")
-    private Person user;
+    private Person person;
 
     @ManyToOne
     @MapsId("idRide")
@@ -62,12 +62,12 @@ public class RidePassenger {
         this.id = id;
     }
 
-    public Person getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(Person user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public Ride getRide() {

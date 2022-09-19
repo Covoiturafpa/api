@@ -27,13 +27,13 @@ import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
-import fr.afpa.covoiturafpa.repository.UserRepository;
+import fr.afpa.covoiturafpa.repository.PersonRepository;
 
 @RestController
-public class UserController {
+public class PersonController {
 
     @Autowired
-    private UserRepository userRepository;
+    private PersonRepository personRepository;
 
     @Autowired
     private RideRepository rideRepository;
@@ -50,14 +50,14 @@ public class UserController {
     @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Person> list() {
-        return userRepository.findAll();
+        return personRepository.findAll();
     }
 
     @CrossOrigin
     @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Ride> getRidesToUser(@PathVariable(required = true) Integer id) {
-        return rideRepository.rideToUser(id);
+    public Iterable<Ride> getRidesOfPerson(@PathVariable(required = true) Integer id) {
+        return rideRepository.findRidesOfPerson(id);
 
     }
 
@@ -65,9 +65,9 @@ public class UserController {
     @GetMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Set<Notification> getNotifications(@PathVariable(required = true) int id) {
-        Optional<Person> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get().getNotifications();
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) {
+            return person.get().getNotifications();
         }
         return null;
     }
@@ -91,18 +91,18 @@ public class UserController {
     @CrossOrigin
     @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteInactiveUsersForSixMonths() {
-        //userRepository.deleteInactiveForSixMonths();
+    public void deleteInactivePersonsForSixMonths() {
+        //personRepository.deleteInactiveForSixMonths();
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(required = true) int id) {
-        Optional<Person> optUser = userRepository.findById(id);
-        if (optUser.isPresent()) {
-            Person user = optUser.get();
-            userRepository.delete(user);
+        Optional<Person> optPerson = personRepository.findById(id);
+        if (optPerson.isPresent()) {
+            Person person = optPerson.get();
+            personRepository.delete(person);
         }
     }
     
@@ -110,9 +110,9 @@ public class UserController {
     @CrossOrigin
     @PostMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     public Car createCar(@PathVariable(required = true) int id, @RequestBody Car car) {
-        Optional<Person> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            car.setUser(user.get());
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) {
+            car.setPerson(person.get());
             return carRepository.save(car);
         }
         return null;
@@ -125,7 +125,7 @@ public class UserController {
     @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Optional<Person> get(@PathVariable(required = true) Integer id) {
-        return userRepository.findById(id);
+        return personRepository.findById(id);
     }
 
 }

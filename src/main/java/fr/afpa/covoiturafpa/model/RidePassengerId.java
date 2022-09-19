@@ -12,18 +12,18 @@ public class RidePassengerId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name="id_person")
-    private Integer idUser;
+    private Integer idPerson;
 
     @Column(name="id_ride")
     private Integer idRide;
 
 
-    public int getIdUser() {
-        return idUser;
+    public int getIdPerson() {
+        return idPerson;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIdPerson(int idPerson) {
+        this.idPerson = idPerson;
     }
 
     public int getIdRide() {
@@ -37,8 +37,8 @@ public class RidePassengerId implements Serializable {
     public RidePassengerId() {
     }
 
-    public RidePassengerId(int idUser, int idRide) {
-        this.idUser = idUser;
+    public RidePassengerId(int idPerson, int idRide) {
+        this.idPerson = idPerson;
         this.idRide = idRide;
     }
 
@@ -47,7 +47,7 @@ public class RidePassengerId implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((idRide == null) ? 0 : idRide.hashCode());
-        result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
+        result = prime * result + ((idPerson == null) ? 0 : idPerson.hashCode());
         return result;
     }
 
@@ -60,6 +60,6 @@ public class RidePassengerId implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         RidePassengerId other = (RidePassengerId) obj;
-        return Objects.equals(getIdRide(), other.getIdRide()) && Objects.equals(getIdUser(), other.getIdUser());
+        return Objects.equals(getIdRide(), other.getIdRide()) && Objects.equals(getIdPerson(), other.getIdPerson());
     }
 }

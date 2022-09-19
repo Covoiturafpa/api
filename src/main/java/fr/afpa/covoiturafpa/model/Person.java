@@ -31,39 +31,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "person")
 public abstract class Person implements UserDetails {
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.isActivated;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
@@ -100,15 +67,15 @@ public abstract class Person implements UserDetails {
     private Character userType;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "person")
     private Set<Notification> notifications;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "person")
     private Set<Car> cars;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "person")
     private Set<RidePassenger> rides = new HashSet<RidePassenger>();
 
     public int getId() {
@@ -224,4 +191,38 @@ public abstract class Person implements UserDetails {
     public void setUserType(Character userType) {
         this.userType = userType;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isActivated;
+    }
+
 }

@@ -12,10 +12,10 @@ import fr.afpa.covoiturafpa.model.Notification;
 @Repository
 public interface NotificationRepository extends CrudRepository<Notification, Integer> {
     
-    @Query("UPDATE Notification notif SET notif.isUnread = FALSE WHERE notif.isUnread = TRUE AND notif.user.id = :id")
-    public List<Notification> updateAllUnreadByUser(@Param("id") Integer id);
+    @Query("UPDATE Notification notif SET notif.isUnread = FALSE WHERE notif.isUnread = TRUE AND notif.person.id = :id")
+    public List<Notification> updateAllUnreadByPerson(@Param("id") Integer id);
 
-    @Query("DELETE Notification notif WHERE notif.user.id = :id")
-    public void deleteAllByUser(@Param("id") Integer id);
+    @Query("DELETE Notification notif WHERE notif.person.id = :id")
+    public void deleteAllByPerson(@Param("id") Integer id);
 
 }

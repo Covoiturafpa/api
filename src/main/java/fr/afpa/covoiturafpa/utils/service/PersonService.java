@@ -12,26 +12,26 @@ import org.springframework.stereotype.Service;
 import fr.afpa.covoiturafpa.model.Employee;
 import fr.afpa.covoiturafpa.model.Trainee;
 import fr.afpa.covoiturafpa.model.Person;
-import fr.afpa.covoiturafpa.repository.UserRepository;
+import fr.afpa.covoiturafpa.repository.PersonRepository;
 
 @Service
 public class PersonService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    PersonRepository personRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Person> userWithUsername = userRepository.findByEmail(username);
-        org.springframework.security.core.userdetails.User person = null;
-        if (userWithUsername.isPresent()) {
-            Person foundPerson = userWithUsername.get();
-            person = new org.springframework.security.core.userdetails.User(
+        Optional<Person> personWithUsername = personRepository.findByEmail(username);
+        org.springframework.security.core.userdetails.User user = null;
+        if (personWithUsername.isPresent()) {
+            Person foundPerson = personWithUsername.get();
+            user = new org.springframework.security.core.userdetails.User(
                 foundPerson.getEmail(), 
                 foundPerson.getPassword(), 
                 foundPerson.getAuthorities()
             );
-            return person;
+            return user;
         }
         else {
             throw new UsernameNotFoundException("No person found with this email");
