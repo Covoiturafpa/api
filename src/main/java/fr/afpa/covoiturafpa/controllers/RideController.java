@@ -1,6 +1,10 @@
 package fr.afpa.covoiturafpa.controllers;
 
 import org.springframework.http.MediaType;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.model.DayWeek;
 import fr.afpa.covoiturafpa.model.OneTimeRide;;
 
 @RestController
@@ -22,17 +27,20 @@ public class RideController {
     @Autowired
     private RideRepository rideRepository;
     
-    // @CrossOrigin
-    // @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
-    // @ResponseStatus(HttpStatus.OK)
-    // public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
-    //     if (ride instanceof RecurringRide) {
-    //         return rideRepository.findRecurringRides(ride.getDestination(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding(), ((RecurringRide) ride).getDaysWeek() );
-    //     }
-    //     else {
-    //         return rideRepository.findOneTimeRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay(), );
-    //     }
-    // }
+    @CrossOrigin
+    @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
+        if (ride instanceof RecurringRide) {
+            return rideRepository.findRecurringRides(ride.getDestination(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding(), ((RecurringRide) ride).getDaysWeek() );
+        }
+        else {
+            Set<DayWeek> day = new HashSet<DayWeek>();
+            day.add(new DayWeek(((OneTimeRide) ride).getDepartureDay().getDayOfWeek()));
+            
+            return rideRepository.findOneTimeRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay()).addAll(rideRepository.findRecurringRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay(), ((OneTimeRide) ride).getDepartureDay(), day));
+        }
+    }
 
     
 
