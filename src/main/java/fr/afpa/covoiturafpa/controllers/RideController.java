@@ -2,6 +2,7 @@ package fr.afpa.covoiturafpa.controllers;
 
 import org.springframework.http.MediaType;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,29 +32,29 @@ public class RideController {
     private RideRepository rideRepository;
     
 
-    // @CrossOrigin
-    // @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
-    // @ResponseStatus(HttpStatus.OK)
-    // public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
-    //     if (ride instanceof RecurringRide) {
-    //         return searchRelevantRidesForRecurring(ride);
-    //     }
-    //     else {
-    //         return searchRelevantRidesForOneTime(ride);
-    //     }
-    // }
+    @CrossOrigin
+    @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
+        if (ride instanceof RecurringRide) {
+            return searchRelevantRidesForRecurring(ride);
+        }
+        else {
+            return searchRelevantRidesForOneTime(ride);
+        }
+    }
 
-    // public Iterable<Ride> searchRelevantRidesForRecurring(Ride ride) {
-    //     return rideRepository.findRecurringRides(ride.getDestination());
-    // }
+    public Iterable<Ride> searchRelevantRidesForRecurring(Ride ride) {
+        return rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding()), ((RecurringRide) ride).getDaysWeek());
+    }
 
-    // public Iterable<Ride> searchRelevantRidesForOneTime(Ride ride) {
-    //     Set<DayWeek> day = new HashSet<DayWeek>();
-    //     day.add(new DayWeek(((OneTimeRide) ride).getDepartureDay().getDayOfWeek()));
-    //     List<Ride> results = rideRepository.findOneTimeRides(ride.getDestination(), ((OneTimeRide) ride).getDepartureDay());
-    //     results.addAll(rideRepository.findRecurringRides(ride.getDestination()));
-    //     return results;
-    // }
+    public Iterable<Ride> searchRelevantRidesForOneTime(Ride ride) {
+        List<Ride> results = rideRepository.findOneTimeRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((OneTimeRide) ride).getDepartureDay());
+        Set<DayWeek> day = new HashSet<DayWeek>();
+        day.add(new DayWeek(((OneTimeRide) ride).getDepartureDay().getDayOfWeek()));
+        results.addAll(rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding()), ((RecurringRide) ride).getDaysWeek()));
+        return results;
+    }
 
    
     @CrossOrigin
@@ -71,11 +72,20 @@ public class RideController {
     }
 
 
-    @CrossOrigin
-    @GetMapping(value = "/cities", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public List<Destination> getCities(@RequestBody Destination destination) {
-        return rideRepository.findTest(((double) 59), ((double) 81));
-    }
+    private String cityName = "La Rochelle";
+    private double latitude = 60;
+    private double longitude = 81;
+    private String departureDay = "2021-12-30";
+    private LocalDate departureDate = LocalDate.parse(departureDay); 
+    private String departure = "2022-04-30";
+    private LocalDate departureend = LocalDate.parse(departure); 
+
+
+    // @CrossOrigin
+    // @GetMapping(value = "/test", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    // @ResponseStatus(HttpStatus.OK)
+    // public List<Ride> getTest(@RequestBody Destination destination) {
+    //     return rideRepository.findRecurringRides(cityName, latitude, longitude, departureDate, departureend);
+    // }
 
 }

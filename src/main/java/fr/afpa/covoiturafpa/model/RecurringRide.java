@@ -56,4 +56,11 @@ public class RecurringRide extends Ride {
 
     public RecurringRide() {
     }
+
+    public RecurringRide(Destination destination, LocalDate beginning, LocalDate ending, Set<DayWeek> daysWeek) {
+        super(destination);
+        this.beginning = beginning;
+        this.ending = ending;
+        this.daysWeek = daysWeek;
+    }
 }

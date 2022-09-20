@@ -2,30 +2,24 @@ package fr.afpa.covoiturafpa.repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import fr.afpa.covoiturafpa.model.City;
-import fr.afpa.covoiturafpa.model.DayWeek;
-import fr.afpa.covoiturafpa.model.Destination;
 import fr.afpa.covoiturafpa.model.Ride;
 
 @Repository
-public interface RideRepository extends CrudRepository<Ride, Integer> {
+public interface RideRepository extends CrudRepository<Ride, Integer>, RideRepositoryCustom {
 
-    // @Query("SELECT ride FROM Ride ride JOIN RecurringRide WHERE ((:destination.city.name IN (SELECT d.city.name FROM Destination d WHERE d.city IS NOT NULL)) OR (get_distance(:destination.latitude, :destination.longitude, ride.destination.latitude, ride.destination.longitude)))")
-    // public List<Ride> findRecurringRides(@Param("destination") Destination destination);
+    @Query(value = "SELECT * FROM recurring AS rr LEFT JOIN ride AS r ON rr.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE (( c.name = :cityName AND c.name IS NOT NULL) OR get_distance(:latitude, :longitude, d.latitude, d.longitude) < 5) AND (:start < rr.ending AND rr.beginning < :end)", nativeQuery = true)
+    public List<Ride> findRecurringRides(@Param("cityName") String cityName, @Param("latitude") double latitude, @Param("longitude") double longitude, @Param("start") LocalDate RequestedStart, @Param("end") LocalDate RequestedEnd);
    
 
-    // @Query("SELECT ride FROM Ride ride JOIN OneTimeRide WHERE ((:#{#destination.city.name} IN (SELECT d.city.name FROM Destination d WHERE d.city IS NOT NULL)) OR (get_distance(:#{#destination.latitude}, :#{#destination.longitude}, ride.destination.latitude, ride.destination.longitude))) AND ride.departureDay = :date")
-    // public List<Ride> findOneTimeRides(@Param("destination") Destination destination, @Param("date") LocalDate date);
+    @Query(value = "SELECT * FROM one_time AS ot LEFT JOIN ride AS r ON ot.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE (( c.name = :cityName AND c.name IS NOT NULL) OR get_distance(:latitude, :longitude, d.latitude, d.longitude) < 5) AND ot.departure_day = :departureDay", nativeQuery = true)
+    public List<Ride> findOneTimeRides(@Param("cityName") String cityName, @Param("latitude") double latitude, @Param("longitude") double longitude, @Param("departureDay") LocalDate departureDay);
 
-    @Query("SELECT d FROM Destination d WHERE function('get_distance', d.latitude, d.longitude, :a, :b) < 5")
-    public List<Destination> findTest(@Param("a") double a, @Param("b") double b);
 
     @Query("SELECT ride FROM Person user JOIN RidePassenger rp ON user.id = rp.id.idPerson JOIN Ride ride ON rp.id.idRide = ride.id WHERE rp.id.idPerson = :id")
     public Iterable<Ride> findRidesOfPerson(@Param("id") int id);

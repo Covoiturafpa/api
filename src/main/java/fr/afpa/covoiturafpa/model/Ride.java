@@ -121,6 +121,10 @@ public abstract class Ride {
     public Ride() {
     }
 
+    public Ride(Destination destination) {
+        this.destination = destination;
+    }
+
     //TODO: methode countFreeSeat
     public int countFreeSeats() {
         return 0;
