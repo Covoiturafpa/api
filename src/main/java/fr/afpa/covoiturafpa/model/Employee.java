@@ -19,20 +19,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Table(name = "employee")
 public class Employee extends Person {
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        if (this.isAdmin) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-        if (this.isTeacher) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
-        }
-        return authorities;
-    }
-
     @Column
     private String role;
 
@@ -91,4 +77,19 @@ public class Employee extends Person {
 
     public Employee() {
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.isAdmin) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        if (this.isTeacher) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+        }
+        return authorities;
+    }
+
 }

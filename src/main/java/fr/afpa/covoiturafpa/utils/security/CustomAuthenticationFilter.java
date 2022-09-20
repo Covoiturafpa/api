@@ -1,9 +1,7 @@
 package fr.afpa.covoiturafpa.utils.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -71,6 +69,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
         response.addHeader("access_token", accessToken);
         response.addHeader("refresh_token", refreshToken);
+        new ObjectMapper().writeValue(response.getOutputStream(), user);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Notification {
     @ManyToOne
     @JsonBackReference 
     @JoinColumn(name="id_person")
-    private Person user;
+    private Person person;
 
     enum TypeNotif {
         NEW_RESERVATION,
@@ -104,11 +104,11 @@ public class Notification {
     public Notification() {
     }
 
-    public Person getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(Person user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

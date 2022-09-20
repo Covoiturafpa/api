@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
@@ -26,8 +27,7 @@ public class DayTimetable {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "day")
-    private Day day;
+    private DayOfWeek day;
 
     @Column(name = "start_morning")
     private LocalTime startMorning;
@@ -63,11 +63,11 @@ public class DayTimetable {
         this.id = id;
     }
 
-    public Day getDay() {
+    public DayOfWeek getDay() {
         return day;
     }
 
-    public void setDay(Day day) {
+    public void setDay(DayOfWeek day) {
         this.day = day;
     }
 

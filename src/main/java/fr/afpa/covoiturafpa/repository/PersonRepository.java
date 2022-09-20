@@ -12,7 +12,7 @@ import fr.afpa.covoiturafpa.model.Employee;
 import fr.afpa.covoiturafpa.model.Person;
 
 @Repository
-public interface UserRepository extends CrudRepository<Person, Integer> {
+public interface PersonRepository extends CrudRepository<Person, Integer> {
 
     @Query(value="DELETE FROM Person usr WHERE AGE(usr.lastLogin, current_date) > '6 months'")
     public void deleteInactiveForSixMonths();

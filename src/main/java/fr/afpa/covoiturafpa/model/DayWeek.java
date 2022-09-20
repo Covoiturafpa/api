@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
+import java.time.DayOfWeek;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class DayWeek {
     
     @Enumerated(EnumType.STRING)
     @Column
-    private Day name;
+    private DayOfWeek name;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "daysWeek")
@@ -45,14 +46,20 @@ public class DayWeek {
         this.idDayWeek = idDayWeek;
     }
 
-    public Day getName() {
+    public DayOfWeek getName() {
         return name;
     }
 
-    public void setName(Day name) {
+    public void setName(DayOfWeek name) {
         this.name = name;
     }
+    
     public DayWeek() {
-
     }
+
+    public DayWeek(DayOfWeek day) {
+        this.idDayWeek = day.getValue();
+        this.name = day;
+    }
+
 }
