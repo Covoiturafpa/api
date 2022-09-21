@@ -1,7 +1,10 @@
 package fr.afpa.covoiturafpa.utils.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,10 +36,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         this.authenticationManager = authenticationManager;
     }
 
-    @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException {
+            throws RuntimeException, AuthenticationException {
 
         String username = null;
         String password = null;
@@ -55,7 +57,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             Map<String, String> error = new HashMap<>();
             error.put("errorMessage", e.getMessage());
             response.setContentType(APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), error);
+            try {
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            }catch (IOException ioe) {
+                Logger logger = LoggerFactory.getLogger(CustomAuthenticationFilter.class);
+                logger.error("Erreur lors de la conception de la réponse JSon");
+            }
+            
             throw new RuntimeException(String.format("Error in attemptAuthentication with username %s and password %s", username, password), e);
         }
     }
