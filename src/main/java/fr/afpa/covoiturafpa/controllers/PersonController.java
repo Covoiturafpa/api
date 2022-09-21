@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 
 import java.lang.StackWalker.Option;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -118,14 +119,11 @@ public class PersonController {
         return null;
     }
     
-
-
-    // TODO: {id}/notifications
     @CrossOrigin
     @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Person> get(@PathVariable(required = true) Integer id) {
-        return personRepository.findById(id);
+    public List<Optional<Notification>> get(@PathVariable(required = true) Integer id) {
+        return notificationRepository.findByPerson(personRepository.findById(id).get());
     }
 
 }
