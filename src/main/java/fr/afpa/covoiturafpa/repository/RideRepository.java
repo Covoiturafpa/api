@@ -2,15 +2,10 @@ package fr.afpa.covoiturafpa.repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import fr.afpa.covoiturafpa.model.DayWeek;
-import fr.afpa.covoiturafpa.model.Destination;
 import fr.afpa.covoiturafpa.model.Ride;
 
 @Repository
