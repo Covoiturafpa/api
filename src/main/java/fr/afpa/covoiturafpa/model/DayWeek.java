@@ -11,21 +11,24 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="idDayWeek")
 @Entity
 @Table(name = "day_week")
 public class DayWeek {
 
+    @JsonView(Views.SearchRide.class)
     @Id
     @Column(name= "id_day_week")
     private Integer idDayWeek;
 
-    
+    @JsonView(Views.SearchRide.class)
     @Enumerated(EnumType.STRING)
     @Column
     private DayOfWeek name;

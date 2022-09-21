@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 @Entity
 @Table(name = "car")
@@ -20,6 +23,7 @@ public class Car {
     @Column(name = "id_car")
     private int id;
 
+    @JsonView(Views.SearchRide.class)
     @Column
     private String model;
 

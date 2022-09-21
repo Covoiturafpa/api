@@ -19,7 +19,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
+import fr.afpa.covoiturafpa.utils.Views;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @JsonTypeInfo(
@@ -36,27 +40,33 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "ride")
 public  class Ride {
 
+    @JsonView(Views.SearchRide.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ride")
     private int id;
 
+    @JsonView(Views.SearchRide.class)
     @Column(name = "departure_time")
     private LocalTime departureTime;
 
     @Column(name = "is_active")
     private boolean isActive;
 
+    @JsonView(Views.SearchRide.class)
     @Column
     private String comment;
 
+    @JsonView(Views.SearchRide.class)
     @Column
     private int price;
 
+    @JsonView(Views.SearchRide.class)
     @ManyToOne
     @JoinColumn(name = "id_destination")
     private Destination destination;
 
+    @JsonView(Views.SearchRide.class)
     @ManyToOne
     @JoinColumn(name = "id_car")
     private Car car;
@@ -121,11 +131,11 @@ public  class Ride {
         this.car = car;
     }
 
-    public Set<RidePassenger> getPossiblePassengers() {
+    public Set<RidePassenger> getRequestedPassengers() {
         return requestedPassengers;
     }
 
-    public void setPossiblePassengers(Set<RidePassenger> passengers) {
+    public void setRequestedPassengers(Set<RidePassenger> passengers) {
         this.requestedPassengers = passengers;
     }
 
@@ -136,11 +146,12 @@ public  class Ride {
         this.destination = destination;
     }
 
-
-    //TODO: methode countFreeSeat
     public int countFreeSeats() {
-        return 0;
+        return this.car.getSeats() - this.requestedPassengers.size();
     }
 
-    //TODO: methode cout trajet
+    //TODO: methode cout trajet (distance?)
+    public float calculateCost() {
+        return 0;
+    }
 }

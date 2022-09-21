@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.Views;
 import fr.afpa.covoiturafpa.model.DayWeek;
 import fr.afpa.covoiturafpa.model.Destination;
 import fr.afpa.covoiturafpa.model.OneTimeRide;;
@@ -30,7 +33,7 @@ public class RideController {
     @Autowired
     private RideRepository rideRepository;
     
-
+    @JsonView(Views.SearchRide.class)
     @CrossOrigin
     @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)

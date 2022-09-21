@@ -24,6 +24,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 @Entity
 @DiscriminatorColumn(name="person_type")
@@ -43,6 +46,7 @@ public abstract class Person implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @JsonView(Views.SearchRide.class)
     @Column
     private String surname;
 
