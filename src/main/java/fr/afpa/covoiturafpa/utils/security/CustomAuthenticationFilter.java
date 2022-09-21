@@ -2,8 +2,6 @@ package fr.afpa.covoiturafpa.utils.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +26,14 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private static final String BAD_CREDENTIAL_MESSAGE = "Authentication failed for username: %s and password: %s";
+    //private static final String BAD_CREDENTIAL_MESSAGE = "Authentication failed for username: %s and password: %s";
 
     private final AuthenticationManager authenticationManager;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -44,6 +43,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String password = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            @SuppressWarnings("unchecked")
             Map<String, String> map = objectMapper.readValue(request.getInputStream(), Map.class);
             username = map.get("username");
             password = map.get("password");
