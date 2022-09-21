@@ -74,10 +74,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User)authentication.getPrincipal();
         String accessToken = JwtUtil.createAccessToken(user.getUsername(), request.getRequestURL().toString(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
-        String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
-        response.addHeader("access_token", accessToken);
-        response.addHeader("refresh_token", refreshToken);
-        new ObjectMapper().writeValue(response.getOutputStream(), accessToken);
+        // String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
+        // response.addHeader("access_token", accessToken);
+        // response.addHeader("refresh_token", refreshToken);
+        HashMap<String, String> mapJsonResult = new HashMap<String, String>();
+        mapJsonResult.put("accessToken", accessToken);
+        mapJsonResult.put("username", user.getUsername());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(response.getOutputStream(), mapJsonResult);
     }
 
     @Override

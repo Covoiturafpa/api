@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .antMatchers("/login/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))
-                .addFilterBefore(new CorsFilter(), OncePerRequestFilter.class)
+                .addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .headers().cacheControl();
 
