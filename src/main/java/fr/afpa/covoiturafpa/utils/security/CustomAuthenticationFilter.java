@@ -69,7 +69,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
         response.addHeader("access_token", accessToken);
         response.addHeader("refresh_token", refreshToken);
-        new ObjectMapper().writeValue(response.getOutputStream(), user);
+        new ObjectMapper().writeValue(response.getOutputStream(), accessToken);
     }
 
     @Override
