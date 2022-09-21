@@ -71,6 +71,7 @@ public abstract class JwtUtil {
         jwtProcessor.process(signedJWT, null);
         JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
         String username = claims.getSubject();
+        @SuppressWarnings("unchecked")
         var roles = (List<String>) claims.getClaim("roles");
         var authorities = roles == null ? null : roles.stream()
                 .map(SimpleGrantedAuthority::new)
