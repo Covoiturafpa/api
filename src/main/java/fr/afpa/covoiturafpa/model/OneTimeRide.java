@@ -7,7 +7,9 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("O")
 @Entity
 @Table(name = "one_time")
 @DiscriminatorValue("O")

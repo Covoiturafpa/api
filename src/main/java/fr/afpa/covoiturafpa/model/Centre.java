@@ -14,7 +14,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
 @Entity
 @Table(name = "centre")
 public class Centre {

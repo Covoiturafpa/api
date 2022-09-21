@@ -11,9 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonTypeName("R")
 @Entity
 @Table(name = "recurring")
 @DiscriminatorValue("R")
@@ -25,8 +29,7 @@ public class RecurringRide extends Ride {
     @Column
     private LocalDate ending;
 
-    @JoinTable( name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
-    @JsonManagedReference
+    @JoinTable(name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
     @ManyToMany
     private Set<DayWeek> daysWeek;
 
@@ -62,5 +65,9 @@ public class RecurringRide extends Ride {
         this.beginning = beginning;
         this.ending = ending;
         this.daysWeek = daysWeek;
+    }
+
+    public boolean hasDays(Set<DayWeek> days) {
+        return false;
     }
 }

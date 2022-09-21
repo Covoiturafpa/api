@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-
-
 @Entity
 @DiscriminatorValue("E")
 @Table(name = "employee")

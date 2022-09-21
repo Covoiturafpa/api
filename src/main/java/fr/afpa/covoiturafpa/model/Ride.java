@@ -17,13 +17,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = As.PROPERTY,
+    property = "rideType")
+    @JsonSubTypes({
+        @JsonSubTypes.Type(value = RecurringRide.class, name = "R"),
+        @JsonSubTypes.Type(value = OneTimeRide.class, name = "O")
+    })
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name="ride_type")
 @Table(name = "ride")
-public abstract class Ride {
+public  class Ride {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,6 +135,7 @@ public abstract class Ride {
     public Ride(Destination destination) {
         this.destination = destination;
     }
+
 
     //TODO: methode countFreeSeat
     public int countFreeSeats() {

@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.repository;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,13 @@ public class RideRepositoryImpl implements RideRepositoryCustom{
 
 	@Override
 	public List<Ride> filterRecurringRidesByDays(List<Ride> possibleRides, Set<DayWeek> days) {
-		possibleRides.removeIf(ride -> !(((RecurringRide) ride).getDaysWeek().containsAll(days)));
+		Iterator<Ride> iter = possibleRides.iterator();
+		while (iter.hasNext()) {
+			RecurringRide ride = (RecurringRide) iter.next();
+			if (!ride.getDaysWeek().containsAll(days)) {
+				iter.remove();
+			}
+		}
         return possibleRides;
 	}
     

@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
 @Entity
 @DiscriminatorColumn(name="person_type")
 @Inheritance(strategy = InheritanceType.JOINED)

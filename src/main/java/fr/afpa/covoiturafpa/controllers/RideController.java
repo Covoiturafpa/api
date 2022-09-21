@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.RideRepository;
-import fr.afpa.covoiturafpa.model.City;
 import fr.afpa.covoiturafpa.model.DayWeek;
 import fr.afpa.covoiturafpa.model.Destination;
 import fr.afpa.covoiturafpa.model.OneTimeRide;;
@@ -45,14 +44,14 @@ public class RideController {
     }
 
     public Iterable<Ride> searchRelevantRidesForRecurring(Ride ride) {
-        return rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding()), ((RecurringRide) ride).getDaysWeek());
+        return rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding(), ride.getDestination().getIsFromAfpa()), ((RecurringRide) ride).getDaysWeek());
     }
 
     public Iterable<Ride> searchRelevantRidesForOneTime(Ride ride) {
-        List<Ride> results = rideRepository.findOneTimeRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((OneTimeRide) ride).getDepartureDay());
-        Set<DayWeek> day = new HashSet<DayWeek>();
-        day.add(new DayWeek(((OneTimeRide) ride).getDepartureDay().getDayOfWeek()));
-        results.addAll(rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((RecurringRide) ride).getBeginning(), ((RecurringRide) ride).getEnding()), ((RecurringRide) ride).getDaysWeek()));
+        List<Ride> results = rideRepository.findOneTimeRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((OneTimeRide) ride).getDepartureDay(), ride.getDestination().getIsFromAfpa());
+        Set<DayWeek> days = new HashSet<DayWeek>();
+        days.add(new DayWeek(((OneTimeRide) ride).getDepartureDay().getDayOfWeek()));
+        results.addAll(rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((OneTimeRide) ride).getDepartureDay(), ((OneTimeRide) ride).getDepartureDay(), ride.getDestination().getIsFromAfpa()), days));
         return results;
     }
 
@@ -73,19 +72,19 @@ public class RideController {
 
 
     private String cityName = "La Rochelle";
-    private double latitude = 60;
-    private double longitude = 81;
+    private double latitude = 59.921;
+    private double longitude = 81.134;
     private String departureDay = "2021-12-30";
     private LocalDate departureDate = LocalDate.parse(departureDay); 
     private String departure = "2022-04-30";
     private LocalDate departureend = LocalDate.parse(departure); 
 
 
-    // @CrossOrigin
-    // @GetMapping(value = "/test", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    // @ResponseStatus(HttpStatus.OK)
-    // public List<Ride> getTest(@RequestBody Destination destination) {
-    //     return rideRepository.findRecurringRides(cityName, latitude, longitude, departureDate, departureend);
-    // }
+    @CrossOrigin
+    @GetMapping(value = "/test", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public List<Ride> getTest(@RequestBody Destination destination) {
+        return rideRepository.findRecurringRides(cityName, latitude, longitude, departureDate, departureend, true);
+    }
 
 }
