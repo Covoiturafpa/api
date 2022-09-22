@@ -18,7 +18,7 @@ import fr.afpa.covoiturafpa.utils.Views;
 @DiscriminatorValue("O")
 public class OneTimeRide extends Ride {
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_day")
     private LocalDate departureDay;
 

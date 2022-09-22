@@ -27,7 +27,7 @@ public class Car {
     @Column(name = "id_car")
     private int id;
 
-    @JsonView(value = {Views.SearchRide.class, Views.DetailedUser.class})
+    @JsonView(value = {Views.SimpleRide.class, Views.DetailedUser.class})
     @Column
     private String model;
 
@@ -44,7 +44,7 @@ public class Car {
     @JoinColumn(name = "id_car_type")
     private CarType carType;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name= "id_person")
     private Person person;

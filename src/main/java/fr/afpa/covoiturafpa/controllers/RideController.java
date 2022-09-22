@@ -33,7 +33,7 @@ public class RideController {
     @Autowired
     private RideRepository rideRepository;
     
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @CrossOrigin
     @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)

@@ -25,15 +25,15 @@ import fr.afpa.covoiturafpa.utils.Views;
 @DiscriminatorValue("R")
 public class RecurringRide extends Ride {
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private LocalDate beginning;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private LocalDate ending;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @JoinTable(name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
     @ManyToMany
     private Set<DayWeek> daysWeek;

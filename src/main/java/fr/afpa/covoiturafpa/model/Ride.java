@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import fr.afpa.covoiturafpa.utils.Views;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -40,33 +41,33 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "ride")
 public  class Ride {
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ride")
     private int id;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_time")
     private LocalTime departureTime;
 
     @Column(name = "is_active")
     private boolean isActive;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private String comment;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private int price;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name = "id_destination")
     private Destination destination;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name = "id_car")
     private Car car;
@@ -75,7 +76,7 @@ public  class Ride {
     @OneToMany(mappedBy = "ride")
     private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column(name = "ride_type")
     private String rideType;
 
@@ -151,6 +152,8 @@ public  class Ride {
         this.destination = destination;
     }
 
+    @JsonView(Views.SimpleRide.class)
+    @JsonProperty("freeSeats")
     public int countFreeSeats() {
         return this.car.getSeats() - this.requestedPassengers.size();
     }

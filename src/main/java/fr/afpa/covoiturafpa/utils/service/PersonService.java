@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import fr.afpa.covoiturafpa.model.Employee;
-import fr.afpa.covoiturafpa.model.Trainee;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 

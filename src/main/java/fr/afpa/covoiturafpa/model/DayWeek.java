@@ -23,12 +23,12 @@ import fr.afpa.covoiturafpa.utils.Views;
 @Table(name = "day_week")
 public class DayWeek {
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Id
     @Column(name= "id_day_week")
     private Integer idDayWeek;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Enumerated(EnumType.STRING)
     @Column
     private DayOfWeek name;

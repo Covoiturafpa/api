@@ -20,7 +20,7 @@ public class City {
     @Column(name = "id_city")
     private int id;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private String name;
 

@@ -58,11 +58,11 @@ public abstract class Person implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @JsonView(value = {Views.SearchRide.class, Views.SimpleUser.class})
+    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
     @Column
     private String surname;
 
-    @JsonView(value = {Views.SearchRide.class, Views.SimpleUser.class})
+    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
     @Column(name = "first_name")
     private String firstName;
 

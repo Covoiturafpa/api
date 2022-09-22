@@ -22,19 +22,19 @@ public class Destination {
     @Column(name = "id_destination")
     private int id;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private double latitude;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column
     private double longitude;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @Column(name = "is_from_afpa")
     private boolean isFromAfpa;
 
-    @JsonView(Views.SearchRide.class)
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name = "id_city")
     private City city;

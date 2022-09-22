@@ -61,6 +61,7 @@ public class PersonController {
         return personRepository.findById(id);
     }
 
+    @JsonView(Views.DetailedRide.class)
     @CrossOrigin
     @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
