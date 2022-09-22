@@ -26,9 +26,9 @@ public class Partner {
     @Column(name = "logo_picture_path")
     private String logoPicturePath;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_centre")
-    @JsonBackReference
     private Centre centre;
     
 

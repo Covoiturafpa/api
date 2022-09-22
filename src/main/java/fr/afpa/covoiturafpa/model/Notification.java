@@ -13,7 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -35,7 +37,7 @@ public class Notification {
     @Column(name = "is_unread")
     private boolean isUnread;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="id_person")
     private Person person;
@@ -47,7 +49,7 @@ public class Notification {
     }
     
     //TODO: retrouver les variables
-    @JsonSerialize
+    @JsonProperty("content")
     public String getContent() {
         String content = "";
         switch(this.type) {
@@ -63,10 +65,6 @@ public class Notification {
         }
         return(content);
     }
-
-    // public void setContentString(String contentString) {
-    //     this.contentString = contentString;
-    // }
 
     public int getId() {
         return id;

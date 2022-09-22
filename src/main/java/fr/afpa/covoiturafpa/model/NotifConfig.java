@@ -22,8 +22,8 @@ public class NotifConfig {
     @Column(name = "contact_by_sms")
     private boolean contactBySms;
 
-    @OneToOne(mappedBy = "notifConfig")
     @JsonBackReference
+    @OneToOne(mappedBy = "notifConfig")
     private Centre centre;
 
 

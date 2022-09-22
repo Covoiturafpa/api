@@ -32,8 +32,8 @@ public class RidePassenger {
         FINISHED
     }
 
-    @EmbeddedId
     @JsonIgnore
+    @EmbeddedId
     private RidePassengerId id = new RidePassengerId();
 
     @JsonView(Views.DetailedRide.class)

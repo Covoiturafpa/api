@@ -38,24 +38,24 @@ public class Centre {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @JsonManagedReference
     @OneToOne
     @JoinColumn(name = "id_notif_config", referencedColumnName = "id_notif_config")
-    @JsonManagedReference
     private NotifConfig notifConfig;
 
+    @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
-    @JsonManagedReference
     private Set<DayTimetable> daysTimetable;
 
+    @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
-    @JsonManagedReference
     private Set<Partner> partners;
 
+    @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
-    @JsonManagedReference
     private Set<Formation> formations;
 
 

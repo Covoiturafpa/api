@@ -27,9 +27,9 @@ public class Formation {
     @Column
     private String name;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_centre")
-    @JsonBackReference
     private Centre centre;
     
 

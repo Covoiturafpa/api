@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -54,8 +55,8 @@ public abstract class Person implements UserDetails {
     @Column
     private String email;
 
-    @Column
     @JsonIgnore
+    @Column
     private String password;
 
     @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
@@ -86,6 +87,7 @@ public abstract class Person implements UserDetails {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "person")
     private Set<Notification> notifications;
 
