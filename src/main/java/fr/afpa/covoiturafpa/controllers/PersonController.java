@@ -122,4 +122,10 @@ public class PersonController {
         return personRepository.findById(id);
     }
 
+    @CrossOrigin
+    @GetMapping(value = "/users/username/{username}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Person> getByEmail(@PathVariable(required = true) String username) {
+        return personRepository.findByEmail(username);
+    }
 }

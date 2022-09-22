@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @DiscriminatorColumn(name="person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
-public abstract class Person implements UserDetails {
+public abstract class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -193,38 +193,4 @@ public abstract class Person implements UserDetails {
     public void setUserType(Character userType) {
         this.userType = userType;
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.isActivated;
-    }
-
 }

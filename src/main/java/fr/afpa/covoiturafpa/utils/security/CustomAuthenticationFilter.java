@@ -3,6 +3,9 @@ package fr.afpa.covoiturafpa.utils.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.afpa.covoiturafpa.model.Person;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -71,7 +74,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException {
-        User user = (User)authentication.getPrincipal();
+        CustomUserDetails user = (CustomUserDetails)authentication.getPrincipal();
         String accessToken = JwtUtil.createAccessToken(user.getUsername(), request.getRequestURL().toString(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         // String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
@@ -80,7 +83,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         HashMap<String, String> mapJsonResult = new HashMap<String, String>();
         mapJsonResult.put("accessToken", accessToken);
         mapJsonResult.put("username", user.getUsername());
-
+        mapJsonResult.put("id", String.valueOf(user.getId()));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getOutputStream(), mapJsonResult);
     }

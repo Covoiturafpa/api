@@ -78,7 +78,7 @@ public class Employee extends Person {
     public Employee() {
     }
 
-    @Override
+    /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 
@@ -90,6 +90,6 @@ public class Employee extends Person {
             authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
         }
         return authorities;
-    }
+    }*/
 
 }

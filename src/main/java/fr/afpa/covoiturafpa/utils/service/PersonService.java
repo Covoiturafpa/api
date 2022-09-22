@@ -1,13 +1,15 @@
 package fr.afpa.covoiturafpa.utils.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
+import fr.afpa.covoiturafpa.utils.security.CustomUserDetails;
 
 @Service
 public class PersonService implements UserDetailsService {
@@ -16,16 +18,21 @@ public class PersonService implements UserDetailsService {
     PersonRepository personRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Person> personWithUsername = personRepository.findByEmail(username);
-        org.springframework.security.core.userdetails.User user = null;
+        CustomUserDetails user = null;
         if (personWithUsername.isPresent()) {
             Person foundPerson = personWithUsername.get();
-            user = new org.springframework.security.core.userdetails.User(
+            ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            user = new CustomUserDetails(
+                foundPerson.getId(),
                 foundPerson.getEmail(), 
                 foundPerson.getPassword(), 
-                foundPerson.getAuthorities()
+                foundPerson.getIsActivated(),
+                authorities
             );
+            
             return user;
         }
         else {
