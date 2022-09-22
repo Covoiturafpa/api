@@ -72,7 +72,7 @@ public  class Ride {
     @JoinColumn(name = "id_car")
     private Car car;
 
-    @JsonBackReference
+    @JsonView(Views.DetailedRide.class)
     @OneToMany(mappedBy = "ride")
     private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
 

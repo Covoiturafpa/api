@@ -66,7 +66,7 @@ public abstract class Person implements UserDetails {
     @Column(name = "first_name")
     private String firstName;
 
-    @JsonView(Views.SimpleUser.class)
+    @JsonView(value = {Views.SimpleUser.class, Views.DetailedRide.class})
     @Column(name = "phone_number")
     private String phoneNumber;
 
