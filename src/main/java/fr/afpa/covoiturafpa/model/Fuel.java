@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
+
 @Entity
 @Table(name = "fuel")
 public class Fuel {
@@ -16,6 +20,7 @@ public class Fuel {
     @Column(name = "id_fuel")
     private int id;
 
+    @JsonView(Views.DetailedUser.class)
     @Column
     private String name;
 

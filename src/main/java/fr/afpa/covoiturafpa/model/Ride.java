@@ -75,6 +75,11 @@ public  class Ride {
     @OneToMany(mappedBy = "ride")
     private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
 
+    @JsonView(Views.SearchRide.class)
+    @Column(name = "ride_type")
+    private String rideType;
+
+
     public int getId() {
         return id;
     }

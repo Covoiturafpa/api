@@ -12,17 +12,26 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
+
+@JsonTypeName("T")
 @Entity
 @Table(name = "trainee")
 @DiscriminatorValue("T")
 public class Trainee extends Person {
 
+    @JsonView(Views.DetailedUser.class)
     @Column(name = "start_training")
     private LocalDate startTraining;
 
+    @JsonView(Views.DetailedUser.class)
     @Column(name = "end_training")
     private LocalDate endTraining;
 
+    @JsonView(Views.SimpleUser.class)
     @ManyToOne
     @JoinColumn(name = "id_formation")
     private Formation formation;

@@ -20,14 +20,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.CarRepository;
-import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.Views;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 
 @RestController
@@ -42,16 +44,21 @@ public class PersonController {
     @Autowired
     private CarRepository carRepository;
 
-    @Autowired
-    private NotificationRepository notificationRepository;
 
-
-
+    @JsonView(Views.SimpleUser.class)
     @CrossOrigin
     @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Person> list() {
         return personRepository.findAll();
+    }
+
+    @JsonView(Views.DetailedUser.class)
+    @CrossOrigin
+    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Person> get(@PathVariable(required = true) Integer id) {
+        return personRepository.findById(id);
     }
 
     @CrossOrigin
@@ -72,6 +79,7 @@ public class PersonController {
         }
         return null;
     }
+
 
     // TODO: POST
     @CrossOrigin
@@ -119,11 +127,4 @@ public class PersonController {
         return null;
     }
     
-    @CrossOrigin
-    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public List<Optional<Notification>> get(@PathVariable(required = true) Integer id) {
-        return notificationRepository.findByPerson(personRepository.findById(id).get());
-    }
-
 }
