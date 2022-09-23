@@ -1,16 +1,11 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
 
@@ -77,19 +72,4 @@ public class Employee extends Person {
 
     public Employee() {
     }
-
-    /*@Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        if (this.isAdmin) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-        if (this.isTeacher) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
-        }
-        return authorities;
-    }*/
-
 }

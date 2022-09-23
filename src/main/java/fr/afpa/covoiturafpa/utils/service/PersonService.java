@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import fr.afpa.covoiturafpa.model.Employee;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.utils.security.CustomUserDetails;
@@ -25,6 +27,14 @@ public class PersonService implements UserDetailsService {
             Person foundPerson = personWithUsername.get();
             ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            if (foundPerson instanceof Employee) {
+                if (((Employee)foundPerson).getIsAdmin()) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                }
+                if (((Employee)foundPerson).getIsTeacher()) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+                }
+            }
             user = new CustomUserDetails(
                 foundPerson.getId(),
                 foundPerson.getEmail(), 
