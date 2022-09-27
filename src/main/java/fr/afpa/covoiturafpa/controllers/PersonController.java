@@ -25,9 +25,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Ride;
-import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.CarRepository;
+import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 import fr.afpa.covoiturafpa.utils.Views;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
@@ -43,6 +43,9 @@ public class PersonController {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
 
     @JsonView(Views.SimpleUser.class)
@@ -81,6 +84,12 @@ public class PersonController {
         return null;
     }
 
+    @CrossOrigin
+    @PutMapping(value = "/users/{id}/notiications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Set<Notification> setAsReadNotifications(@PathVariable(required = true) int id) {
+        return notificationRepository.updateAllUnreadByPerson(id);
+    }
 
     // TODO: POST
     @CrossOrigin
