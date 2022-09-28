@@ -39,7 +39,8 @@ CREATE TYPE "covoiturafpa".day_name AS ENUM (
 CREATE TYPE "covoiturafpa".notification_type AS ENUM (
     'NEW_RESERVATION',
     'ACCEPTED_RESERVATION',
-    'REJECTED_RESERVATION'
+    'REJECTED_RESERVATION',
+    'NEW_TRAINEE'
 );
 
 
@@ -456,7 +457,9 @@ CREATE TABLE "covoiturafpa".notification (
     type "covoiturafpa".notification_type,
     created_time timestamp without time zone,
     is_unread boolean,
-    id_person integer NOT NULL
+    id_person integer NOT NULL,
+    content varchar ;
+
 );
 
 

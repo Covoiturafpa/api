@@ -14,9 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "notification")
@@ -46,6 +44,7 @@ public class Notification {
         NEW_RESERVATION,
         REJECTED_RESERVATION,
         ACCEPTED_RESERVATION,
+        NEW_TRAINEE
     }
     
     //TODO: retrouver les variables
@@ -54,13 +53,16 @@ public class Notification {
         String content = "";
         switch(this.type) {
             case NEW_RESERVATION:
-                content = "Bonjour, " + this.type + " est intéressé.e par votre trajet " + this.type + ". Vous pouvez l’appeler au " + this.type + " pour vous organiser.";
+                content = "François M." + " est intéressé.e par votre trajet " + "Poitiers -> AFPA" + ". Vous pouvez l’appeler au " + "06.05.04.03.02" + " pour vous organiser.";
                 break;
             case REJECTED_RESERVATION:
-                content = "Bonjour, malheureusement " + this.type + " n’a pas accepté votre demande de trajet. D’autres sont sûrement disponibles !";
+                content = "Jacques C." + " n’a pas accepté votre demande de trajet. D’autres sont sûrement disponibles !";
                 break;
             case ACCEPTED_RESERVATION:
-                content = "Bonjour, " + this.type + " vient d’accepter votre demande de trajet. Bon covoiturage !";
+                content = "Nicolas S." + " vient d’accepter votre demande de trajet. Bon covoiturage !";
+                break;
+            case NEW_TRAINEE:
+                content = "François H." + " en " + "Maçonnerie" + " a créé un compte.";
                 break;
         }
         return(content);
