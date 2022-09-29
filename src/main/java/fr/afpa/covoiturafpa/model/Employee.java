@@ -43,7 +43,7 @@ public class Employee extends Person {
     }
 
     public boolean getIsTeacher() {
-        return isAdmin;
+        return isTeacher;
     }
 
     public void setIsAdmin(boolean isAdmin) {
