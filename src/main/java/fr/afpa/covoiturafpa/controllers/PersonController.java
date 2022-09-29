@@ -1,9 +1,13 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.util.Base64;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
@@ -15,10 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.nimbusds.jose.Header;
 
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
@@ -29,6 +35,8 @@ import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.security.CustomUsernamePasswordAuthenticationToken;
+import fr.afpa.covoiturafpa.utils.security.JwtUtil;
 
 @RestController
 public class PersonController {
@@ -67,8 +75,19 @@ public class PersonController {
     @CrossOrigin
     @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Ride> getRidesOfPerson(@PathVariable(required = true) Integer id) {
-        return rideRepository.findRidesOfPerson(id);
+    public Iterable<Ride> getRidesOfPerson(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) Integer id) {
+        String[] tokenArray = headerAuthorization.split(" ");
+        try {
+            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+            System.out.println(userAuthentication.getIdUser());
+            if (userAuthentication.getIdUser().equals(id)) {
+                return rideRepository.findRidesOfPerson(id);
+            }
+        }catch(Exception e) {
+            Logger logger = LoggerFactory.getLogger(PersonController.class);
+            logger.error("Erreur lors de la conception de la réponse JSon" + e);
+        }
+        return null;
     }
 
     @CrossOrigin

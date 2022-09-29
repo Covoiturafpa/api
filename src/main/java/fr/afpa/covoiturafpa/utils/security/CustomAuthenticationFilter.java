@@ -73,7 +73,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException {
         CustomUserDetails user = (CustomUserDetails)authentication.getPrincipal();
-        String accessToken = JwtUtil.createAccessToken(user.getUsername(), request.getRequestURL().toString(),
+        String accessToken = JwtUtil.createAccessToken(user.getUsername(), user.getId(), request.getRequestURL().toString(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         // String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
         // response.addHeader("access_token", accessToken);

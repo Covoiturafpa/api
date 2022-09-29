@@ -43,7 +43,7 @@ public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
-    private int id;
+    private Integer id;
 
     @JsonView(Views.SimpleUser.class)
     @Column
@@ -106,11 +106,11 @@ public abstract class Person {
         this.personType = personType;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
