@@ -82,4 +82,13 @@ public class Destination {
 
     public Destination() {
     }
+
+    public String getTravel() {
+        if (this.isFromAfpa) {
+            return "AFPA -> " + this.city.getName();
+        }
+        else {
+            return this.city.getName() + " -> AFPA";
+        }
+    }
 }

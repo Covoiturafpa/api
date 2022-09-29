@@ -38,6 +38,9 @@ public class Centre {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "contact_by_sms")
+    private boolean contactBySms;
+
     @JsonManagedReference
     @OneToOne
     @JoinColumn(name = "id_notif_config", referencedColumnName = "id_notif_config")

@@ -30,10 +30,13 @@ public class Notification {
     private TypeNotif type;
     
     @Column(name = "created_time")
-    private LocalDateTime createdTime;
+    private LocalDateTime createdTime = LocalDateTime.now();
 
     @Column(name = "is_unread")
-    private boolean isUnread;
+    private boolean isUnread = true;
+
+    @Column
+    private String content;
 
     @JsonBackReference
     @ManyToOne
@@ -44,28 +47,18 @@ public class Notification {
         NEW_RESERVATION,
         REJECTED_RESERVATION,
         ACCEPTED_RESERVATION,
-        NEW_TRAINEE
+        NEW_TRAINEE,
+        NEW_EMPLOYEE
     }
     
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     //TODO: retrouver les variables
     @JsonProperty("content")
     public String getContent() {
-        String content = "";
-        switch(this.type) {
-            case NEW_RESERVATION:
-                content = "François M." + " est intéressé.e par votre trajet " + "Poitiers -> AFPA" + ". Vous pouvez l’appeler au " + "06.05.04.03.02" + " pour vous organiser.";
-                break;
-            case REJECTED_RESERVATION:
-                content = "Jacques C." + " n’a pas accepté votre demande de trajet. D’autres sont sûrement disponibles !";
-                break;
-            case ACCEPTED_RESERVATION:
-                content = "Nicolas S." + " vient d’accepter votre demande de trajet. Bon covoiturage !";
-                break;
-            case NEW_TRAINEE:
-                content = "François H." + " en " + "Maçonnerie" + " a créé un compte.";
-                break;
-        }
-        return(content);
+        return this.content;
     }
 
     public int getId() {
@@ -100,14 +93,19 @@ public class Notification {
         this.isUnread = isUnread;
     }
 
-    public Notification() {
-    }
-
     public Person getPerson() {
-        return person;
+    return person;
     }
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Notification() {
+    }
+
+    public Notification(TypeNotif type, String content) {
+        this.type = type;
+        this.content = content;
     }
 }

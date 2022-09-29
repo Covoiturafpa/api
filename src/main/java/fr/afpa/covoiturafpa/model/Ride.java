@@ -161,4 +161,8 @@ public  class Ride {
     public float calculateCost() {
         return 0;
     }
+
+    public Person getDriver() {
+        return this.car.getPerson();
+    }
 }

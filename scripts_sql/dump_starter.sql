@@ -40,7 +40,8 @@ CREATE TYPE "covoiturafpa".notification_type AS ENUM (
     'NEW_RESERVATION',
     'ACCEPTED_RESERVATION',
     'REJECTED_RESERVATION',
-    'NEW_TRAINEE'
+    'NEW_TRAINEE',
+    'NEW_EMPLOYEE'
 );
 
 
@@ -146,7 +147,7 @@ CREATE TABLE "covoiturafpa".centre (
     latitude double precision,
     longitude double precision,
     phone_number character varying(20),
-    id_notif_config integer NOT NULL
+    contact_by_sms boolean
 );
 
 
@@ -412,39 +413,6 @@ CREATE TABLE "covoiturafpa".happen (
     id_day_week integer NOT NULL
 );
 
-
---
--- TOC entry 231 (class 1259 OID 17589)
--- Name: notif_config; Type: TABLE; Schema: covoiturafpa; Owner: -
---
-
-CREATE TABLE "covoiturafpa".notif_config (
-    id_notif_config integer NOT NULL,
-    contact_by_sms boolean
-);
-
-
---
--- TOC entry 230 (class 1259 OID 17588)
--- Name: notif_config_id_notif_config_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: -
---
-
-CREATE SEQUENCE "covoiturafpa".notif_config_id_notif_config_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3591 (class 0 OID 0)
--- Dependencies: 230
--- Name: notif_config_id_notif_config_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: -
---
-
-ALTER SEQUENCE "covoiturafpa".notif_config_id_notif_config_seq OWNED BY "covoiturafpa".notif_config.id_notif_config;
 
 
 --
@@ -729,13 +697,6 @@ ALTER TABLE ONLY "covoiturafpa".formation ALTER COLUMN id_formation SET DEFAULT 
 ALTER TABLE ONLY "covoiturafpa".fuel ALTER COLUMN id_fuel SET DEFAULT nextval('"covoiturafpa".fuel_id_fuel_seq'::regclass);
 
 
---
--- TOC entry 3327 (class 2604 OID 17592)
--- Name: notif_config id_notif_config; Type: DEFAULT; Schema: covoiturafpa; Owner: -
---
-
-ALTER TABLE ONLY "covoiturafpa".notif_config ALTER COLUMN id_notif_config SET DEFAULT nextval('"covoiturafpa".notif_config_id_notif_config_seq'::regclass);
-
 
 --
 -- TOC entry 3329 (class 2604 OID 17606)
@@ -839,14 +800,6 @@ INSERT INTO "covoiturafpa".fuel VALUES (4, ' ELECTRIQUE', 0.17);
 INSERT INTO "covoiturafpa".fuel VALUES (5, 'GPL', 0.87);
 
 
---
--- TOC entry 3545 (class 0 OID 17589)
--- Dependencies: 231
--- Data for Name: notif_config; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
---
-
-INSERT INTO "covoiturafpa".notif_config VALUES (1, false);
-
 
 --
 -- TOC entry 3596 (class 0 OID 0)
@@ -929,14 +882,6 @@ SELECT pg_catalog.setval('"covoiturafpa".formation_id_formation_seq', 1, false);
 SELECT pg_catalog.setval('"covoiturafpa".fuel_id_fuel_seq', 1, false);
 
 
---
--- TOC entry 3605 (class 0 OID 0)
--- Dependencies: 230
--- Name: notif_config_id_notif_config_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: -
---
-
-SELECT pg_catalog.setval('"covoiturafpa".notif_config_id_notif_config_seq', 1, false);
-
 
 --
 -- TOC entry 3606 (class 0 OID 0)
@@ -991,14 +936,6 @@ ALTER TABLE ONLY "covoiturafpa".car
 ALTER TABLE ONLY "covoiturafpa".car_type
     ADD CONSTRAINT car_type_pkey PRIMARY KEY (id_car_type);
 
-
---
--- TOC entry 3357 (class 2606 OID 17665)
--- Name: centre centre_id_notif_config_key; Type: CONSTRAINT; Schema: covoiturafpa; Owner: -
---
-
-ALTER TABLE ONLY "covoiturafpa".centre
-    ADD CONSTRAINT centre_id_notif_config_key UNIQUE (id_notif_config);
 
 
 --
@@ -1081,14 +1018,6 @@ ALTER TABLE ONLY "covoiturafpa".fuel
 ALTER TABLE ONLY "covoiturafpa".happen
     ADD CONSTRAINT happen_pkey PRIMARY KEY (id_ride, id_day_week);
 
-
---
--- TOC entry 3343 (class 2606 OID 17594)
--- Name: notif_config notif_config_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: -
---
-
-ALTER TABLE ONLY "covoiturafpa".notif_config
-    ADD CONSTRAINT notif_config_pkey PRIMARY KEY (id_notif_config);
 
 
 --
@@ -1190,18 +1119,8 @@ ALTER TABLE ONLY "covoiturafpa".car
 --
 
 ALTER TABLE ONLY "covoiturafpa".car_type
-    ADD CONSTRAINT car_type_id_fuel_fkey FOREIGN KEY (id_fuel) REFERENCES "covoiturafpa
-".fuel(id_fuel);
+    ADD CONSTRAINT car_type_id_fuel_fkey FOREIGN KEY (id_fuel) REFERENCES "covoiturafpa".fuel(id_fuel);
 
-
---
--- TOC entry 3386 (class 2606 OID 17666)
--- Name: centre centre_id_notif_config_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: -
---
-
-ALTER TABLE ONLY "covoiturafpa".centre
-    ADD CONSTRAINT centre_id_notif_config_fkey FOREIGN KEY (id_notif_config) REFERENCES "covoiturafpa
-".notif_config(id_notif_config);
 
 
 --
@@ -1210,8 +1129,7 @@ ALTER TABLE ONLY "covoiturafpa".centre
 --
 
 ALTER TABLE ONLY "covoiturafpa".day_timetable
-    ADD CONSTRAINT day_timetable_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT day_timetable_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1220,8 +1138,7 @@ ALTER TABLE ONLY "covoiturafpa".day_timetable
 --
 
 ALTER TABLE ONLY "covoiturafpa".destination
-    ADD CONSTRAINT destination_id_city_fkey FOREIGN KEY (id_city) REFERENCES "covoiturafpa
-".city(id_city);
+    ADD CONSTRAINT destination_id_city_fkey FOREIGN KEY (id_city) REFERENCES "covoiturafpa".city(id_city);
 
 
 --
@@ -1230,8 +1147,7 @@ ALTER TABLE ONLY "covoiturafpa".destination
 --
 
 ALTER TABLE ONLY "covoiturafpa".employee
-    ADD CONSTRAINT employee_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT employee_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1240,8 +1156,7 @@ ALTER TABLE ONLY "covoiturafpa".employee
 --
 
 ALTER TABLE ONLY "covoiturafpa".employee
-    ADD CONSTRAINT employee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT employee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1250,8 +1165,7 @@ ALTER TABLE ONLY "covoiturafpa".employee
 --
 
 ALTER TABLE ONLY "covoiturafpa".formation
-    ADD CONSTRAINT formation_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT formation_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1260,8 +1174,7 @@ ALTER TABLE ONLY "covoiturafpa".formation
 --
 
 ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES "covoiturafpa
-".day_week(id_day_week);
+    ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES "covoiturafpa".day_week(id_day_week);
 
 
 --
@@ -1270,8 +1183,7 @@ ALTER TABLE ONLY "covoiturafpa".happen
 --
 
 ALTER TABLE ONLY "covoiturafpa".happen
-    ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".recurring(id_ride);
+    ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".recurring(id_ride);
 
 
 --
@@ -1280,8 +1192,7 @@ ALTER TABLE ONLY "covoiturafpa".happen
 --
 
 ALTER TABLE ONLY "covoiturafpa".notification
-    ADD CONSTRAINT notification_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT notification_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1290,8 +1201,7 @@ ALTER TABLE ONLY "covoiturafpa".notification
 --
 
 ALTER TABLE ONLY "covoiturafpa".one_time
-    ADD CONSTRAINT one_time_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".ride(id_ride);
+    ADD CONSTRAINT one_time_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".ride(id_ride);
 
 
 --
@@ -1300,8 +1210,7 @@ ALTER TABLE ONLY "covoiturafpa".one_time
 --
 
 ALTER TABLE ONLY "covoiturafpa".partner
-    ADD CONSTRAINT partner_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa
-".centre(id_centre);
+    ADD CONSTRAINT partner_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES "covoiturafpa".centre(id_centre);
 
 
 --
@@ -1310,8 +1219,7 @@ ALTER TABLE ONLY "covoiturafpa".partner
 --
 
 ALTER TABLE ONLY "covoiturafpa".recurring
-    ADD CONSTRAINT recurring_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".ride(id_ride);
+    ADD CONSTRAINT recurring_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".ride(id_ride);
 
 
 --
@@ -1320,8 +1228,7 @@ ALTER TABLE ONLY "covoiturafpa".recurring
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride
-    ADD CONSTRAINT ride_id_car_fkey FOREIGN KEY (id_car) REFERENCES "covoiturafpa
-".car(id_car);
+    ADD CONSTRAINT ride_id_car_fkey FOREIGN KEY (id_car) REFERENCES "covoiturafpa".car(id_car);
 
 
 --
@@ -1330,8 +1237,7 @@ ALTER TABLE ONLY "covoiturafpa".ride
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride
-    ADD CONSTRAINT ride_id_destination_fkey FOREIGN KEY (id_destination) REFERENCES "covoiturafpa
-".destination(id_destination);
+    ADD CONSTRAINT ride_id_destination_fkey FOREIGN KEY (id_destination) REFERENCES "covoiturafpa".destination(id_destination);
 
 
 --
@@ -1340,8 +1246,7 @@ ALTER TABLE ONLY "covoiturafpa".ride
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride_passenger
-    ADD CONSTRAINT ride_passenger_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT ride_passenger_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 --
@@ -1350,8 +1255,7 @@ ALTER TABLE ONLY "covoiturafpa".ride_passenger
 --
 
 ALTER TABLE ONLY "covoiturafpa".ride_passenger
-    ADD CONSTRAINT ride_passenger_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa
-".ride(id_ride);
+    ADD CONSTRAINT ride_passenger_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES "covoiturafpa".ride(id_ride);
 
 
 --
@@ -1360,8 +1264,7 @@ ALTER TABLE ONLY "covoiturafpa".ride_passenger
 --
 
 ALTER TABLE ONLY "covoiturafpa".trainee
-    ADD CONSTRAINT trainee_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES "covoiturafpa
-".formation(id_formation);
+    ADD CONSTRAINT trainee_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES "covoiturafpa".formation(id_formation);
 
 
 --
@@ -1370,8 +1273,7 @@ ALTER TABLE ONLY "covoiturafpa".trainee
 --
 
 ALTER TABLE ONLY "covoiturafpa".trainee
-    ADD CONSTRAINT trainee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa
-".person(id_person);
+    ADD CONSTRAINT trainee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
 -- Completed on 2022-09-07 16:01:13

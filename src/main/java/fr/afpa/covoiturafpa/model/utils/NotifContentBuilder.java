@@ -1,5 +1,29 @@
 package fr.afpa.covoiturafpa.model.utils;
 
+import fr.afpa.covoiturafpa.model.Employee;
+import fr.afpa.covoiturafpa.model.Person;
+import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.Trainee;
+
 public class NotifContentBuilder {
-    
+
+    public static String createNewEmployeeContent(Employee employee) {
+        return employee.getShowedName() + " en " + employee.getRole() + " a créé un compte.";
+    }
+
+    public static String createNewTraineeContent(Trainee trainee) {
+        return trainee.getShowedName() + " en " + trainee.getFormation().getName() + " a créé un compte.";
+    }
+
+    public static String createNewReservationContent(Person person, Ride ride) {
+        return person.getShowedName() + " est intéressé.e par votre trajet " + ride.getDestination().getTravel() + ". Vous pouvez l’appeler au " + person.getPhoneNumber() + " pour vous organiser.";
+    }
+
+    public static String createAcceptedReservationContent(Ride ride) {
+        return ride.getDriver().getShowedName() + " vient d’accepter votre demande de trajet. Bon covoiturage !";
+    }
+
+    public static String createRejectedReservationContent(Ride ride) {
+        return ride.getDriver().getShowedName() + " n’a pas accepté votre demande de trajet. D’autres sont sûrement disponibles !";
+    }
 }

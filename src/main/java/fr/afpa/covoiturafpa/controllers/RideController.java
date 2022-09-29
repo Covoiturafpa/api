@@ -22,6 +22,7 @@ import fr.afpa.covoiturafpa.model.OneTimeRide;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.utils.Views;
+import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 
 @RestController
@@ -29,6 +30,9 @@ public class RideController {
 
     @Autowired
     private RideRepository rideRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
     
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin

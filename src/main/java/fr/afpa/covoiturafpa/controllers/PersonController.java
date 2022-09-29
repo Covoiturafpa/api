@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,7 +69,13 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Ride> getRidesOfPerson(@PathVariable(required = true) Integer id) {
         return rideRepository.findRidesOfPerson(id);
+    }
 
+    @CrossOrigin
+    @PutMapping(value = "/users/{idDriver}/rides/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public void acceptReservation(@PathVariable(required = true) Integer idRide, @RequestParam(required = true) Integer id) {
+        //TODO: reservation
     }
 
     @CrossOrigin
@@ -83,7 +90,7 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/users/{id}/notiications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Set<Notification> setAsReadNotifications(@PathVariable(required = true) int id) {
         return notificationRepository.updateAllUnreadByPerson(id);
