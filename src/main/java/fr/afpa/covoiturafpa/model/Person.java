@@ -18,61 +18,93 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
+import fr.afpa.covoiturafpa.utils.Views;
 
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = As.PROPERTY,
+    property = "personType")
+    @JsonSubTypes({
+        @JsonSubTypes.Type(value = Employee.class, name = "E"),
+        @JsonSubTypes.Type(value = Trainee.class, name = "T")
+    })
 @Entity
 @DiscriminatorColumn(name="person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
 public abstract class Person {
 
+    @JsonView(Views.SimpleUser.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
     private int id;
 
+    @JsonView(Views.SimpleUser.class)
     @Column
     private String email;
 
-    @Column
     @JsonIgnore
+    @Column
     private String password;
 
+    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
     @Column
     private String surname;
 
+    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
     @Column(name = "first_name")
     private String firstName;
 
+    @JsonView(value = {Views.SimpleUser.class, Views.DetailedRide.class})
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @JsonView(Views.SimpleUser.class)
     @Column(name = "is_activated")
     private boolean isActivated;
 
+    @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_sms")
     private boolean contactBySms;
 
+    @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_mail")
     private boolean contactByMail;
 
+    @JsonView(Views.SimpleUser.class)
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
-
-    @Column(name="person_type")
-    private Character userType;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "person")
     private Set<Notification> notifications;
 
-    @JsonManagedReference
+    @JsonView(Views.DetailedUser.class)
     @OneToMany(mappedBy = "person")
     private Set<Car> cars;
 
     @JsonBackReference
     @OneToMany(mappedBy = "person")
     private Set<RidePassenger> rides = new HashSet<RidePassenger>();
+
+    @JsonView(Views.SimpleUser.class)
+    @Column(name = "person_type")
+    private String personType;
+
+
+    public String getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(String personType) {
+        this.personType = personType;
+    }
 
     public int getId() {
         return id;
@@ -180,11 +212,4 @@ public abstract class Person {
     public Person() {
     }
 
-    public Character getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Character userType) {
-        this.userType = userType;
-    }
 }

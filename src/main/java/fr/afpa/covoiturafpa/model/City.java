@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 @Entity
 @Table(name = "city")
@@ -17,6 +20,7 @@ public class City {
     @Column(name = "id_city")
     private int id;
 
+    @JsonView(Views.SimpleRide.class)
     @Column
     private String name;
 

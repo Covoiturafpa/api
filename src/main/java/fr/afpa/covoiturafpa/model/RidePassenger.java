@@ -18,6 +18,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 @Entity
 @Table(name = "ride_passenger")
@@ -29,10 +32,11 @@ public class RidePassenger {
         FINISHED
     }
 
-    @EmbeddedId
     @JsonIgnore
+    @EmbeddedId
     private RidePassengerId id = new RidePassengerId();
 
+    @JsonView(Views.DetailedRide.class)
     @ManyToOne
     @MapsId("idPerson")
     @JoinColumn(name="id_person")
@@ -41,12 +45,13 @@ public class RidePassenger {
     @ManyToOne
     @MapsId("idRide")
     @JoinColumn(name="id_ride")
-    @JsonBackReference
     private Ride ride;
 
+    @JsonView(Views.DetailedRide.class)
     @Column(name = "is_driver")
     private Boolean isDriver;
 
+    @JsonView(Views.DetailedRide.class)
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status statusType;

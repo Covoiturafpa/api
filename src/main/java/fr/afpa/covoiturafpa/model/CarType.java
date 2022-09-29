@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 @Entity
 @Table(name = "car_type")
@@ -21,6 +24,7 @@ public class CarType {
     @Column(name = "id_car_type")
     private int id;
 
+    @JsonView(Views.DetailedUser.class)
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
     private CarTypeName name;
@@ -28,6 +32,7 @@ public class CarType {
     @Column(name = "avg_fuel_consumption")
     private float avgFuelConsumption;
 
+    @JsonView(Views.DetailedUser.class)
     @ManyToOne
     @JoinColumn(name = "id_fuel")
     private Fuel fuel;

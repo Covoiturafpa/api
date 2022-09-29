@@ -10,31 +10,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import fr.afpa.covoiturafpa.utils.Views;
 
 
 @Entity
 @Table(name = "car")
 public class Car {
 
+    @JsonView(Views.DetailedUser.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_car")
     private int id;
 
+    @JsonView(value = {Views.SimpleRide.class, Views.DetailedUser.class})
     @Column
     private String model;
 
+    @JsonView(Views.DetailedUser.class)
     @Column
     private int seats;
 
+    @JsonView(Views.DetailedUser.class)
     @Column(name = "avg_fuel_consumption")
     private float avgFuelConsumption;
 
+    @JsonView(Views.DetailedUser.class)
     @ManyToOne
     @JoinColumn(name = "id_car_type")
     private CarType carType;
 
-    @JsonBackReference(value="user")
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name= "id_person")
     private Person person;

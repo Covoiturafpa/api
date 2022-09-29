@@ -1,5 +1,10 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+
+import java.lang.StackWalker.Option;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,12 +22,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
+import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
+import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.Views;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 
@@ -41,6 +51,8 @@ public class PersonController {
     @Autowired
     private NotificationRepository notificationRepository;
 
+
+    @JsonView(Views.SimpleUser.class)
     @CrossOrigin
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
     @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -49,6 +61,15 @@ public class PersonController {
         return personRepository.findAll();
     }
 
+    @JsonView(Views.DetailedUser.class)
+    @CrossOrigin
+    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Person> get(@PathVariable(required = true) Integer id) {
+        return personRepository.findById(id);
+    }
+
+    @JsonView(Views.DetailedRide.class)
     @CrossOrigin
     @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
@@ -66,6 +87,13 @@ public class PersonController {
             return person.get().getNotifications();
         }
         return null;
+    }
+
+    @CrossOrigin
+    @PutMapping(value = "/users/{id}/notiications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Set<Notification> setAsReadNotifications(@PathVariable(required = true) int id) {
+        return notificationRepository.updateAllUnreadByPerson(id);
     }
 
     // TODO: POST
@@ -114,16 +142,6 @@ public class PersonController {
         return null;
     }
     
-
-
-    // TODO: {id}/notifications
-    @CrossOrigin
-    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<Person> get(@PathVariable(required = true) Integer id) {
-        return personRepository.findById(id);
-    }
-
     @CrossOrigin
     @GetMapping(value = "/users/username/{username}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)

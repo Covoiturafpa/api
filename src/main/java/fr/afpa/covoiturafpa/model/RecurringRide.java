@@ -11,22 +11,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import fr.afpa.covoiturafpa.utils.Views;
 
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonTypeName("R")
 @Entity
 @Table(name = "recurring")
 @DiscriminatorValue("R")
 public class RecurringRide extends Ride {
 
+    @JsonView(Views.SimpleRide.class)
     @Column
     private LocalDate beginning;
 
+    @JsonView(Views.SimpleRide.class)
     @Column
     private LocalDate ending;
 
-    @JoinTable( name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
-    @JsonManagedReference
+    @JsonView(Views.SimpleRide.class)
+    @JoinTable(name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
     @ManyToMany
     private Set<DayWeek> daysWeek;
 
@@ -55,5 +63,16 @@ public class RecurringRide extends Ride {
     }
 
     public RecurringRide() {
+    }
+
+    public RecurringRide(Destination destination, LocalDate beginning, LocalDate ending, Set<DayWeek> daysWeek) {
+        super(destination);
+        this.beginning = beginning;
+        this.ending = ending;
+        this.daysWeek = daysWeek;
+    }
+
+    public boolean hasDays(Set<DayWeek> days) {
+        return false;
     }
 }

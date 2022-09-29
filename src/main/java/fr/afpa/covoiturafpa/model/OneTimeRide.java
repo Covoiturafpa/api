@@ -7,12 +7,18 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import fr.afpa.covoiturafpa.utils.Views;
+
+@JsonTypeName("O")
 @Entity
 @Table(name = "one_time")
 @DiscriminatorValue("O")
 public class OneTimeRide extends Ride {
 
+    @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_day")
     private LocalDate departureDay;
 

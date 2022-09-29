@@ -17,42 +17,69 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
+import fr.afpa.covoiturafpa.utils.Views;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = As.PROPERTY,
+    property = "rideType")
+    @JsonSubTypes({
+        @JsonSubTypes.Type(value = RecurringRide.class, name = "R"),
+        @JsonSubTypes.Type(value = OneTimeRide.class, name = "O")
+    })
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name="ride_type")
 @Table(name = "ride")
-public abstract class Ride {
+public  class Ride {
 
+    @JsonView(Views.SimpleRide.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ride")
     private int id;
 
+    @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_time")
     private LocalTime departureTime;
 
     @Column(name = "is_active")
     private boolean isActive;
 
+    @JsonView(Views.SimpleRide.class)
     @Column
     private String comment;
 
+    @JsonView(Views.SimpleRide.class)
     @Column
     private int price;
 
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name = "id_destination")
     private Destination destination;
 
+    @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name = "id_car")
     private Car car;
 
-    @JsonBackReference
+    @JsonView(Views.DetailedRide.class)
     @OneToMany(mappedBy = "ride")
     private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
+
+    @JsonView(Views.SimpleRide.class)
+    @Column(name = "ride_type")
+    private String rideType;
+
 
     public int getId() {
         return id;
@@ -110,21 +137,29 @@ public abstract class Ride {
         this.car = car;
     }
 
-    public Set<RidePassenger> getPossiblePassengers() {
+    public Set<RidePassenger> getRequestedPassengers() {
         return requestedPassengers;
     }
 
-    public void setPossiblePassengers(Set<RidePassenger> passengers) {
+    public void setRequestedPassengers(Set<RidePassenger> passengers) {
         this.requestedPassengers = passengers;
     }
 
     public Ride() {
     }
 
-    //TODO: methode countFreeSeat
-    public int countFreeSeats() {
-        return 0;
+    public Ride(Destination destination) {
+        this.destination = destination;
     }
 
-    //TODO: methode cout trajet
+    @JsonView(Views.SimpleRide.class)
+    @JsonProperty("freeSeats")
+    public int countFreeSeats() {
+        return this.car.getSeats() - this.requestedPassengers.size();
+    }
+
+    //TODO: methode cout trajet (distance?)
+    public float calculateCost() {
+        return 0;
+    }
 }

@@ -10,7 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import fr.afpa.covoiturafpa.utils.Views;
 
 @Entity
 @Table(name = "formation")
@@ -21,12 +23,13 @@ public class Formation {
     @Column(name = "id_formation")
     private int id;
     
+    @JsonView(Views.SimpleUser.class)
     @Column
     private String name;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_centre")
-    @JsonBackReference
     private Centre centre;
     
 

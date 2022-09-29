@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
 @Entity
 @Table(name = "notif_config")
 public class NotifConfig {
@@ -23,8 +22,8 @@ public class NotifConfig {
     @Column(name = "contact_by_sms")
     private boolean contactBySms;
 
-    @OneToOne(mappedBy = "notifConfig")
     @JsonBackReference
+    @OneToOne(mappedBy = "notifConfig")
     private Centre centre;
 
 
