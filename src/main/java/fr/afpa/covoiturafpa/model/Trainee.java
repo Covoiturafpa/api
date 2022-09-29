@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import fr.afpa.covoiturafpa.utils.Views;
+import fr.afpa.covoiturafpa.model.utils.Views;
 
 @JsonTypeName("T")
 @Entity

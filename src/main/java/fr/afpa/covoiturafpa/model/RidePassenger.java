@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import fr.afpa.covoiturafpa.utils.Views;
+import fr.afpa.covoiturafpa.model.utils.Views;
 
 @Entity
 @Table(name = "ride_passenger")

@@ -21,9 +21,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonView;
 
-import fr.afpa.covoiturafpa.utils.Views;
+import fr.afpa.covoiturafpa.model.utils.Views;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
