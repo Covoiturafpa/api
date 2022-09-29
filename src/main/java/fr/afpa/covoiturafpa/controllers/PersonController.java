@@ -34,7 +34,6 @@ import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
-import fr.afpa.covoiturafpa.utils.Views;
 import fr.afpa.covoiturafpa.utils.security.CustomUsernamePasswordAuthenticationToken;
 import fr.afpa.covoiturafpa.utils.security.JwtUtil;
 
