@@ -1,10 +1,5 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
-
-import java.lang.StackWalker.Option;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,15 +21,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
-import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
-import fr.afpa.covoiturafpa.repository.RideRepository;
-import fr.afpa.covoiturafpa.utils.Views;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.Views;
 
 @RestController
 public class PersonController {

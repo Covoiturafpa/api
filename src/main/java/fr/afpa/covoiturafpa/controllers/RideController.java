@@ -1,14 +1,12 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import org.springframework.http.MediaType;
-
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import fr.afpa.covoiturafpa.model.DayWeek;
+import fr.afpa.covoiturafpa.model.OneTimeRide;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 import fr.afpa.covoiturafpa.utils.Views;
-import fr.afpa.covoiturafpa.model.DayWeek;
-import fr.afpa.covoiturafpa.model.Destination;
-import fr.afpa.covoiturafpa.model.OneTimeRide;;
 
 @RestController
 public class RideController {
