@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils;
+package fr.afpa.covoiturafpa.model.utils;
 
 public class Views {
     public static class SimpleRide {}

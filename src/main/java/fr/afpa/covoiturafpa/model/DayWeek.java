@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import fr.afpa.covoiturafpa.utils.Views;
+import fr.afpa.covoiturafpa.model.utils.Views;
 
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="idDayWeek")
 @Entity

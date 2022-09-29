@@ -21,8 +21,8 @@ import fr.afpa.covoiturafpa.model.DayWeek;
 import fr.afpa.covoiturafpa.model.OneTimeRide;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.utils.Views;
 import fr.afpa.covoiturafpa.repository.RideRepository;
-import fr.afpa.covoiturafpa.utils.Views;
 
 @RestController
 public class RideController {

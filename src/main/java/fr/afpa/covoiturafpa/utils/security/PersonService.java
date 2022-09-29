@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils.service;
+package fr.afpa.covoiturafpa.utils.security;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import fr.afpa.covoiturafpa.model.Employee;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
-import fr.afpa.covoiturafpa.utils.security.CustomUserDetails;
 
 @Service
 public class PersonService implements UserDetailsService {
