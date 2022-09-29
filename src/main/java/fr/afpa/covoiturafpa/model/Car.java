@@ -46,7 +46,7 @@ public class Car {
     @JoinColumn(name= "id_person")
     private Person person;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

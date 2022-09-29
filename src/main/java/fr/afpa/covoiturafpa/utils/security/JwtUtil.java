@@ -29,16 +29,16 @@ public abstract class JwtUtil {
     private static final String SECRET = "FBA898697394CDBC534E7ED86A97AA59F627FE6B309E0A21EEC6C9B130E0369C";
 
 
-    public static String createAccessToken(String username, String issuer, List<String> roles) {
+    public static String createAccessToken(String username, Integer id, String issuer, List<String> roles) {
         try {
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
                     .subject(username)
                     .issuer(issuer)
                     .claim("roles", roles)
+                    .claim("idUser", id)
                     .expirationTime(Date.from(Instant.now().plusSeconds(expireHourToken * 3600)))
                     .issueTime(new Date())
                     .build();
-
             Payload payload = new Payload(claims.toJSONObject());
 
             JWSObject jwsObject = new JWSObject(new JWSHeader(JWSAlgorithm.HS256),
@@ -57,7 +57,7 @@ public abstract class JwtUtil {
         return null;
     }
 
-    public static UsernamePasswordAuthenticationToken parseToken(String token) throws JOSEException, ParseException,
+    public static CustomUsernamePasswordAuthenticationToken parseToken(String token) throws JOSEException, ParseException,
             BadJOSEException {
 
         byte[] secretKey = SECRET.getBytes();
@@ -72,10 +72,11 @@ public abstract class JwtUtil {
         JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
         String username = claims.getSubject();
         @SuppressWarnings("unchecked")
-        var roles = (List<String>) claims.getClaim("roles");
-        var authorities = roles == null ? null : roles.stream()
+        List<String> roles = (List<String>) claims.getClaim("roles");
+        Integer id = (int) (long) claims.getClaim("idUser");
+        List<SimpleGrantedAuthority> authorities = roles == null ? null : roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        return new UsernamePasswordAuthenticationToken(username, null, authorities);
+        return new CustomUsernamePasswordAuthenticationToken(username, null, authorities, id);
     }
 }

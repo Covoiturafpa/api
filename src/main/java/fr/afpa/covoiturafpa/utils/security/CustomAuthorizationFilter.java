@@ -1,7 +1,9 @@
 package fr.afpa.covoiturafpa.utils.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -10,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,11 +30,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
+            
+            Enumeration<String> jsonHeader = request.getHeaderNames();
+            for (Enumeration<String> e = jsonHeader; e.hasMoreElements();)
+                System.out.println(e.nextElement());
+
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     token = authorizationHeader.substring("Bearer ".length());
-                    UsernamePasswordAuthenticationToken authenticationToken = JwtUtil.parseToken(token);
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    CustomUsernamePasswordAuthenticationToken authenticationToken = JwtUtil.parseToken(token);
+                    SecurityContextHolder.getContext().setAuthentication(((Authentication) authenticationToken));
                     filterChain.doFilter(request, response);
                 }
                 catch (Exception e) {
