@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.nimbusds.jose.Header;
-
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Person;

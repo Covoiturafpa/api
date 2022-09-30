@@ -42,11 +42,6 @@ public class Centre {
     private boolean contactBySms;
 
     @JsonManagedReference
-    @OneToOne
-    @JoinColumn(name = "id_notif_config", referencedColumnName = "id_notif_config")
-    private NotifConfig notifConfig;
-
-    @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
     private Set<DayTimetable> daysTimetable;
@@ -116,14 +111,6 @@ public class Centre {
 
     public void setDaysTimetable(Set<DayTimetable> daysTimetable) {
         this.daysTimetable = daysTimetable;
-    }
-
-    public NotifConfig getNotifConfig() {
-        return notifConfig;
-    }
-
-    public void setNotifConfig(NotifConfig notifConfig) {
-        this.notifConfig = notifConfig;
     }
 
     public Set<Partner> getPartners() {
