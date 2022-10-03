@@ -25,12 +25,6 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @Table(name = "ride_passenger")
 public class RidePassenger {
 
-    enum Status {
-        PENDING,
-        ACCEPTED,
-        FINISHED
-    }
-
     @JsonIgnore
     @EmbeddedId
     private RidePassengerId id = new RidePassengerId();
@@ -53,10 +47,17 @@ public class RidePassenger {
     @JsonView(Views.DetailedRide.class)
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status statusType;
+    private Status status;
 
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
+
+    enum Status {
+        PENDING,
+        ACCEPTED,
+        FINISHED
+    }
+
 
     public RidePassengerId getId() {
         return id;
@@ -82,12 +83,12 @@ public class RidePassenger {
         this.ride = ride;
     }
 
-    public Status getStatusType() {
-        return statusType;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusType(Status statusType) {
-        this.statusType = statusType;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public LocalDateTime getLastUpdate() {

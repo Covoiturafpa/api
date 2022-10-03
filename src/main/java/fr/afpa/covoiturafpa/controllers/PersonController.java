@@ -1,6 +1,5 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import java.util.Base64;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,6 +27,7 @@ import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.utils.NotifContentBuilder;
 import fr.afpa.covoiturafpa.model.utils.Views;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
@@ -79,7 +79,7 @@ public class PersonController {
             CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
             System.out.println(userAuthentication.getIdUser());
             if (userAuthentication.getIdUser().equals(id)) {
-                return rideRepository.findRidesOfPerson(id);
+                return rideRepository.findRidesByPerson(id);
             }
         }catch(Exception e) {
             Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -91,8 +91,10 @@ public class PersonController {
     @CrossOrigin
     @PutMapping(value = "/users/{idDriver}/rides/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public void acceptReservation(@PathVariable(required = true) Integer idRide, @RequestParam(required = true) Integer id) {
-        //TODO: reservation
+    public void acceptReservation(@PathVariable(required = true) Integer idRide, @RequestParam(required = true) Integer idPerson) {
+        rideRepository.acceptReservationOfRideByPerson(idRide, idPerson);
+        Notification newNotification = new Notification(Notification.TypeNotif.ACCEPTED_RESERVATION, NotifContentBuilder.createAcceptedReservationContent(rideRepository.findById(idRide).get()));
+        notificationRepository.save(newNotification);
     }
 
     @CrossOrigin
@@ -113,6 +115,13 @@ public class PersonController {
         return notificationRepository.updateAllUnreadByPerson(id);
     }
 
+    @CrossOrigin
+    @GetMapping(value = "/users/{id}/new_notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public boolean checkNewNotifications(@PathVariable(required = true) int id) {
+        return (notificationRepository.countNewNotifications(id) > 0);
+    }
+ 
     // TODO: POST
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })

@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "notification")
@@ -43,7 +42,7 @@ public class Notification {
     @JoinColumn(name="id_person")
     private Person person;
 
-    enum TypeNotif {
+    public enum TypeNotif {
         NEW_RESERVATION,
         REJECTED_RESERVATION,
         ACCEPTED_RESERVATION,
@@ -55,8 +54,6 @@ public class Notification {
         this.content = content;
     }
 
-    //TODO: retrouver les variables
-    @JsonProperty("content")
     public String getContent() {
         return this.content;
     }

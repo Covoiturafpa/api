@@ -2,7 +2,6 @@ package fr.afpa.covoiturafpa.utils.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;

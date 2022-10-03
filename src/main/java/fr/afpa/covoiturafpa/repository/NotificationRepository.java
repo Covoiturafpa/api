@@ -15,7 +15,7 @@ import fr.afpa.covoiturafpa.model.Person;
 @Repository
 public interface NotificationRepository extends CrudRepository<Notification, Integer> {
     
-    @Query("UPDATE Notification notif SET notif.isUnread = FALSE WHERE notif.isUnread = TRUE AND notif.person.id = :id")
+    @Query("UPDATE Notification notif SET notif.isUnread = FALSE WHERE notif.isUnread = true AND notif.person.id = :id")
     public Set<Notification> updateAllUnreadByPerson(@Param("id") Integer id);
 
     @Query("DELETE Notification notif WHERE notif.person.id = :id")
@@ -23,4 +23,6 @@ public interface NotificationRepository extends CrudRepository<Notification, Int
 
     public List<Optional<Notification>> findByPerson(Person person);
 
+    @Query("SELECT COUNT(notif) FROM Notification notif WHERE notif.isUnread = true AND notif.person.id = :id")
+    public int countNewNotifications(@Param ("id") int id);
 }

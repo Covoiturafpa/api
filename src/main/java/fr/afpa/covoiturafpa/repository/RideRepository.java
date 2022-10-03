@@ -20,5 +20,8 @@ public interface RideRepository extends CrudRepository<Ride, Integer>, RideRepos
 
 
     @Query("SELECT ride FROM Person user JOIN RidePassenger rp ON user.id = rp.id.idPerson JOIN Ride ride ON rp.id.idRide = ride.id WHERE rp.id.idPerson = :id")
-    public Iterable<Ride> findRidesOfPerson(@Param("id") int id);
+    public Iterable<Ride> findRidesByPerson(@Param("id") int id);
+
+    @Query("UPDATE RidePassenger rp SET rp.status = Status.ACCEPTED WHERE rp.ride.id = :idRide AND rp.person.id = :idPerson")
+    public int acceptReservationOfRideByPerson(@Param ("idRide") int idRide, @Param("idPerson") int idPerson);
 }
