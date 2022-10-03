@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
 
+
 @Entity
 @Table(name = "ride_passenger")
 public class RidePassenger {
@@ -52,12 +53,12 @@ public class RidePassenger {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    enum Status {
+
+    public enum Status {
         PENDING,
         ACCEPTED,
         FINISHED
     }
-
 
     public RidePassengerId getId() {
         return id;
