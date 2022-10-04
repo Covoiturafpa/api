@@ -50,6 +50,7 @@ public  class Ride {
     @Column(name = "departure_time")
     private LocalTime departureTime;
 
+    @JsonView(Views.DetailedRide.class)
     @Column(name = "is_active")
     private boolean isActive;
 

@@ -39,7 +39,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @Table(name = "person")
 public abstract class Person {
 
-    @JsonView(Views.SimpleUser.class)
+    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
@@ -76,6 +76,10 @@ public abstract class Person {
     @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_mail")
     private boolean contactByMail;
+
+    @JsonView(value = {Views.DetailedUser.class, Views.DetailedRide.class})
+    @Column
+    private String photo_path;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "last_login")
@@ -175,6 +179,14 @@ public abstract class Person {
 
     public void setContactByMail(boolean contactByMail) {
         this.contactByMail = contactByMail;
+    }
+
+    public String getPhoto_path() {
+        return photo_path;
+    }
+
+    public void setPhoto_path(String photo_path) {
+        this.photo_path = photo_path;
     }
 
     public LocalDateTime getLastLogin() {
