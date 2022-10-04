@@ -31,9 +31,6 @@ public class RideController {
     @Autowired
     private RideRepository rideRepository;
 
-    @Autowired
-    private NotificationRepository notificationRepository;
-    
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin
     @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })

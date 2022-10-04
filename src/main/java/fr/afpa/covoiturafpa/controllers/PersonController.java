@@ -60,6 +60,28 @@ public class PersonController {
     public Iterable<Person> list() {
         return personRepository.findAll();
     }
+     
+    // TODO: POST
+    @CrossOrigin
+    @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.CREATED)
+    public Person create() {
+        return null;
+    }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteInactivePersonsForSixMonths() {
+        //personRepository.deleteInactiveForSixMonths();
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/users/username/{username}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Person> getByEmail(@PathVariable(required = true) String username) {
+        return personRepository.findByEmail(username);
+    }
 
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
@@ -67,6 +89,25 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public Optional<Person> get(@PathVariable(required = true) Integer id) {
         return personRepository.findById(id);
+    }
+    
+    // TODO: {id} PUT
+    @CrossOrigin
+    @PutMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Person update(@PathVariable(required = true) Integer id) {
+        return null;
+    }
+    
+    @CrossOrigin
+    @DeleteMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable(required = true) int id) {
+        Optional<Person> optPerson = personRepository.findById(id);
+        if (optPerson.isPresent()) {
+            Person person = optPerson.get();
+            personRepository.delete(person);
+        }
     }
 
     @JsonView(Views.DetailedRide.class)
@@ -91,10 +132,17 @@ public class PersonController {
     @CrossOrigin
     @PutMapping(value = "/users/{idDriver}/rides/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public void acceptReservation(@PathVariable(required = true) Integer idRide, @RequestParam(required = true) Integer idPerson) {
-        rideRepository.acceptReservationOfRideByPerson(idRide, idPerson);
-        Notification newNotification = new Notification(Notification.TypeNotif.ACCEPTED_RESERVATION, NotifContentBuilder.createAcceptedReservationContent(rideRepository.findById(idRide).get()));
-        notificationRepository.save(newNotification);
+    public void manageReservation(@PathVariable(required = true) Integer idRide, @RequestParam(required = true) Integer idPerson, @RequestParam(required = true) boolean isAccepted) {
+        if (isAccepted) {
+            rideRepository.acceptReservationOfRideByPerson(idRide, idPerson);
+            Notification newNotification = new Notification(Notification.TypeNotif.ACCEPTED_RESERVATION, NotifContentBuilder.createAcceptedReservationContent(rideRepository.findById(idRide).get()), personRepository.findById(idPerson).get());
+            notificationRepository.save(newNotification);
+        }
+        else {
+            rideRepository.rejectReservationOfRideByPerson(idRide, idPerson);
+            Notification newNotification = new Notification(Notification.TypeNotif.REJECTED_RESERVATION, NotifContentBuilder.createRejectedReservationContent(rideRepository.findById(idRide).get()), personRepository.findById(idPerson).get());
+            notificationRepository.save(newNotification);
+        }
     }
 
     @CrossOrigin
@@ -109,9 +157,9 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/users/{id}/notifications", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Set<Notification> setAsReadNotifications(@PathVariable(required = true) int id) {
+    public int setAsReadNotifications(@PathVariable(required = true) int id) {
         return notificationRepository.updateAllUnreadByPerson(id);
     }
 
@@ -121,44 +169,10 @@ public class PersonController {
     public boolean checkNewNotifications(@PathVariable(required = true) int id) {
         return (notificationRepository.countNewNotifications(id) > 0);
     }
- 
-    // TODO: POST
-    @CrossOrigin
-    @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.CREATED)
-    public Person create() {
-        return null;
-    }
-
-    // TODO: {id} PUT
-    @CrossOrigin
-    @PutMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Person update(@PathVariable(required = true) Integer id) {
-        return null;
-    }
-
-    @CrossOrigin
-    @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteInactivePersonsForSixMonths() {
-        //personRepository.deleteInactiveForSixMonths();
-    }
-
-    @CrossOrigin
-    @DeleteMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable(required = true) int id) {
-        Optional<Person> optPerson = personRepository.findById(id);
-        if (optPerson.isPresent()) {
-            Person person = optPerson.get();
-            personRepository.delete(person);
-        }
-    }
     
     // TODO: {id}/cars
     @CrossOrigin
-    @PostMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
     public Car createCar(@PathVariable(required = true) int id, @RequestBody Car car) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
@@ -166,12 +180,5 @@ public class PersonController {
             return carRepository.save(car);
         }
         return null;
-    }
-    
-    @CrossOrigin
-    @GetMapping(value = "/users/username/{username}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<Person> getByEmail(@PathVariable(required = true) String username) {
-        return personRepository.findByEmail(username);
     }
 }

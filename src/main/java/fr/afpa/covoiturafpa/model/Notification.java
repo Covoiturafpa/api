@@ -101,8 +101,9 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(TypeNotif type, String content) {
+    public Notification(TypeNotif type, String content, Person person) {
         this.type = type;
         this.content = content;
+        this.person = person;
     }
 }
