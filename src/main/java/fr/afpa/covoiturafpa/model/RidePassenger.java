@@ -111,8 +111,13 @@ public class RidePassenger {
     public RidePassenger() {
     }
 
-    public RidePassenger(RidePassengerId id) {
-        this.id = id;
+    public RidePassenger(RidePassengerId ridePassengerId, Person person, Ride ride, Boolean isDriver, Status status, LocalDateTime lastUpdate) {
+        this.id = ridePassengerId;
+        this.person = person;
+        this.ride = ride;
+        this.isDriver = isDriver;
+        this.status = status;
+        this.lastUpdate = lastUpdate;
     }
 
     @Override

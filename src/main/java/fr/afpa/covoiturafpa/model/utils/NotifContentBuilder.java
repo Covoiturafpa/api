@@ -15,15 +15,15 @@ public class NotifContentBuilder {
         return trainee.getShowedName() + " en " + trainee.getFormation().getName() + " a créé un compte.";
     }
 
-    public static String createNewReservationContent(Person person, Ride ride) {
+    public static String createNewBookingContent(Person person, Ride ride) {
         return person.getShowedName() + " est intéressé.e par votre trajet " + ride.getDestination().getTravel() + ". Vous pouvez l’appeler au " + person.getPhoneNumber() + " pour vous organiser.";
     }
 
-    public static String createAcceptedReservationContent(Ride ride) {
+    public static String createAcceptedBookingContent(Ride ride) {
         return ride.getDriver().getShowedName() + " vient d’accepter votre demande de trajet. Bon covoiturage !";
     }
 
-    public static String createRejectedReservationContent(Ride ride) {
+    public static String createRejectedBookingContent(Ride ride) {
         return ride.getDriver().getShowedName() + " n’a pas accepté votre demande de trajet. D’autres sont sûrement disponibles !";
     }
 }

@@ -1,7 +1,6 @@
 package fr.afpa.covoiturafpa.controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +10,24 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.DayWeek;
+import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.OneTimeRide;
+import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.utils.NotifContentBuilder;
 import fr.afpa.covoiturafpa.model.utils.Views;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
+import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 
 @RestController
@@ -30,6 +35,12 @@ public class RideController {
 
     @Autowired
     private RideRepository rideRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin
@@ -65,9 +76,15 @@ public class RideController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/rides/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/rides/{idRide}")
     @ResponseStatus(HttpStatus.OK)
-    public Ride book(@PathVariable(required = true) int id, @RequestBody int idPassenger) {
-        return null;
+    public void book(@PathVariable(required = true) int idRide, @RequestParam int idPassenger) {
+        Ride ride = rideRepository.findById(idRide).get();
+        Person passenger = personRepository.findById(idPassenger).get();
+        if (ride.addBooking(passenger)) {
+            rideRepository.save(ride);
+            Notification newNotification = new Notification(Notification.TypeNotif.NEW_RESERVATION, NotifContentBuilder.createNewBookingContent(passenger, ride), ride.getDriver());
+            notificationRepository.save(newNotification);
+        }
     }
 }

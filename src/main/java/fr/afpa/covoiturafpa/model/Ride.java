@@ -1,9 +1,11 @@
 package fr.afpa.covoiturafpa.model;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -22,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
+import fr.afpa.covoiturafpa.model.RidePassenger.Status;
 import fr.afpa.covoiturafpa.model.utils.Views;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -73,7 +76,7 @@ public  class Ride {
     private Car car;
 
     @JsonView(Views.DetailedRide.class)
-    @OneToMany(mappedBy = "ride")
+    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
     private List<RidePassenger> requestedPassengers;
 
     @JsonView(Views.SimpleRide.class)
@@ -167,32 +170,40 @@ public  class Ride {
         return this.car.getPerson();
     }
 
-    // public Ride addPassenger(Person person) {
+    public boolean addBooking(Person person) {
+        return this.requestedPassengers.add(new RidePassenger(new RidePassengerId(person.getId(), this.id), person, this, false, Status.PENDING, LocalDateTime.now()));
+    }
 
-    // }
-
-    public Ride managePassenger(Person person, boolean isAccepted) {
+    public Ride manageBooking(Person person, boolean isAccepted) {
         if (isAccepted) {
-            this.acceptPassenger(person);
+            this.acceptBooking(person);
         }
         else {
-            this.removePassenger(person);
+            this.rejectBooking(person);
         }
         return this;
     }
 
-    public boolean acceptPassenger(Person person) {
-        if (this.hasPassenger(person)) {
-            
+    public void acceptBooking(Person person) {
+        if (this.hasBooking(person)) {
+            this.requestedPassengers.get(this.findBooking(person)).setStatus(Status.ACCEPTED);
         }
-        return false;
     }
 
-    public boolean hasPassenger(Person person) {
-        return this.requestedPassengers.contains(new RidePassenger(new RidePassengerId(person.getId(), this.id))); 
+    public boolean hasBooking(Person person) {
+        return (this.requestedPassengers.get(this.findBooking(person)).getId().getIdPerson() == person.getId()); 
     }
 
-    public boolean removePassenger(Person person) {
-        return this.requestedPassengers.remove(new RidePassenger(new RidePassengerId(person.getId(), this.id)));
+    public RidePassenger rejectBooking(Person person) {
+        return this.requestedPassengers.remove(this.findBooking(person));
+    }
+
+    public int findBooking(Person person) {
+        for (int i = 0; i < this.requestedPassengers.size(); i++) {
+            if (this.requestedPassengers.get(i).getId().getIdPerson() == person.getId()) {
+                return i;
+            } 
+        }
+        return -1;
     }
 }

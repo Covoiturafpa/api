@@ -130,17 +130,22 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/users/{idDriver}/rides/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/users/{idDriver}/rides/{idRide}")
     @ResponseStatus(HttpStatus.OK)
-    public void manageReservation(@PathVariable(required = true) Integer idRide, @RequestParam(required = true) Integer idPerson, @RequestParam(required = true) boolean isAccepted) {
+    public void manageReservation(@PathVariable(required = true) Integer idRide, @RequestParam Integer idPassenger, @RequestParam boolean isAccepted) {
+        Ride ride = rideRepository.findById(idRide).get();
+        Person passenger = personRepository.findById(idPassenger).get();
+        rideRepository.save(ride.manageBooking(passenger, isAccepted));
+        saveBookingNotification(ride, passenger, isAccepted);
+    }
+
+    public void saveBookingNotification(Ride ride, Person passenger, boolean isAccepted) {
         if (isAccepted) {
-            rideRepository.acceptReservationOfRideByPerson(idRide, idPerson);
-            Notification newNotification = new Notification(Notification.TypeNotif.ACCEPTED_RESERVATION, NotifContentBuilder.createAcceptedReservationContent(rideRepository.findById(idRide).get()), personRepository.findById(idPerson).get());
+            Notification newNotification = new Notification(Notification.TypeNotif.ACCEPTED_RESERVATION, NotifContentBuilder.createAcceptedBookingContent(ride), passenger);
             notificationRepository.save(newNotification);
         }
         else {
-            rideRepository.rejectReservationOfRideByPerson(idRide, idPerson);
-            Notification newNotification = new Notification(Notification.TypeNotif.REJECTED_RESERVATION, NotifContentBuilder.createRejectedReservationContent(rideRepository.findById(idRide).get()), personRepository.findById(idPerson).get());
+            Notification newNotification = new Notification(Notification.TypeNotif.REJECTED_RESERVATION, NotifContentBuilder.createRejectedBookingContent(ride), passenger);
             notificationRepository.save(newNotification);
         }
     }
