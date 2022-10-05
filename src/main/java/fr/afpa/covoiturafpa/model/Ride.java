@@ -1,8 +1,8 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -74,7 +74,7 @@ public  class Ride {
 
     @JsonView(Views.DetailedRide.class)
     @OneToMany(mappedBy = "ride")
-    private Set<RidePassenger> requestedPassengers = new HashSet<RidePassenger>();
+    private List<RidePassenger> requestedPassengers;
 
     @JsonView(Views.SimpleRide.class)
     @Column(name = "ride_type")
@@ -137,11 +137,11 @@ public  class Ride {
         this.car = car;
     }
 
-    public Set<RidePassenger> getRequestedPassengers() {
+    public List<RidePassenger> getRequestedPassengers() {
         return requestedPassengers;
     }
 
-    public void setRequestedPassengers(Set<RidePassenger> passengers) {
+    public void setRequestedPassengers(ArrayList<RidePassenger> passengers) {
         this.requestedPassengers = passengers;
     }
 
@@ -165,5 +165,34 @@ public  class Ride {
 
     public Person getDriver() {
         return this.car.getPerson();
+    }
+
+    // public Ride addPassenger(Person person) {
+
+    // }
+
+    public Ride managePassenger(Person person, boolean isAccepted) {
+        if (isAccepted) {
+            this.acceptPassenger(person);
+        }
+        else {
+            this.removePassenger(person);
+        }
+        return this;
+    }
+
+    public boolean acceptPassenger(Person person) {
+        if (this.hasPassenger(person)) {
+            
+        }
+        return false;
+    }
+
+    public boolean hasPassenger(Person person) {
+        return this.requestedPassengers.contains(new RidePassenger(new RidePassengerId(person.getId(), this.id))); 
+    }
+
+    public boolean removePassenger(Person person) {
+        return this.requestedPassengers.remove(new RidePassenger(new RidePassengerId(person.getId(), this.id)));
     }
 }

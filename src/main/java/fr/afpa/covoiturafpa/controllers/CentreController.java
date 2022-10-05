@@ -42,7 +42,6 @@ public class CentreController {
     }
 
     @CrossOrigin
-    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre get() {

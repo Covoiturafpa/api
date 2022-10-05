@@ -1,7 +1,7 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.DayOfWeek;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,13 +35,13 @@ public class DayWeek {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "daysWeek")
-    private Set<RecurringRide> rides;
+    private List<RecurringRide> rides;
 
-    public Set<RecurringRide> getRides() {
+    public List<RecurringRide> getRides() {
         return rides;
     }
 
-    public void setRides(Set<RecurringRide> rides) {
+    public void setRides(List<RecurringRide> rides) {
         this.rides = rides;
     }
 

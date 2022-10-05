@@ -24,7 +24,6 @@ public class City {
     @Column
     private String name;
 
-
     public int getId() {
         return id;
     }
@@ -39,5 +38,8 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
-    }    
+    }
+
+    public City() {
+    }
 }

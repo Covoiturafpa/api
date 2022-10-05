@@ -110,4 +110,17 @@ public class RidePassenger {
 
     public RidePassenger() {
     }
+
+    public RidePassenger(RidePassengerId id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object != null && object instanceof RidePassenger) {
+            RidePassenger other = (RidePassenger) object;
+            return this.id.equals(other.id);
+        }
+        return false;
+    }
 }

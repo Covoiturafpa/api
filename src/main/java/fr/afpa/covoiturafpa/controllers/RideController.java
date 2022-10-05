@@ -1,8 +1,8 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +50,7 @@ public class RideController {
 
     public Iterable<Ride> searchRelevantRidesForOneTime(Ride ride) {
         List<Ride> results = rideRepository.findOneTimeRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((OneTimeRide) ride).getDepartureDay(), ride.getDestination().getIsFromAfpa());
-        Set<DayWeek> days = new HashSet<DayWeek>();
+        List<DayWeek> days = new ArrayList<DayWeek>();
         days.add(new DayWeek(((OneTimeRide) ride).getDepartureDay().getDayOfWeek()));
         results.addAll(rideRepository.filterRecurringRidesByDays(rideRepository.findRecurringRides(ride.getDestination().getCity().getName(), ride.getDestination().getLatitude(), ride.getDestination().getLongitude(), ((OneTimeRide) ride).getDepartureDay(), ((OneTimeRide) ride).getDepartureDay(), ride.getDestination().getIsFromAfpa()), days));
         return results;
@@ -67,7 +67,7 @@ public class RideController {
     @CrossOrigin
     @PostMapping(value = "/rides/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Ride book(@PathVariable(required = true) int id, @RequestBody String jsonString) {
+    public Ride book(@PathVariable(required = true) int id, @RequestBody int idPassenger) {
         return null;
     }
 }

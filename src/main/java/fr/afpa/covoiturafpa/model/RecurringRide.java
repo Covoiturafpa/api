@@ -1,7 +1,7 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -36,7 +36,7 @@ public class RecurringRide extends Ride {
     @JsonView(Views.SimpleRide.class)
     @JoinTable(name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
     @ManyToMany
-    private Set<DayWeek> daysWeek;
+    private List<DayWeek> daysWeek;
 
     public LocalDate getBeginning() {
         return beginning;
@@ -54,25 +54,21 @@ public class RecurringRide extends Ride {
         this.ending = ending;
     }
 
-    public Set<DayWeek> getDaysWeek() {
+    public List<DayWeek> getDaysWeek() {
         return daysWeek;
     }
 
-    public void setDaysWeek(Set<DayWeek> daysWeek) {
+    public void setDaysWeek(List<DayWeek> daysWeek) {
         this.daysWeek = daysWeek;
     }
 
     public RecurringRide() {
     }
 
-    public RecurringRide(Destination destination, LocalDate beginning, LocalDate ending, Set<DayWeek> daysWeek) {
+    public RecurringRide(Destination destination, LocalDate beginning, LocalDate ending, List<DayWeek> daysWeek) {
         super(destination);
         this.beginning = beginning;
         this.ending = ending;
         this.daysWeek = daysWeek;
-    }
-
-    public boolean hasDays(Set<DayWeek> days) {
-        return false;
     }
 }

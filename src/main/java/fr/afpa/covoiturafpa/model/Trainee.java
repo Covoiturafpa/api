@@ -60,5 +60,4 @@ public class Trainee extends Person {
 
     public Trainee() {
     }
-
 }

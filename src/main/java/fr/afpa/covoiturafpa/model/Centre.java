@@ -1,6 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,17 +43,17 @@ public class Centre {
     @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
-    private Set<DayTimetable> daysTimetable;
+    private List<DayTimetable> daysTimetable;
 
     @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
-    private Set<Partner> partners;
+    private List<Partner> partners;
 
     @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "id_centre")
-    private Set<Formation> formations;
+    private List<Formation> formations;
 
 
     public int getId() {
@@ -104,31 +104,30 @@ public class Centre {
         this.phoneNumber = phoneNumber;
     }
 
-    public Set<DayTimetable> getDaysTimetable() {
+    public List<DayTimetable> getDaysTimetable() {
         return daysTimetable;
     }
 
-    public void setDaysTimetable(Set<DayTimetable> daysTimetable) {
+    public void setDaysTimetable(List<DayTimetable> daysTimetable) {
         this.daysTimetable = daysTimetable;
     }
 
-    public Set<Partner> getPartners() {
+    public List<Partner> getPartners() {
         return partners;
     }
 
-    public void setPartners(Set<Partner> partners) {
+    public void setPartners(List<Partner> partners) {
         this.partners = partners;
     }
 
-    public Set<Formation> getFormations() {
+    public List<Formation> getFormations() {
         return formations;
     }
 
-    public void setFormations(Set<Formation> formations) {
+    public void setFormations(List<Formation> formations) {
         this.formations = formations;
     }
 
     public Centre() {
-
     }
 }

@@ -1,8 +1,7 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -87,15 +86,15 @@ public abstract class Person {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "person")
-    private Set<Notification> notifications;
+    private List<Notification> notifications;
 
     @JsonView(Views.DetailedUser.class)
     @OneToMany(mappedBy = "person")
-    private Set<Car> cars;
+    private List<Car> cars;
 
     @JsonBackReference
     @OneToMany(mappedBy = "person")
-    private Set<RidePassenger> rides = new HashSet<RidePassenger>();
+    private List<RidePassenger> rides;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "person_type")
@@ -197,27 +196,27 @@ public abstract class Person {
         this.lastLogin = lastLogin;
     }
 
-    public Set<Notification> getNotifications() {
+    public List<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(Set<Notification> notifications) {
+    public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
 
-    public Set<Car> getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 
-    public void setCars(Set<Car> cars) {
+    public void setCars(List<Car> cars) {
         this.cars = cars;
     }
 
-    public Set<RidePassenger> getRides() {
+    public List<RidePassenger> getRides() {
         return rides;
     }
 
-    public void setRides(Set<RidePassenger> rides) {
+    public void setRides(List<RidePassenger> rides) {
         this.rides = rides;
     }
 

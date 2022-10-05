@@ -1,7 +1,7 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,7 +148,7 @@ public class PersonController {
     @CrossOrigin
     @GetMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Set<Notification> getNotifications(@PathVariable(required = true) int id) {
+    public List<Notification> getNotifications(@PathVariable(required = true) int id) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
             return person.get().getNotifications();

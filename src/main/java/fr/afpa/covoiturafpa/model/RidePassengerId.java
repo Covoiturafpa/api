@@ -57,7 +57,7 @@ public class RidePassengerId implements Serializable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (this.getClass() != obj.getClass())
             return false;
         RidePassengerId other = (RidePassengerId) obj;
         return Objects.equals(getIdRide(), other.getIdRide()) && Objects.equals(getIdPerson(), other.getIdPerson());
