@@ -19,10 +19,11 @@ public interface NotificationRepository extends CrudRepository<Notification, Int
     @Transactional
     @Modifying
     @Query("UPDATE Notification notif SET notif.isUnread = false WHERE notif.isUnread = true AND notif.person.id = :id")
-    public int updateAllUnreadByPerson(@Param("id") Integer id);
+    public int updateAllUnreadByPerson(@Param("id") int id);
 
-    @Query("DELETE Notification notif WHERE notif.person.id = :id")
-    public void deleteAllByPerson(@Param("id") Integer id);
+    public void deleteAllByPerson(Person person);
+
+    public void deleteByIdAndPerson(int id, Person person);
 
     public List<Optional<Notification>> findByPerson(Person person);
 

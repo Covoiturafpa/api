@@ -169,6 +169,20 @@ public class PersonController {
     }
 
     @CrossOrigin
+    @DeleteMapping(value = "/users/{idUser}/notifications")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAllNotification(@PathVariable(required = true) int idUser) {
+        notificationRepository.deleteAllByPerson(personRepository.findById(idUser).get());
+    }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/users/{idUser}/notifications", params = "idNotification")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteNotificationById(@PathVariable(required = true) int idUser, @RequestParam(required = false) int idNotification) {
+        notificationRepository.deleteByIdAndPerson(idNotification, personRepository.findById(idUser).get());
+    }
+
+    @CrossOrigin
     @GetMapping(value = "/users/{id}/new_notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public boolean checkNewNotifications(@PathVariable(required = true) int id) {
