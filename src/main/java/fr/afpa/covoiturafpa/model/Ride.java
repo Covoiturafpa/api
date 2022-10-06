@@ -2,7 +2,6 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -144,7 +143,7 @@ public  class Ride {
         return requestedPassengers;
     }
 
-    public void setRequestedPassengers(ArrayList<RidePassenger> passengers) {
+    public void setRequestedPassengers(List<RidePassenger> passengers) {
         this.requestedPassengers = passengers;
     }
 
