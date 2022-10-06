@@ -3,6 +3,8 @@ package fr.afpa.covoiturafpa.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.afpa.covoiturafpa.model.DayWeek;
 import fr.afpa.covoiturafpa.model.Notification;
@@ -46,13 +50,22 @@ public class RideController {
     @CrossOrigin
     @GetMapping(value = "/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Ride> searchRelevantRides(@RequestBody Ride ride) {
-        if (ride instanceof RecurringRide) {
-            return searchRelevantRidesForRecurring(ride);
+    public Iterable<Ride> searchRelevantRides(@RequestParam String searchParams) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Ride ride;
+        try {
+            ride = objectMapper.readValue(searchParams, Ride.class);
+            if (ride instanceof RecurringRide) {
+                return searchRelevantRidesForRecurring(ride);
+            }
+            else {
+                return searchRelevantRidesForOneTime(ride);
         }
-        else {
-            return searchRelevantRidesForOneTime(ride);
-        }
+        } catch (JsonProcessingException e) {
+            Logger logger = LoggerFactory.getLogger(CentreController.class);
+            logger.error("Erreur dans la recherche de trajet : le JSON n'est pas exploitable.");
+        } 
+        return null;
     }
 
     public Iterable<Ride> searchRelevantRidesForRecurring(Ride ride) {
