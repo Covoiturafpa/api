@@ -1,6 +1,5 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,6 +129,13 @@ public class PersonController {
     }
 
     @CrossOrigin
+    @PatchMapping(value = "/users/{idPerson}/rides/{idRide}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateRide() {
+        //TODO: suivre trello, ou pas ?
+    }
+
+    @CrossOrigin
     @PutMapping(value = "/users/{idDriver}/rides/{idRide}")
     @ResponseStatus(HttpStatus.OK)
     public void manageReservation(@PathVariable(required = true) Integer idRide, @RequestParam Integer idPassenger, @RequestParam boolean isAccepted) {
@@ -224,4 +230,15 @@ public class PersonController {
         return personRepository.save(person);
     }
 
+    @Secured({"ROLE_ADMIN","ROLE_TEACHER"})
+    @CrossOrigin
+    @PatchMapping(value = "/users/{id}/activation", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public Person activateAccount(@PathVariable(required = true) int id, @RequestBody Person user) {
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) {
+            person.get().setIsActivated(true);
+            return personRepository.save(person.get());
+        }
+        return null;
+    }
 }

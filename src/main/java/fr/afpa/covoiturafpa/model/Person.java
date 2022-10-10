@@ -66,7 +66,7 @@ public abstract class Person {
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_activated")
-    private boolean isActivated;
+    private boolean isActivated = false;
 
     @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_sms")
