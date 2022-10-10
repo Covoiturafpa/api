@@ -1299,3 +1299,16 @@ CREATE TABLE covoiturafpa.recurring_days (
 
 ALTER TABLE covoiturafpa.recurring_days ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES covoiturafpa.day_week(id_day_week);
 ALTER TABLE covoiturafpa.recurring_days ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES covoiturafpa.recurring(id_ride);
+
+
+CREATE TABLE "covoiturafpa".teacher_of (
+    id_formation integer NOT NULL,
+    id_teacher integer NOT NULL
+);
+
+ALTER TABLE ONLY "covoiturafpa".teacher_of
+    ADD CONSTRAINT teacher_of_pkey PRIMARY KEY (id_formation, id_teacher);
+ALTER TABLE ONLY "covoiturafpa".teacher_of
+    ADD CONSTRAINT teacher_of_id_teacher_fkey FOREIGN KEY (id_teacher) REFERENCES "covoiturafpa".employee(id_person);
+ALTER TABLE ONLY "covoiturafpa".teacher_of
+    ADD CONSTRAINT teacher_of_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES "covoiturafpa".formation(id_formation);

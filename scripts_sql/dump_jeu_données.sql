@@ -1186,8 +1186,6 @@ ALTER TABLE ONLY "covoiturafpa".recurring_days
     ADD CONSTRAINT recurring_days_pkey PRIMARY KEY (id_ride, id_day_week);
 
 
-
-
 --
 -- TOC entry 3347 (class 2606 OID 17608)
 -- Name: notification notification_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: -
@@ -1442,8 +1440,14 @@ ALTER TABLE ONLY "covoiturafpa".trainee
     ADD CONSTRAINT trainee_id_person_fkey FOREIGN KEY (id_person) REFERENCES "covoiturafpa".person(id_person);
 
 
--- Completed on 2022-09-07 16:01:13
+CREATE TABLE "covoiturafpa".teacher_of (
+    id_formation integer NOT NULL,
+    id_teacher integer NOT NULL
+);
 
---
--- PostgreSQL database dump complete
---
+ALTER TABLE ONLY "covoiturafpa".teacher_of
+    ADD CONSTRAINT teacher_of_pkey PRIMARY KEY (id_formation, id_teacher);
+ALTER TABLE ONLY "covoiturafpa".teacher_of
+    ADD CONSTRAINT teacher_of_id_teacher_fkey FOREIGN KEY (id_teacher) REFERENCES "covoiturafpa".employee(id_person);
+ALTER TABLE ONLY "covoiturafpa".teacher_of
+    ADD CONSTRAINT teacher_of_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES "covoiturafpa".formation(id_formation);

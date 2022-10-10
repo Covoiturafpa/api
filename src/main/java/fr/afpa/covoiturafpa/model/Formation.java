@@ -1,11 +1,14 @@
 package fr.afpa.covoiturafpa.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -31,7 +34,18 @@ public class Formation {
     @ManyToOne
     @JoinColumn(name = "id_centre")
     private Centre centre;
-    
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "taughtFormations")
+    public List<Employee> teachers;
+
+    public List<Employee> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Employee> teachers) {
+        this.teachers = teachers;
+    }
 
     public Centre getCentre() {
         return centre;

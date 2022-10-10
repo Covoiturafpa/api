@@ -1,12 +1,17 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -38,6 +43,20 @@ public class Employee extends Person {
     @Column(name = "end_contract")
     private LocalDate endContract;
 
+    @JsonView(Views.DetailedUser.class)
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name = "teacher_of", joinColumns = @JoinColumn(name = "id_teacher"), inverseJoinColumns = @JoinColumn(name = "id_formation"))
+    public List<Formation> taughtFormations;
+
+
+    public List<Formation> getTaughtFormations() {
+        return taughtFormations;
+    }
+
+    public void setTaughtFormations(List<Formation> taughtFormations) {
+        this.taughtFormations = taughtFormations;
+    }
 
     public String getRole() {
         return role;
