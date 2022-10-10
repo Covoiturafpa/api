@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -91,12 +93,11 @@ public class PersonController {
         return personRepository.findById(id);
     }
     
-    // TODO: {id} PUT
     @CrossOrigin
-    @PutMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Person update(@PathVariable(required = true) Integer id) {
-        return null;
+    public Person update(@RequestBody Person person) {
+        return personRepository.save(person);
     }
     
     @CrossOrigin
@@ -115,10 +116,9 @@ public class PersonController {
     @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Ride> getRidesOfPerson(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) Integer id) {
-        String[] tokenArray = headerAuthorization.split(" ");
         try {
+            String[] tokenArray = headerAuthorization.split(" ");
             CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
-            System.out.println(userAuthentication.getIdUser());
             if (userAuthentication.getIdUser().equals(id)) {
                 return rideRepository.findRidesByPerson(id);
             }
@@ -151,6 +151,34 @@ public class PersonController {
     }
 
     @CrossOrigin
+    @PostMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public Car createCar(@PathVariable(required = true) int id, @RequestBody Car car) {
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) {
+            car.setPerson(person.get());
+            return carRepository.save(car);
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @PatchMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public Car updateCar(@PathVariable(required = true) int id, @RequestBody Car car) {
+        if (car.getPerson().getId() == id) {
+            return carRepository.save(car);
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public void deleteCar(@PathVariable(required = true) int id, @RequestBody Car car) {
+        if (car.getPerson().getId() == id) {
+            carRepository.delete(car);
+        }
+    }
+
+    @CrossOrigin
     @GetMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public List<Notification> getNotifications(@PathVariable(required = true) int id) {
@@ -169,14 +197,14 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{idUser}/notifications")
+    @DeleteMapping(value = "/users/{id}/notifications")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAllNotification(@PathVariable(required = true) int idUser) {
-        notificationRepository.deleteAllByPerson(personRepository.findById(idUser).get());
+    public void deleteAllNotification(@PathVariable(required = true) int id) {
+        notificationRepository.deleteAllByPerson(personRepository.findById(id).get());
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{idUser}/notifications", params = "idNotification")
+    @DeleteMapping(value = "/users/{idUSer}/notifications", params = "idNotification")
     @ResponseStatus(HttpStatus.OK)
     public void deleteNotificationById(@PathVariable(required = true) int idUser, @RequestParam(required = false) int idNotification) {
         notificationRepository.deleteByIdAndPerson(idNotification, personRepository.findById(idUser).get());
@@ -188,16 +216,12 @@ public class PersonController {
     public boolean checkNewNotifications(@PathVariable(required = true) int id) {
         return (notificationRepository.countNewNotifications(id) > 0);
     }
-    
-    // TODO: {id}/cars
+
+    @Secured("ROLE_ADMIN")
     @CrossOrigin
-    @PostMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    public Car createCar(@PathVariable(required = true) int id, @RequestBody Car car) {
-        Optional<Person> person = personRepository.findById(id);
-        if (person.isPresent()) {
-            car.setPerson(person.get());
-            return carRepository.save(car);
-        }
-        return null;
+    @PatchMapping(value = "/users/{id}/roles", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public Person giveAdminOrTeacherAccess(@RequestBody Person person) {
+        return personRepository.save(person);
     }
+
 }

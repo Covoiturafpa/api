@@ -49,10 +49,11 @@ public class CentreController {
         return result.iterator().next();
     }
     
+    @Secured("ROLE_ADMIN")
     @CrossOrigin
     @PutMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Centre update(@RequestBody(required = true) int id, @RequestBody Centre centre) {
+    public Centre update(@RequestBody Centre centre) {
         return centreRepository.save(centre);
     }
 
