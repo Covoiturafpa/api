@@ -11,7 +11,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -29,11 +28,11 @@ public class Employee extends Person {
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_admin")
-    private boolean isAdmin;
+    private boolean isAdmin = false;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_teacher")
-    private boolean isTeacher;
+    private boolean isTeacher = false;
 
     @JsonView(Views.DetailedUser.class)
     @Column(name = "start_contract")
@@ -44,7 +43,6 @@ public class Employee extends Person {
     private LocalDate endContract;
 
     @JsonView(Views.DetailedUser.class)
-    @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "teacher_of", joinColumns = @JoinColumn(name = "id_teacher"), inverseJoinColumns = @JoinColumn(name = "id_formation"))
     public List<Formation> taughtFormations;

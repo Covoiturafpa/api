@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -48,7 +47,6 @@ public abstract class Person {
     @Column
     private String email;
 
-    @JsonIgnore
     @Column
     private String password;
 
@@ -78,7 +76,7 @@ public abstract class Person {
 
     @JsonView(value = {Views.DetailedUser.class, Views.DetailedRide.class})
     @Column
-    private String photo_path;
+    private String photoPath;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "last_login")
@@ -97,7 +95,7 @@ public abstract class Person {
     private List<RidePassenger> rides;
 
     @JsonView(Views.SimpleUser.class)
-    @Column(name = "person_type")
+    @Column(name = "person_type", nullable = false, insertable = false, updatable = false)
     private String personType;
 
 
@@ -180,12 +178,12 @@ public abstract class Person {
         this.contactByMail = contactByMail;
     }
 
-    public String getPhoto_path() {
-        return photo_path;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
-    public void setPhoto_path(String photo_path) {
-        this.photo_path = photo_path;
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public LocalDateTime getLastLogin() {

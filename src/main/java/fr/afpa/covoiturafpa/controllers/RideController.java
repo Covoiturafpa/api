@@ -83,7 +83,7 @@ public class RideController {
    
     @CrossOrigin
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public Ride create(@RequestBody Ride ride) {
         return rideRepository.save(ride);
     }

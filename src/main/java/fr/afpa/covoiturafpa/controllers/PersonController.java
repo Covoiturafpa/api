@@ -62,12 +62,11 @@ public class PersonController {
         return personRepository.findAll();
     }
      
-    // TODO: POST
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    public Person create() {
-        return null;
+    public Person create(@RequestBody Person person) {
+        return personRepository.save(person);
     }
 
     @CrossOrigin
@@ -204,15 +203,15 @@ public class PersonController {
 
     @CrossOrigin
     @DeleteMapping(value = "/users/{id}/notifications")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAllNotification(@PathVariable(required = true) int id) {
         notificationRepository.deleteAllByPerson(personRepository.findById(id).get());
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{idUSer}/notifications", params = "idNotification")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteNotificationById(@PathVariable(required = true) int idUser, @RequestParam(required = false) int idNotification) {
+    @DeleteMapping(value = "/users/{idUser}/notifications", params = "idNotification")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteNotificationById(@PathVariable(required = true) Integer idUser, @RequestParam Integer idNotification) {
         notificationRepository.deleteByIdAndPerson(idNotification, personRepository.findById(idUser).get());
     }
 

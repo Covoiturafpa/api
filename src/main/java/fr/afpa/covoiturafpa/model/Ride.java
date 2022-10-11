@@ -79,7 +79,7 @@ public  class Ride {
     private List<RidePassenger> requestedPassengers;
 
     @JsonView(Views.SimpleRide.class)
-    @Column(name = "ride_type")
+    @Column(name = "ride_type", nullable = false, insertable = false, updatable = false)
     private String rideType;
 
 

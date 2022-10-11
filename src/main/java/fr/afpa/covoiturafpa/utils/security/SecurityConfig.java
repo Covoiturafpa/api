@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -48,6 +49,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers("/login/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))
                 .addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)
