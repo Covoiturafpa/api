@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Person;
@@ -52,7 +55,10 @@ public class PersonController {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    @Autowired
+    private ApplicationContext context;
 
+    
     @JsonView(Views.SimpleUser.class)
     @CrossOrigin
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
@@ -66,6 +72,7 @@ public class PersonController {
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Person create(@RequestBody Person person) {
+        person.setPassword(context.getBean(PasswordEncoder.class).encode(person.getPassword()));
         return personRepository.save(person);
     }
 
@@ -73,7 +80,7 @@ public class PersonController {
     @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInactivePersonsForSixMonths() {
-        //personRepository.deleteInactiveForSixMonths();
+        //TODO: personRepository.deleteInactiveForSixMonths();
     }
 
     @CrossOrigin
