@@ -53,7 +53,6 @@ public class SecurityConfig {
                 .addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .headers().cacheControl();
-
         return http.build();
     }
 }

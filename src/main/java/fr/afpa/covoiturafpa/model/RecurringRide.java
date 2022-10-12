@@ -15,6 +15,10 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
 
@@ -25,10 +29,14 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @DiscriminatorValue("R")
 public class RecurringRide extends Ride {
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @JsonView(Views.SimpleRide.class)
     @Column
     private LocalDate beginning;
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @JsonView(Views.SimpleRide.class)
     @Column
     private LocalDate ending;

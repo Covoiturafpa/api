@@ -62,7 +62,8 @@ public class RideController {
                 return searchRelevantRidesForOneTime(ride);
         }
         } catch (JsonProcessingException e) {
-            Logger logger = LoggerFactory.getLogger(CentreController.class);
+            Logger logger = LoggerFactory.getLogger(RideController.class);
+            logger.error(e.getMessage());
             logger.error("Erreur dans la recherche de trajet : le JSON n'est pas exploitable.");
         } 
         return null;
