@@ -1,6 +1,7 @@
 package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -44,7 +45,7 @@ public class RecurringRide extends Ride {
     @JsonView(Views.SimpleRide.class)
     @JoinTable(name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
     @ManyToMany
-    private List<DayWeek> daysWeek;
+    private List<DayWeek> daysWeek = new ArrayList<DayWeek>();
 
     public LocalDate getBeginning() {
         return beginning;
