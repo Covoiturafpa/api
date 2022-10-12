@@ -2,6 +2,9 @@ package fr.afpa.covoiturafpa.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,17 +27,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.afpa.covoiturafpa.model.City;
 import fr.afpa.covoiturafpa.model.DayWeek;
-import fr.afpa.covoiturafpa.model.Destination;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.OneTimeRide;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
-import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.utils.NotifContentBuilder;
 import fr.afpa.covoiturafpa.model.utils.Views;
 import fr.afpa.covoiturafpa.repository.CityRepository;
-import fr.afpa.covoiturafpa.repository.DestinationRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
@@ -51,8 +51,6 @@ public class RideController {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    @Autowired
-    private DestinationRepository destinationRepository;
 
     @Autowired
     private CityRepository cityRepository;
@@ -71,8 +69,9 @@ public class RideController {
             }
             else {
                 return searchRelevantRidesForOneTime(ride);
+            }
         }
-        } catch (JsonProcessingException e) {
+        catch (JsonProcessingException e) {
             Logger logger = LoggerFactory.getLogger(CentreController.class);
             logger.error("Erreur dans la recherche de trajet : le JSON n'est pas exploitable.");
         } 
@@ -91,11 +90,18 @@ public class RideController {
         return results;
     }
 
-   
+    @JsonView(Views.DetailedRide.class)
+    @Transactional
     @CrossOrigin
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Ride create(@RequestBody Ride ride) {
+        Optional<Person> driver = personRepository.findById(ride.getCar().getPerson().getId());
+        ride.setDriver(driver.get());
+        Optional<City> city = cityRepository.findByName(ride.getDestination().getCity().getName());
+        if (city.isPresent()) {
+            ride.getDestination().setCity(city.get());
+        }
         return rideRepository.save(ride);
     }
 

@@ -76,7 +76,7 @@ public  class Ride {
     private Car car;
 
     @JsonView(Views.DetailedRide.class)
-    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ride", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
     private List<RidePassenger> requestedPassengers = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleRide.class)
@@ -138,10 +138,6 @@ public  class Ride {
 
     public void setCar(Car car) {
         this.car = car;
-        Person driver = this.car.getPerson();
-        RidePassenger ridePassenger = new RidePassenger(null, driver, this, true, Status.ACCEPTED, LocalDateTime.now());
-        this.requestedPassengers.removeIf((requestedPassenger) ->(requestedPassenger.getIsDriver()));
-        this.requestedPassengers.add(ridePassenger);
     }
 
     public List<RidePassenger> getRequestedPassengers() {
@@ -174,8 +170,17 @@ public  class Ride {
         return this.car.getPerson();
     }
 
+    public void setDriver(Person driver) {
+        RidePassenger ridePassenger = new RidePassenger(driver, this, true, Status.ACCEPTED, LocalDateTime.now());
+        driver.getRides().add(ridePassenger);
+        this.requestedPassengers.removeIf((requestedPassenger) ->(requestedPassenger.getIsDriver()));
+        this.requestedPassengers.add(ridePassenger); 
+    }
+
     public boolean addBooking(Person person) {
-        return this.requestedPassengers.add(new RidePassenger(new RidePassengerId(person.getId(), this.id), person, this, false, Status.PENDING, LocalDateTime.now()));
+        RidePassenger ridePassenger = new RidePassenger(person, this, false, Status.PENDING, LocalDateTime.now());
+        person.getRides().add(ridePassenger);
+        return this.requestedPassengers.add(ridePassenger);
     }
 
     public Ride manageBooking(Person person, boolean isAccepted) {

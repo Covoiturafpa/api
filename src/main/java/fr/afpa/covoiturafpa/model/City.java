@@ -21,7 +21,7 @@ public class City {
     private int id;
 
     @JsonView(Views.SimpleRide.class)
-    @Column
+    @Column(unique = true)
     private String name;
 
     public int getId() {

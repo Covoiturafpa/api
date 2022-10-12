@@ -2,6 +2,7 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -101,7 +102,7 @@ public abstract class Person {
 
     @JsonBackReference
     @OneToMany(mappedBy = "person")
-    private List<RidePassenger> rides;
+    private List<RidePassenger> rides = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "person_type", nullable = false, insertable = false, updatable = false)
