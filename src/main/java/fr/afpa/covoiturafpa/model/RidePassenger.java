@@ -11,6 +11,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -28,6 +30,7 @@ public class RidePassenger {
 
     @JsonIgnore
     @EmbeddedId
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private RidePassengerId id = new RidePassengerId();
 
     @JsonView(Views.DetailedRide.class)
@@ -111,13 +114,13 @@ public class RidePassenger {
     public RidePassenger() {
     }
 
-    public RidePassenger(RidePassengerId ridePassengerId, Person person, Ride ride, Boolean isDriver, Status status, LocalDateTime lastUpdate) {
-        this.id = ridePassengerId;
+    public RidePassenger(Person person, Ride ride, Boolean isDriver, Status status, LocalDateTime lastUpdate) {
         this.person = person;
         this.ride = ride;
         this.isDriver = isDriver;
         this.status = status;
         this.lastUpdate = lastUpdate;
+        //this.id = new RidePassengerId(this.person.getId(), this.ride.getId());
     }
 
     @Override

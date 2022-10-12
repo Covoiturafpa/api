@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
@@ -35,7 +36,7 @@ public class Formation {
     @JoinColumn(name = "id_centre")
     private Centre centre;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "taughtFormations")
     public List<Employee> teachers;
 

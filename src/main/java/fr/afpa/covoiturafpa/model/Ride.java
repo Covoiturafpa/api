@@ -2,6 +2,7 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -46,7 +47,7 @@ public  class Ride {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ride")
-    private int id;
+    private Integer id;
 
     @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_time")
@@ -65,7 +66,7 @@ public  class Ride {
     private int price;
 
     @JsonView(Views.SimpleRide.class)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_destination")
     private Destination destination;
 
@@ -75,19 +76,19 @@ public  class Ride {
     private Car car;
 
     @JsonView(Views.DetailedRide.class)
-    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
-    private List<RidePassenger> requestedPassengers;
+    @OneToMany(mappedBy = "ride", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+    private List<RidePassenger> requestedPassengers = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleRide.class)
-    @Column(name = "ride_type")
+    @Column(name = "ride_type", nullable = false, insertable = false, updatable = false)
     private String rideType;
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -169,8 +170,17 @@ public  class Ride {
         return this.car.getPerson();
     }
 
+    public void setDriver(Person driver) {
+        RidePassenger ridePassenger = new RidePassenger(driver, this, true, Status.ACCEPTED, LocalDateTime.now());
+        driver.getRides().add(ridePassenger);
+        this.requestedPassengers.removeIf((requestedPassenger) ->(requestedPassenger.getIsDriver()));
+        this.requestedPassengers.add(ridePassenger); 
+    }
+
     public boolean addBooking(Person person) {
-        return this.requestedPassengers.add(new RidePassenger(new RidePassengerId(person.getId(), this.id), person, this, false, Status.PENDING, LocalDateTime.now()));
+        RidePassenger ridePassenger = new RidePassenger(person, this, false, Status.PENDING, LocalDateTime.now());
+        person.getRides().add(ridePassenger);
+        return this.requestedPassengers.add(ridePassenger);
     }
 
     public Ride manageBooking(Person person, boolean isAccepted) {
@@ -205,4 +215,5 @@ public  class Ride {
         }
         return -1;
     }
+
 }

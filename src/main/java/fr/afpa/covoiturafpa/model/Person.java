@@ -1,6 +1,8 @@
 package fr.afpa.covoiturafpa.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -48,7 +49,6 @@ public abstract class Person {
     @Column
     private String email;
 
-    @JsonIgnore
     @Column
     private String password;
 
@@ -66,7 +66,7 @@ public abstract class Person {
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_activated")
-    private boolean isActivated;
+    private boolean isActivated = false;
 
     @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_sms")
@@ -78,11 +78,19 @@ public abstract class Person {
 
     @JsonView(value = {Views.DetailedUser.class, Views.DetailedRide.class})
     @Column
-    private String photo_path;
+    private String photoPath;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
+
+    @JsonView(Views.DetailedUser.class)
+    @Column(name = "start_activity")
+    private LocalDate startActivity;
+
+    @JsonView(Views.DetailedUser.class)
+    @Column(name = "end_activity")
+    private LocalDate endActivity;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "person")
@@ -94,10 +102,10 @@ public abstract class Person {
 
     @JsonBackReference
     @OneToMany(mappedBy = "person")
-    private List<RidePassenger> rides;
+    private List<RidePassenger> rides = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleUser.class)
-    @Column(name = "person_type")
+    @Column(name = "person_type", nullable = false, insertable = false, updatable = false)
     private String personType;
 
 
@@ -180,12 +188,12 @@ public abstract class Person {
         this.contactByMail = contactByMail;
     }
 
-    public String getPhoto_path() {
-        return photo_path;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
-    public void setPhoto_path(String photo_path) {
-        this.photo_path = photo_path;
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public LocalDateTime getLastLogin() {
@@ -194,6 +202,22 @@ public abstract class Person {
 
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
+    }
+    
+    public LocalDate getStartActivity() {
+        return startActivity;
+    }
+
+    public void setStartActivity(LocalDate startActivity) {
+        this.startActivity = startActivity;
+    }
+
+    public LocalDate getEndActivity() {
+        return endActivity;
+    }
+
+    public void setEndActivity(LocalDate endActivity) {
+        this.endActivity = endActivity;
     }
 
     public List<Notification> getNotifications() {

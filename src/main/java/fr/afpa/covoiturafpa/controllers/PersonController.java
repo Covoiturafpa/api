@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Person;
@@ -52,7 +55,10 @@ public class PersonController {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    @Autowired
+    private ApplicationContext context;
 
+    
     @JsonView(Views.SimpleUser.class)
     @CrossOrigin
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
@@ -62,19 +68,19 @@ public class PersonController {
         return personRepository.findAll();
     }
      
-    // TODO: POST
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    public Person create() {
-        return null;
+    public Person create(@RequestBody Person person) {
+        person.setPassword(context.getBean(PasswordEncoder.class).encode(person.getPassword()));
+        return personRepository.save(person);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInactivePersonsForSixMonths() {
-        //personRepository.deleteInactiveForSixMonths();
+        //TODO: personRepository.deleteInactiveForSixMonths();
     }
 
     @CrossOrigin
@@ -126,6 +132,13 @@ public class PersonController {
             logger.error("Erreur lors de la conception de la réponse JSon" + e);
         }
         return null;
+    }
+
+    @CrossOrigin
+    @PatchMapping(value = "/users/{idPerson}/rides/{idRide}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateRide() {
+        //TODO: suivre trello, ou pas ?
     }
 
     @CrossOrigin
@@ -197,15 +210,15 @@ public class PersonController {
 
     @CrossOrigin
     @DeleteMapping(value = "/users/{id}/notifications")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAllNotification(@PathVariable(required = true) int id) {
         notificationRepository.deleteAllByPerson(personRepository.findById(id).get());
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{idUSer}/notifications", params = "idNotification")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteNotificationById(@PathVariable(required = true) int idUser, @RequestParam(required = false) int idNotification) {
+    @DeleteMapping(value = "/users/{idUser}/notifications", params = "idNotification")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteNotificationById(@PathVariable(required = true) Integer idUser, @RequestParam Integer idNotification) {
         notificationRepository.deleteByIdAndPerson(idNotification, personRepository.findById(idUser).get());
     }
 
@@ -223,4 +236,15 @@ public class PersonController {
         return personRepository.save(person);
     }
 
+    @Secured({"ROLE_ADMIN","ROLE_TEACHER"})
+    @CrossOrigin
+    @PatchMapping(value = "/users/{id}/activation", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public Person activateAccount(@PathVariable(required = true) int id, @RequestBody Person user) {
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) {
+            person.get().setIsActivated(true);
+            return personRepository.save(person.get());
+        }
+        return null;
+    }
 }

@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,10 +29,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             
-            Enumeration<String> jsonHeader = request.getHeaderNames();
-            for (Enumeration<String> e = jsonHeader; e.hasMoreElements();)
-                System.out.println(e.nextElement());
-
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     token = authorizationHeader.substring("Bearer ".length());

@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.afpa.covoiturafpa.model.Centre;
+import fr.afpa.covoiturafpa.model.Formation;
 import fr.afpa.covoiturafpa.model.Partner;
 import fr.afpa.covoiturafpa.repository.CentreRepository;
+import fr.afpa.covoiturafpa.repository.FormationRepository;
 import fr.afpa.covoiturafpa.repository.PartnerRepository;
 
 @RestController
@@ -31,6 +33,9 @@ public class CentreController {
 
     @Autowired
     private PartnerRepository partnerRepository;
+
+    @Autowired
+    private FormationRepository formationRepository;
 
     @PostConstruct
     public void verifyDatabase() throws Error {
@@ -82,7 +87,36 @@ public class CentreController {
     @CrossOrigin
     @DeleteMapping(value = "/centre/partners/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable(required = true) int id) {
+    public void deletePartner(@PathVariable(required = true) int id) {
         partnerRepository.deleteById(id);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/centre/formations", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<Formation> getFormation() {
+        return formationRepository.findAll();
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/centre/formations", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.CREATED)
+    public Formation createFormation(@RequestBody(required = true) Formation formation) {
+        formation.setCentre(get());
+        return formationRepository.save(formation);
+    }
+    
+    @CrossOrigin
+    @PutMapping(value = "/centre/formations/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public Formation updateFormation(@PathVariable(required = true) int id, @RequestBody(required = true) Formation formation) {
+        return formationRepository.save(formation);
+    }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/centre/formations/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFormation(@PathVariable(required = true) int id) {
+        formationRepository.deleteById(id);
     }
 }

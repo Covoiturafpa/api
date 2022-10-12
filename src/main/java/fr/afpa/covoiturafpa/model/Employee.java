@@ -1,6 +1,5 @@
 package fr.afpa.covoiturafpa.model;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -29,22 +27,13 @@ public class Employee extends Person {
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_admin")
-    private boolean isAdmin;
+    private boolean isAdmin = false;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_teacher")
-    private boolean isTeacher;
+    private boolean isTeacher = false;
 
     @JsonView(Views.DetailedUser.class)
-    @Column(name = "start_contract")
-    private LocalDate startContract;
-
-    @JsonView(Views.DetailedUser.class)
-    @Column(name = "end_contract")
-    private LocalDate endContract;
-
-    @JsonView(Views.DetailedUser.class)
-    @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "teacher_of", joinColumns = @JoinColumn(name = "id_teacher"), inverseJoinColumns = @JoinColumn(name = "id_formation"))
     public List<Formation> taughtFormations;
@@ -82,21 +71,6 @@ public class Employee extends Person {
         this.isTeacher = isTeacher;
     }
 
-    public LocalDate getStartContract() {
-        return startContract;
-    }
-
-    public void setStartContract(LocalDate startContract) {
-        this.startContract = startContract;
-    }
-
-    public LocalDate getEndContract() {
-        return endContract;
-    }
-
-    public void setEndContract(LocalDate endContract) {
-        this.endContract = endContract;
-    }
 
     public Employee() {
     }
