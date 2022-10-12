@@ -22,14 +22,19 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fr.afpa.covoiturafpa.model.City;
 import fr.afpa.covoiturafpa.model.DayWeek;
+import fr.afpa.covoiturafpa.model.Destination;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.OneTimeRide;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.utils.NotifContentBuilder;
 import fr.afpa.covoiturafpa.model.utils.Views;
+import fr.afpa.covoiturafpa.repository.CityRepository;
+import fr.afpa.covoiturafpa.repository.DestinationRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
@@ -45,6 +50,12 @@ public class RideController {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private DestinationRepository destinationRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
 
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin

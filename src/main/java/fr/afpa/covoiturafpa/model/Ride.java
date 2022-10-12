@@ -2,6 +2,7 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -46,7 +47,7 @@ public  class Ride {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ride")
-    private int id;
+    private Integer id;
 
     @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_time")
@@ -65,7 +66,7 @@ public  class Ride {
     private int price;
 
     @JsonView(Views.SimpleRide.class)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_destination")
     private Destination destination;
 
@@ -76,18 +77,18 @@ public  class Ride {
 
     @JsonView(Views.DetailedRide.class)
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
-    private List<RidePassenger> requestedPassengers;
+    private List<RidePassenger> requestedPassengers = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleRide.class)
     @Column(name = "ride_type", nullable = false, insertable = false, updatable = false)
     private String rideType;
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -137,6 +138,10 @@ public  class Ride {
 
     public void setCar(Car car) {
         this.car = car;
+        Person driver = this.car.getPerson();
+        RidePassenger ridePassenger = new RidePassenger(null, driver, this, true, Status.ACCEPTED, LocalDateTime.now());
+        this.requestedPassengers.removeIf((requestedPassenger) ->(requestedPassenger.getIsDriver()));
+        this.requestedPassengers.add(ridePassenger);
     }
 
     public List<RidePassenger> getRequestedPassengers() {
@@ -205,4 +210,5 @@ public  class Ride {
         }
         return -1;
     }
+
 }

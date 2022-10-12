@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -81,6 +82,14 @@ public abstract class Person {
     @JsonView(Views.SimpleUser.class)
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
+
+    @JsonView(Views.DetailedUser.class)
+    @Column(name = "start_activity")
+    private LocalDate startActivity;
+
+    @JsonView(Views.DetailedUser.class)
+    @Column(name = "end_activity")
+    private LocalDate endActivity;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "person")
@@ -192,6 +201,22 @@ public abstract class Person {
 
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
+    }
+    
+    public LocalDate getStartActivity() {
+        return startActivity;
+    }
+
+    public void setStartActivity(LocalDate startActivity) {
+        this.startActivity = startActivity;
+    }
+
+    public LocalDate getEndActivity() {
+        return endActivity;
+    }
+
+    public void setEndActivity(LocalDate endActivity) {
+        this.endActivity = endActivity;
     }
 
     public List<Notification> getNotifications() {

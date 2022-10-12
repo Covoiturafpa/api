@@ -35,14 +35,6 @@ public class Employee extends Person {
     private boolean isTeacher = false;
 
     @JsonView(Views.DetailedUser.class)
-    @Column(name = "start_contract")
-    private LocalDate startContract;
-
-    @JsonView(Views.DetailedUser.class)
-    @Column(name = "end_contract")
-    private LocalDate endContract;
-
-    @JsonView(Views.DetailedUser.class)
     @ManyToMany
     @JoinTable(name = "teacher_of", joinColumns = @JoinColumn(name = "id_teacher"), inverseJoinColumns = @JoinColumn(name = "id_formation"))
     public List<Formation> taughtFormations;
@@ -80,21 +72,6 @@ public class Employee extends Person {
         this.isTeacher = isTeacher;
     }
 
-    public LocalDate getStartContract() {
-        return startContract;
-    }
-
-    public void setStartContract(LocalDate startContract) {
-        this.startContract = startContract;
-    }
-
-    public LocalDate getEndContract() {
-        return endContract;
-    }
-
-    public void setEndContract(LocalDate endContract) {
-        this.endContract = endContract;
-    }
 
     public Employee() {
     }

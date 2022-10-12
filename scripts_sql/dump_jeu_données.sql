@@ -328,8 +328,6 @@ CREATE TABLE "covoiturafpa".employee (
     role character varying(50),
     is_admin boolean,
     is_teacher boolean,
-    start_contract date,
-    end_contract date,
     id_centre integer NOT NULL
 );
 
@@ -516,6 +514,8 @@ CREATE TABLE "covoiturafpa".person (
     is_activated boolean,
     contact_by_sms boolean,
     contact_by_mail boolean,
+    start_activity date,
+    end_activity date,
     last_login timestamp without time zone,
     photo_path character varying(255),
     person_type character varying NOT NULL
@@ -618,8 +618,6 @@ CREATE TABLE "covoiturafpa".ride_passenger (
 
 CREATE TABLE "covoiturafpa".trainee (
     id_person integer NOT NULL,
-    start_training date,
-    end_training date,
     id_formation integer
 );
 
@@ -832,9 +830,9 @@ INSERT INTO "covoiturafpa".destination VALUES (2, 59.9211, 81.1344, true, 2);
 -- Data for Name: employee; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
 --
 
-INSERT INTO "covoiturafpa".employee VALUES (57, 'administration', false, true, '2022-01-01', '2022-01-01', 28);
-INSERT INTO "covoiturafpa".employee VALUES (51, 'formateur', false, true, '2022-01-01', '2022-01-01', 28);
-INSERT INTO "covoiturafpa".employee VALUES (97, 'restauration', true, false, '2022-01-01', '2022-01-01', 28);
+INSERT INTO "covoiturafpa".employee VALUES (57, 'administration', false, true,  28);
+INSERT INTO "covoiturafpa".employee VALUES (51, 'formateur', false, true, 28);
+INSERT INTO "covoiturafpa".employee VALUES (97, 'restauration', true, false, 28);
 
 
 --
@@ -919,11 +917,11 @@ INSERT INTO "covoiturafpa".partner VALUES (4, 'Botsford', 'https://cloudflare-ip
 -- Data for Name: person; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
 --
 
-INSERT INTO "covoiturafpa".person VALUES (43, 'MadgeSmith@mail.fr', 'b4lnkw50s5kvt9cx01m7', 'Bergnaum', 'Karson', '+33672728649', false, true, true, '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1223.jpg', 'T');
-INSERT INTO "covoiturafpa".person VALUES (45, 'KrystelRath@mail.fr', 'v60zs9egqj9n65aec37j', 'Howell', 'Godfrey', '+33430830984', false, true, true, '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/390.jpg', 'T');
-INSERT INTO "covoiturafpa".person VALUES (97, 'OdaBoyle@mail.fr', 'bnbhmg8jufhon5zc6z8j', 'Leffler', 'Billie', '+33458210191', false, false, true, '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/658.jpg', 'E');
-INSERT INTO "covoiturafpa".person VALUES (51, 'MohammadGreenfelder@mail.fr', '6sjngbrc3t1tigidn826', 'Bailey', 'Wava', '+33983567107', true, false, false, '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/420.jpg', 'E');
-INSERT INTO "covoiturafpa".person VALUES (57, 'CristopherWolf@mail.fr', 'movlejxx6c3fpybxlw6o', 'Weber', 'Casper', '+33511397860', false, false, false, '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/684.jpg', 'E');
+INSERT INTO "covoiturafpa".person VALUES (43, 'MadgeSmith@mail.fr', 'b4lnkw50s5kvt9cx01m7', 'Bergnaum', 'Karson', '+33672728649', false, true, true, '2022-01-01', '2022-01-01', '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1223.jpg', 'T');
+INSERT INTO "covoiturafpa".person VALUES (45, 'KrystelRath@mail.fr', 'v60zs9egqj9n65aec37j', 'Howell', 'Godfrey', '+33430830984', false, true, true, '2022-01-01', '2022-01-01', '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/390.jpg', 'T');
+INSERT INTO "covoiturafpa".person VALUES (97, 'OdaBoyle@mail.fr', 'bnbhmg8jufhon5zc6z8j', 'Leffler', 'Billie', '+33458210191', false, false, true, '2022-01-01', '2022-01-01', '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/658.jpg', 'E');
+INSERT INTO "covoiturafpa".person VALUES (51, 'MohammadGreenfelder@mail.fr', '6sjngbrc3t1tigidn826', 'Bailey', 'Wava', '+33983567107', true, false, false, '2022-01-01', '2022-01-01', '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/420.jpg', 'E');
+INSERT INTO "covoiturafpa".person VALUES (57, 'CristopherWolf@mail.fr', 'movlejxx6c3fpybxlw6o', 'Weber', 'Casper', '+33511397860', false, false, false, '2022-01-01', '2022-01-01', '2022-01-01 00:00:00', 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/684.jpg', 'E');
 
 
 --
@@ -964,8 +962,8 @@ INSERT INTO "covoiturafpa".ride_passenger VALUES (43, 6, 'ACCEPTED', '2022-03-01
 -- Data for Name: trainee; Type: TABLE DATA; Schema: covoiturafpa; Owner: -
 --
 
-INSERT INTO "covoiturafpa".trainee VALUES (43, '2022-01-01', '2022-01-01', 1);
-INSERT INTO "covoiturafpa".trainee VALUES (45, '2022-01-01', '2022-01-01', 4);
+INSERT INTO "covoiturafpa".trainee VALUES (43, 1);
+INSERT INTO "covoiturafpa".trainee VALUES (45, 4);
 
 
 --
