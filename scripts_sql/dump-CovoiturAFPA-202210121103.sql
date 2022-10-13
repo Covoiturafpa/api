@@ -386,7 +386,7 @@ ALTER SEQUENCE covoiturafpa.destination_id_destination_seq OWNED BY covoiturafpa
 
 CREATE TABLE covoiturafpa.employee (
     id_person integer NOT NULL,
-    role character varying(50),
+    service character varying(50),
     is_admin boolean,
     id_centre integer NOT NULL,
     is_teacher boolean

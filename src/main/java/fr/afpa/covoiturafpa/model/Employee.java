@@ -23,7 +23,7 @@ public class Employee extends Person {
 
     @JsonView(Views.SimpleUser.class)
     @Column
-    private String role;
+    private String service;
 
     @JsonView(Views.SimpleUser.class)
     @Column(name = "is_admin")
@@ -47,12 +47,12 @@ public class Employee extends Person {
         this.taughtFormations = taughtFormations;
     }
 
-    public String getRole() {
-        return role;
+    public String getService() {
+        return service;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setService(String service) {
+        this.service = service;
     }
 
     public boolean getIsAdmin() {

@@ -48,8 +48,9 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers("/login/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
+                        .antMatchers("/login").permitAll()
+                        .antMatchers(HttpMethod.POST, "/users").permitAll()
+                        .antMatchers(HttpMethod.GET, "/centre/formations").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))
                 .addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)

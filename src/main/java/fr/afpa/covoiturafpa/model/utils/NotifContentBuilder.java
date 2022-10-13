@@ -8,7 +8,7 @@ import fr.afpa.covoiturafpa.model.Trainee;
 public class NotifContentBuilder {
 
     public static String createNewEmployeeContent(Employee employee) {
-        return employee.getShowedName() + " en " + employee.getRole() + " a créé un compte.";
+        return employee.getShowedName() + " en " + employee.getService() + " a créé un compte.";
     }
 
     public static String createNewTraineeContent(Trainee trainee) {
