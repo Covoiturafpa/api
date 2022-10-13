@@ -102,6 +102,18 @@ public class RideController {
         if (city.isPresent()) {
             ride.getDestination().setCity(city.get());
         }
+        if (ride instanceof RecurringRide) {
+            RecurringRide recurringRide = (RecurringRide) ride;
+            List<DayWeek> daysList = new ArrayList<DayWeek>();
+            for (DayWeek day : recurringRide.getDaysWeek()) {
+                Optional<DayWeek> dataDay = rideRepository.findByDay(day.getIdDayWeek());
+                daysList.add(dataDay.get());
+            }
+            recurringRide.setDaysWeek(daysList);
+            RecurringRide recurRide = rideRepository.save(recurringRide);
+            return recurRide;
+        }
+
         return rideRepository.save(ride);
     }
 
@@ -117,4 +129,13 @@ public class RideController {
             notificationRepository.save(newNotification);
         }
     }
+
+    @JsonView(Views.SimpleRide.class)
+    @CrossOrigin
+    @GetMapping(value = "/rides/{idRide}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Ride> get(@PathVariable(required = true) int idRide) {
+        return rideRepository.findById(idRide);
+    }
+
 }

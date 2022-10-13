@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
 
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="idDayWeek")
+@JsonIdentityInfo(generator=ObjectIdGenerators.None.class, property="idDayWeek")
 @Entity
 @Table(name = "day_week")
 public class DayWeek {
@@ -59,6 +59,7 @@ public class DayWeek {
 
     public void setName(DayOfWeek name) {
         this.name = name;
+        this.idDayWeek = name.getValue();
     }
     
     public DayWeek() {

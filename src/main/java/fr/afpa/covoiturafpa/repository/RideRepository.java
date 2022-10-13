@@ -2,11 +2,14 @@ package fr.afpa.covoiturafpa.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import fr.afpa.covoiturafpa.model.DayWeek;
 import fr.afpa.covoiturafpa.model.Ride;
 
 @Repository
@@ -20,4 +23,7 @@ public interface RideRepository extends CrudRepository<Ride, Integer>, RideRepos
 
     @Query("SELECT ride FROM Person user JOIN RidePassenger rp ON user.id = rp.id.idPerson JOIN Ride ride ON rp.id.idRide = ride.id WHERE rp.id.idPerson = :id")
     public Iterable<Ride> findRidesByPerson(@Param("id") int id);
+
+    @Query("SELECT dw FROM DayWeek dw WHERE dw.idDayWeek = :idDay")
+    public Optional<DayWeek> findByDay(@Param("idDay") int idDay);
 }

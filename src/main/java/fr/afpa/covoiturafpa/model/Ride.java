@@ -84,6 +84,10 @@ public  class Ride {
     private String rideType;
 
 
+    public String getRideType() {
+        return rideType;
+    }
+
     public Integer getId() {
         return id;
     }
