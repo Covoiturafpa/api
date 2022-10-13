@@ -483,7 +483,8 @@ CREATE TABLE covoiturafpa.notification (
     type covoiturafpa.notification_type,
     created_time timestamp without time zone,
     is_unread boolean,
-    id_person integer NOT NULL
+    id_person integer NOT NULL,
+    content varchar NOT NULL
 );
 
 
@@ -989,16 +990,16 @@ INSERT INTO covoiturafpa.fuel VALUES (5, 'GPL', 0.87);
 -- Data for Name: notification; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
 --
 
-INSERT INTO covoiturafpa.notification VALUES (82, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97);
-INSERT INTO covoiturafpa.notification VALUES (78, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97);
-INSERT INTO covoiturafpa.notification VALUES (32, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97);
-INSERT INTO covoiturafpa.notification VALUES (93, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97);
-INSERT INTO covoiturafpa.notification VALUES (73, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 43);
-INSERT INTO covoiturafpa.notification VALUES (8, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 45);
-INSERT INTO covoiturafpa.notification VALUES (30, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 43);
-INSERT INTO covoiturafpa.notification VALUES (76, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 45);
-INSERT INTO covoiturafpa.notification VALUES (5, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 57);
-INSERT INTO covoiturafpa.notification VALUES (25, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 51);
+INSERT INTO covoiturafpa.notification VALUES (82, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (78, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (32, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (93, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 97, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (73, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 43, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (8, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 45, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (30, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 43, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (76, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 45, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (5, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', false, 57, "lorem ipsum dollor");
+INSERT INTO covoiturafpa.notification VALUES (25, 'ACCEPTED_RESERVATION', '2022-01-01 00:00:00', true, 51, "lorem ipsum dollor");
 
 
 --
