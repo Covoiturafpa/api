@@ -22,10 +22,6 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 public class Employee extends Person {
 
     @JsonView(Views.SimpleUser.class)
-    @Column
-    private String service;
-
-    @JsonView(Views.SimpleUser.class)
     @Column(name = "is_admin")
     private boolean isAdmin = false;
 
@@ -45,14 +41,6 @@ public class Employee extends Person {
 
     public void setTaughtFormations(List<Formation> taughtFormations) {
         this.taughtFormations = taughtFormations;
-    }
-
-    public String getService() {
-        return service;
-    }
-
-    public void setService(String service) {
-        this.service = service;
     }
 
     public boolean getIsAdmin() {

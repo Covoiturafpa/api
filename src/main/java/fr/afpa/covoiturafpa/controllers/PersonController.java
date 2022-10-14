@@ -238,7 +238,7 @@ public class PersonController {
 
     @Secured({"ROLE_ADMIN","ROLE_TEACHER"})
     @CrossOrigin
-    @PatchMapping(value = "/users/{id}/activation", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/users/{id}/activation", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Person activateAccount(@PathVariable(required = true) int id, @RequestBody Person user) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
@@ -246,5 +246,11 @@ public class PersonController {
             return personRepository.save(person.get());
         }
         return null;
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/users/email_validity", params = "email", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public boolean isUnique(@RequestParam String email) {
+        return (personRepository.findByEmail(email).isPresent());
     }
 }

@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .antMatchers("/login").permitAll()
                         .antMatchers(HttpMethod.POST, "/users").permitAll()
                         .antMatchers(HttpMethod.GET, "/centre/formations").permitAll()
+                        .antMatchers(HttpMethod.GET, "/users/email_validity").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))
                 .addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)
