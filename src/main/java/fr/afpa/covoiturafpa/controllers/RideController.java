@@ -96,25 +96,43 @@ public class RideController {
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Ride create(@RequestBody Ride ride) {
-        Optional<Person> driver = personRepository.findById(ride.getCar().getPerson().getId());
-        ride.setDriver(driver.get());
-        Optional<City> city = cityRepository.findByName(ride.getDestination().getCity().getName());
-        if (city.isPresent()) {
-            ride.getDestination().setCity(city.get());
-        }
-        if (ride instanceof RecurringRide) {
-            RecurringRide recurringRide = (RecurringRide) ride;
-            List<DayWeek> daysList = new ArrayList<DayWeek>();
-            for (DayWeek day : recurringRide.getDaysWeek()) {
-                Optional<DayWeek> dataDay = rideRepository.findByDay(day.getIdDayWeek());
-                daysList.add(dataDay.get());
+        List<Ride> existingRide;
+        try {
+            if (ride instanceof RecurringRide) {
+                RecurringRide recurringRide = (RecurringRide) ride;
+                existingRide = rideRepository.findRecurringRidesByDateTimeAndDestination(recurringRide.getDestination().getCity().getName(), recurringRide.getBeginning(), recurringRide.getEnding(), recurringRide.getDestination().getIsFromAfpa());
             }
-            recurringRide.setDaysWeek(daysList);
-            RecurringRide recurRide = rideRepository.save(recurringRide);
-            return recurRide;
+            else {
+                OneTimeRide oneTimeRide = (OneTimeRide) ride;
+                existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(), oneTimeRide.getDepartureTime(), oneTimeRide.getDestination().getIsFromAfpa());
+            }
+            if(existingRide.size() == 0) {
+                //Début de la création d'un ride
+                Optional<Person> driver = personRepository.findById(ride.getCar().getPerson().getId());
+                ride.setDriver(driver.get());
+                Optional<City> city = cityRepository.findByName(ride.getDestination().getCity().getName());
+                if (city.isPresent()) {
+                    ride.getDestination().setCity(city.get());
+                }
+                if (ride instanceof RecurringRide) {
+                    RecurringRide recurringRide = (RecurringRide) ride;
+                    List<DayWeek> daysList = new ArrayList<DayWeek>();
+                    for (DayWeek day : recurringRide.getDaysWeek()) {
+                        Optional<DayWeek> dataDay = rideRepository.findByDay(day.getIdDayWeek());
+                        daysList.add(dataDay.get());
+                    }
+                    recurringRide.setDaysWeek(daysList);
+                    RecurringRide recurRide = rideRepository.save(recurringRide);
+                    return recurRide;
+                }
+                return rideRepository.save(ride);
+            }
         }
-
-        return rideRepository.save(ride);
+        catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(RideController.class);
+            logger.error("Erreur : Impossible de créer un ride déjà existant");
+        }
+        return null;
     }
 
     @CrossOrigin
