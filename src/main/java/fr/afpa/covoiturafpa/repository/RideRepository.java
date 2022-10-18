@@ -30,10 +30,10 @@ public interface RideRepository extends CrudRepository<Ride, Integer>, RideRepos
     public Optional<DayWeek> findByDay(@Param("idDay") int idDay);
 
 
-    @Query(value = "SELECT * FROM one_time AS ot JOIN ride AS r ON ot.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE ( c.name = :cityName AND c.name IS NOT NULL ) AND ot.departure_day = :departureDay AND r.departure_time = :departureTime AND d.is_from_afpa = :isFromAfpa", nativeQuery = true)
-    public List<Ride> findOneTimeRidesByDateTimeAndDestination(@Param("cityName") String cityName, @Param("departureDay") LocalDate departureDay, @Param("departureTime") LocalTime departureTime, @Param("isFromAfpa") boolean isFromAfpa);
+    @Query(value = "SELECT * FROM one_time AS ot JOIN ride AS r ON ot.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE ( c.name = :cityName AND c.name IS NOT NULL ) AND ot.departure_day = :departureDay AND d.is_from_afpa = :isFromAfpa", nativeQuery = true)
+    public List<Ride> findOneTimeRidesByDateTimeAndDestination(@Param("cityName") String cityName, @Param("departureDay") LocalDate departureDay, @Param("isFromAfpa") boolean isFromAfpa);
 
-    @Query(value = "SELECT * FROM recurring AS rr JOIN ride AS r ON rr.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE ( c.name = :cityName AND c.name IS NOT NULL ) AND (:beginning <= rr.ending AND rr.beginning <= :ending) AND d.is_from_afpa = :isFromAfpa", nativeQuery = true)
+    @Query(value = "SELECT * FROM recurring AS rr JOIN ride AS r ON rr.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE ( c.name = :cityName) AND (:beginning <= rr.ending AND rr.beginning <= :ending) AND d.is_from_afpa = :isFromAfpa", nativeQuery = true)
     public List<Ride> findRecurringRidesByDateTimeAndDestination(@Param("cityName") String cityName, @Param("beginning") LocalDate beginning, @Param("ending") LocalDate ending, @Param("isFromAfpa") boolean isFromAfpa);
 
 }

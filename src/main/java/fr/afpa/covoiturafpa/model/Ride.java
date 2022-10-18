@@ -66,7 +66,7 @@ public  class Ride {
     private int price;
 
     @JsonView(Views.SimpleRide.class)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_destination")
     private Destination destination;
 

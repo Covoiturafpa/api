@@ -10,13 +10,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +42,8 @@ import fr.afpa.covoiturafpa.repository.CityRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.security.CustomUsernamePasswordAuthenticationToken;
+import fr.afpa.covoiturafpa.utils.security.JwtUtil;
 
 @RestController
 public class RideController {
@@ -97,6 +103,7 @@ public class RideController {
     @ResponseStatus(HttpStatus.CREATED)
     public Ride create(@RequestBody Ride ride) {
         List<Ride> existingRide;
+        System.out.println("############  ON ! " + ride.getDestination().getIsFromAfpa()+ " #############");
         try {
             if (ride instanceof RecurringRide) {
                 RecurringRide recurringRide = (RecurringRide) ride;
@@ -104,7 +111,7 @@ public class RideController {
             }
             else {
                 OneTimeRide oneTimeRide = (OneTimeRide) ride;
-                existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(), oneTimeRide.getDepartureTime(), oneTimeRide.getDestination().getIsFromAfpa());
+                existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(), oneTimeRide.getDestination().getIsFromAfpa());
             }
             if(existingRide.size() == 0) {
                 //Début de la création d'un ride
@@ -130,7 +137,7 @@ public class RideController {
         }
         catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(RideController.class);
-            logger.error("Erreur : Impossible de créer un ride déjà existant");
+            logger.error("Erreur : Une erreur est survenu lors de la création");
         }
         return null;
     }
@@ -148,12 +155,58 @@ public class RideController {
         }
     }
 
+    @JsonView(Views.DetailedRide.class)
+    @CrossOrigin
+    @PutMapping(value = "/update/rides/{idRide}")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) int idRide, @RequestParam Ride ride) {
+        System.out.println("####### HEY ! ######");
+        try {
+            String[] tokenArray = headerAuthorization.split(" ");
+            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+            Optional<Ride> optionalRide = rideRepository.findById(idRide);
+            if (optionalRide.isPresent()) {
+                Integer idUser = optionalRide.get().getDriver().getId();
+                if (userAuthentication.getIdUser().equals(idUser)) {
+                    rideRepository.save(ride);
+                }
+            }
+
+        }catch(Exception e) {
+            Logger logger = LoggerFactory.getLogger(RideController.class);
+            logger.error("Erreur lors de la conception de la réponse JSon" + e);
+        }
+    }
+
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin
     @GetMapping(value = "/rides/{idRide}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Ride> get(@PathVariable(required = true) int idRide) {
+    public Optional<Ride> get( @PathVariable(required = true) int idRide) {
         return rideRepository.findById(idRide);
     }
 
+    @JsonView(Views.SimpleRide.class)
+    @CrossOrigin
+    @DeleteMapping(value = "/rides/{idRide}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) Integer idRide) {
+        try {
+            String[] tokenArray = headerAuthorization.split(" ");
+            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+            Optional<Ride> ride = rideRepository.findById(idRide);
+            if (ride.isPresent()) {
+                Integer idUser = ride.get().getDriver().getId();
+                if (userAuthentication.getIdUser().equals(idUser)) {
+                    rideRepository.deleteById(idRide);
+                }
+            }
+
+        }catch(Exception e) {
+            Logger logger = LoggerFactory.getLogger(PersonController.class);
+            logger.error("Erreur lors de la conception de la réponse JSon" + e);
+        }
+        
+    }
+    
 }
