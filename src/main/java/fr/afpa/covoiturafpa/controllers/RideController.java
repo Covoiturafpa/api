@@ -10,11 +10,9 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -159,11 +157,13 @@ public class RideController {
             Notification newNotification = new Notification(Notification.TypeNotif.NEW_RESERVATION,
                 NotifContentBuilder.createNewBookingContent(passenger, ride), ride.getDriver());
             notificationRepository.save(newNotification);
+            responseMessage.put("type", "success");
             responseMessage.put("message", "Demande de réservation effectuée");
-            return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.OK);
+            return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
         } else {
+            responseMessage.put("type", "error");
             responseMessage.put("message", "Réservation impossible, utilisateur déjà inscrit");
-            return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.ACCEPTED); 
+            return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CONFLICT);
         }
     }
 
