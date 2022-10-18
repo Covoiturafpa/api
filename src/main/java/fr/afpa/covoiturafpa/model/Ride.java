@@ -199,19 +199,24 @@ public  class Ride {
 
     public void acceptBooking(Person person) {
         if (this.hasBooking(person)) {
-            this.requestedPassengers.get(this.findBooking(person)).setStatus(Status.ACCEPTED);
+            this.requestedPassengers.get(this.findBookingIndex(person)).setStatus(Status.ACCEPTED);
         }
     }
 
     public boolean hasBooking(Person person) {
-        return (this.requestedPassengers.get(this.findBooking(person)).getId().getIdPerson() == person.getId()); 
+        int index = this.findBookingIndex(person);
+        if (index != -1) {
+            return (this.requestedPassengers.get(index).getId().getIdPerson() == person.getId()); 
+        } else {
+            return false;
+        }
     }
 
     public RidePassenger rejectBooking(Person person) {
-        return this.requestedPassengers.remove(this.findBooking(person));
+        return this.requestedPassengers.remove(this.findBookingIndex(person));
     }
 
-    public int findBooking(Person person) {
+    public int findBookingIndex(Person person) {
         for (int i = 0; i < this.requestedPassengers.size(); i++) {
             if (this.requestedPassengers.get(i).getId().getIdPerson() == person.getId()) {
                 return i;
