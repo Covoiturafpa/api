@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils.hcaptcha;
+package fr.afpa.covoiturafpa.utils.captcha;
 
 import fr.afpa.covoiturafpa.model.Person;
 
