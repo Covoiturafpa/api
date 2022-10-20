@@ -13,4 +13,8 @@ public class HCaptchaToken {
 
     public HCaptchaToken() {
     }
+
+    public HCaptchaToken(String token) {
+        this.token = token;
+    }
 }
