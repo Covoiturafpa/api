@@ -3,14 +3,14 @@ package fr.afpa.covoiturafpa.utils.captcha;
 import fr.afpa.covoiturafpa.model.Person;
 
 public class PersonCreationRequest {
-    private Person person;
+    private Person newPerson;
     private HCaptchaToken captchaToken;
     
-    public Person getPerson() {
-        return person;
+    public Person getNewPerson() {
+        return newPerson;
     }
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setNewPerson(Person newPerson) {
+        this.newPerson = newPerson;
     }
     public HCaptchaToken getCaptchaToken() {
         return captchaToken;

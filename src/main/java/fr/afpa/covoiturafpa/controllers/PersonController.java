@@ -110,14 +110,15 @@ public class PersonController {
         }
         return null;
     }
-     
+    
+    @JsonView(Views.DetailedUser.class)
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Person create(@RequestBody PersonCreationRequest personCreationRequest) {
         HCaptchaService captchaService = new HCaptchaService(personCreationRequest.getCaptchaToken()) ;
         if (captchaService.isValid()) {
-            Person newPerson = personCreationRequest.getPerson();
+            Person newPerson = personCreationRequest.getNewPerson();
             newPerson.setPassword(context.getBean(PasswordEncoder.class).encode(newPerson.getPassword()));
             return personRepository.save(newPerson);
         }
