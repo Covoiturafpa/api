@@ -111,7 +111,6 @@ public class RideController {
     @ResponseStatus(HttpStatus.CREATED)
     public Ride create(@RequestBody Ride ride) {
         List<Ride> existingRide;
-        System.out.println("############  ON ! " + ride.getDestination().getIsFromAfpa()+ " #############");
         try {
             if (ride instanceof RecurringRide) {
                 RecurringRide recurringRide = (RecurringRide) ride;
@@ -173,12 +172,11 @@ public class RideController {
     }
 
 
-    @JsonView(Views.DetailedRide.class)
     @CrossOrigin
-    @PutMapping(value = "/update/rides/{idRide}")
+    @PutMapping(value = "/update/rides/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) int idRide, @RequestParam Ride ride) {
-        System.out.println("####### HEY ! ######");
+    public ResponseEntity<HashMap<String, String>> updateRide(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) int idRide, @RequestBody Ride ride) {
+        HashMap<String, String> responseMessage = new HashMap<String, String>();
         try {
             String[] tokenArray = headerAuthorization.split(" ");
             CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
@@ -186,13 +184,33 @@ public class RideController {
             if (optionalRide.isPresent()) {
                 Integer idUser = optionalRide.get().getDriver().getId();
                 if (userAuthentication.getIdUser().equals(idUser)) {
-                    rideRepository.save(ride);
+                    Ride newRide = optionalRide.get();
+                    if (newRide.getComment().equals(ride.getComment())) {
+                        newRide.setComment(ride.getComment());
+                    }
+                    if(newRide.getIsActive() == (ride.getIsActive())) {
+                        newRide.setIsActive(ride.getIsActive());
+                    }
+
+                    rideRepository.save(newRide);
+                    responseMessage.put("type", "success");
+                    responseMessage.put("message", "Le trajet est modifié");
+                    return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
+                }else {
+                    responseMessage.put("type", "error");
+                    responseMessage.put("message", "Vous n'êtes pas propriétaire de ce trajet");
+                    return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
                 }
+            }else {
+                responseMessage.put("type", "error");
+                responseMessage.put("message", "Il y a un problème sur ce trajet");
+                return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
             }
 
         }catch(Exception e) {
-            Logger logger = LoggerFactory.getLogger(RideController.class);
-            logger.error("Erreur lors de la conception de la réponse JSon" + e);
+            responseMessage.put("type", "error");
+            responseMessage.put("message", "Impossible de traité le JSON");
+            return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
         }
     }
 

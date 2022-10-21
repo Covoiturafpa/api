@@ -1,5 +1,9 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,14 +34,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.Car;
+import fr.afpa.covoiturafpa.model.Employee;
+import fr.afpa.covoiturafpa.model.Formation;
 import fr.afpa.covoiturafpa.model.Notification;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
+import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.utils.NotifContentBuilder;
 import fr.afpa.covoiturafpa.model.utils.Views;
 import fr.afpa.covoiturafpa.repository.CarRepository;
+import fr.afpa.covoiturafpa.repository.EmployeeRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
+import fr.afpa.covoiturafpa.repository.RidePassengerRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 import fr.afpa.covoiturafpa.utils.security.CustomUsernamePasswordAuthenticationToken;
 import fr.afpa.covoiturafpa.utils.security.JwtUtil;
@@ -53,19 +64,51 @@ public class PersonController {
     private CarRepository carRepository;
 
     @Autowired
+    private RidePassengerRepository ridePassengerRepository;
+
+    @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private ApplicationContext context;
 
     
-    @JsonView(Views.SimpleUser.class)
+    @JsonView(Views.DetailedUser.class)
     @CrossOrigin
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
     @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Person> list() {
-        return personRepository.findAll();
+    public ArrayList<Person> list(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization) {
+        try {
+            String[] tokenArray = headerAuthorization.split(" ");
+            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+            String roles = userAuthentication.getAuthorities().toString();
+            if(roles.contains("ROLE_TEACHER") && roles.contains("ROLE_ADMIN")) {
+                ArrayList<Person> result = new ArrayList<Person>();
+                Iterable<Person> allTrainee =  personRepository.findAll();
+                allTrainee.forEach(result::add);
+                return result;
+            }
+            else if (roles.contains("ROLE_TEACHER")) {
+                Employee teacher = employeeRepository.findById(userAuthentication.getIdUser()).get();
+                List<Formation> formations = teacher.getTaughtFormations();
+                ArrayList<Person> traineePerson = new ArrayList<Person>();
+                for (Formation formation : formations) {
+                    Iterator<Person> requestResult = personRepository.findByIdFormation(formation.getId()).iterator(); 
+                    while (requestResult.hasNext()) {
+                        traineePerson.add(requestResult.next());
+                    }
+                }
+                return traineePerson;
+            }
+        }catch(Exception e) {
+            Logger logger = LoggerFactory.getLogger(PersonController.class);
+            logger.error("Erreur lors de la conception de la réponse JSon" + e);
+        }
+        return null;
     }
      
     @CrossOrigin
@@ -144,11 +187,41 @@ public class PersonController {
     @CrossOrigin
     @PutMapping(value = "/users/{idDriver}/rides/{idRide}")
     @ResponseStatus(HttpStatus.OK)
-    public void manageReservation(@PathVariable(required = true) Integer idRide, @RequestParam Integer idPassenger, @RequestParam boolean isAccepted) {
-        Ride ride = rideRepository.findById(idRide).get();
-        Person passenger = personRepository.findById(idPassenger).get();
-        rideRepository.save(ride.manageBooking(passenger, isAccepted));
-        saveBookingNotification(ride, passenger, isAccepted);
+    public ResponseEntity<HashMap<String, String>> manageReservation(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) int idRide, @RequestParam int idPassenger, @RequestParam boolean isAccepted) {
+        HashMap<String, String> responseMessage = new HashMap<String, String>();
+        try {
+            String[] tokenArray = headerAuthorization.split(" ");
+            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+            Ride ride = rideRepository.findById(idRide).get();
+            if (userAuthentication.getIdUser().equals(ride.getDriver().getId())) {
+                Person passenger = personRepository.findById(idPassenger).get();
+                Ride updateRide = ride.manageBooking(passenger, isAccepted);
+                rideRepository.save(updateRide);
+                saveBookingNotification(ride, passenger, isAccepted);
+                if(isAccepted) {
+                    responseMessage.put("type", "success");
+                    responseMessage.put("message", "Le passager a bien était accepté");
+                    return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
+                }else {
+                    RidePassenger ridePassenger = ridePassengerRepository.findByPersonAndRide(passenger, ride).get();
+                    ridePassengerRepository.delete(ridePassenger);
+                    responseMessage.put("type", "success");
+                    responseMessage.put("message", "Le passager a bien était refusé");
+                    return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
+                }
+            }else {
+                responseMessage.put("type", "error");
+                responseMessage.put("message", "Vous n'êtes pas propriétaire de ce trajet");
+                return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
+            }
+        }
+        catch(Exception e) {
+            responseMessage.put("type", "error");
+            responseMessage.put("message", "Impossible de traité le JSON");
+            return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
+        }
+        
+        
     }
 
     public void saveBookingNotification(Ride ride, Person passenger, boolean isAccepted) {

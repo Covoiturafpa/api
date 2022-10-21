@@ -1,7 +1,6 @@
 package fr.afpa.covoiturafpa.repository;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import fr.afpa.covoiturafpa.model.DayWeek;
-import fr.afpa.covoiturafpa.model.RecurringRide;
 import fr.afpa.covoiturafpa.model.Ride;
 
 @Repository
@@ -35,5 +33,4 @@ public interface RideRepository extends CrudRepository<Ride, Integer>, RideRepos
 
     @Query(value = "SELECT * FROM recurring AS rr JOIN ride AS r ON rr.id_ride = r.id_ride JOIN destination AS d ON r.id_destination = d.id_destination JOIN city AS c ON d.id_city = c.id_city WHERE ( c.name = :cityName) AND (:beginning <= rr.ending AND rr.beginning <= :ending) AND d.is_from_afpa = :isFromAfpa", nativeQuery = true)
     public List<Ride> findRecurringRidesByDateTimeAndDestination(@Param("cityName") String cityName, @Param("beginning") LocalDate beginning, @Param("ending") LocalDate ending, @Param("isFromAfpa") boolean isFromAfpa);
-
 }
