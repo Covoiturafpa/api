@@ -48,6 +48,8 @@ import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RidePassengerRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import fr.afpa.covoiturafpa.utils.captcha.HCaptchaService;
+import fr.afpa.covoiturafpa.utils.captcha.PersonCreationRequest;
 import fr.afpa.covoiturafpa.utils.security.CustomUsernamePasswordAuthenticationToken;
 import fr.afpa.covoiturafpa.utils.security.JwtUtil;
 
@@ -114,11 +116,17 @@ public class PersonController {
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    public Person create(@RequestBody Person person) {
-        person.setPassword(context.getBean(PasswordEncoder.class).encode(person.getPassword()));
-        return personRepository.save(person);
+    public Person create(@RequestBody PersonCreationRequest personCreationRequest) {
+        HCaptchaService captchaService = new HCaptchaService(personCreationRequest.getCaptchaToken()) ;
+        if (captchaService.isValid()) {
+            Person newPerson = personCreationRequest.getPerson();
+            newPerson.setPassword(context.getBean(PasswordEncoder.class).encode(newPerson.getPassword()));
+            return personRepository.save(newPerson);
+        }
+        return null;
     }
 
+    @Secured("ROLE_ADMIN")
     @CrossOrigin
     @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -248,6 +248,6 @@ public abstract class Person {
     }
 
     public String getShowedName() {
-        return this.firstName + this.surname.charAt(0) + "." ;
+        return this.firstName + " " + this.surname.charAt(0) + "." ;
     }
 }

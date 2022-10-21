@@ -16,7 +16,7 @@ public class NotifContentBuilder {
     }
 
     public static String createNewBookingContent(Person person, Ride ride) {
-        return person.getShowedName() + " est intéressé.e par votre trajet " + ride.getDestination().getTravel() + ". Vous pouvez l’appeler au <p><a href='tel:+33.6.01.02.03.04'>" + person.getPhoneNumber() + "</a></p>" + person.getPhoneNumber() + " pour vous organiser.";
+        return person.getShowedName() + " est intéressé.e par votre trajet " + ride.getDestination().getTravel() + ". Vous pouvez l’appeler au <a href='tel:+33.6.01.02.03.04'>" + person.getPhoneNumber() + "</a>" + " pour vous organiser.";
     }
 
     public static String createAcceptedBookingContent(Ride ride) {
