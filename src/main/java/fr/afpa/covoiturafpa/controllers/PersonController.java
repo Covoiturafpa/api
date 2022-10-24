@@ -330,7 +330,7 @@ public class PersonController {
 
     @CrossOrigin
     @GetMapping(value = "/users/email_validity", params = "email", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public boolean isUnique(@RequestParam String email) {
-        return (personRepository.findByEmail(email).isPresent());
+    public boolean isNotTaken(@RequestParam String email) {
+        return (!personRepository.findByEmail(email).isPresent());
     }
 }
