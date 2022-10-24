@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
 
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Employee;
@@ -330,7 +333,23 @@ public class PersonController {
 
     @CrossOrigin
     @GetMapping(value = "/users/email_validity", params = "email", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public boolean isNotTaken(@RequestParam String email) {
+    public boolean isNotTaken(@RequestParam String email, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) Optional<String> headerAuthorization) {
+        
+        if (headerAuthorization.isPresent()) {
+
+            String[] tokenArray = headerAuthorization.get().split(" ");
+            try {
+                CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+                Optional<Person> user = personRepository.findById(userAuthentication.getIdUser());
+                if (user.isPresent() && user.get().getEmail().equals(email)) {
+                    return true;
+                }
+            } catch (JOSEException | ParseException | BadJOSEException e) {
+                e.printStackTrace();
+            }
+        }
+        
         return (!personRepository.findByEmail(email).isPresent());
     }
+
 }
