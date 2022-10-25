@@ -204,6 +204,12 @@ public class PersonController {
                             return ResponseEntity.badRequest().build();
                         }
                     }
+                    if (updatedPerson.isContactByMail() != person.isContactByMail()) {
+                        person.setContactByMail(updatedPerson.isContactByMail());
+                    }
+                    if(updatedPerson.isContactBySms() != person.isContactBySms()) {
+                        person.setContactBySms(updatedPerson.isContactBySms());
+                    }
                     return ResponseEntity.ok(personRepository.save(person));
                 }
             }

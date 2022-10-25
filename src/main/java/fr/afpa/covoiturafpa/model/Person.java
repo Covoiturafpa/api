@@ -25,21 +25,18 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
 
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = As.PROPERTY,
-    property = "personType")
-    @JsonSubTypes({
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "personType")
+@JsonSubTypes({
         @JsonSubTypes.Type(value = Employee.class, name = "E"),
         @JsonSubTypes.Type(value = Trainee.class, name = "T")
-    })
+})
 @Entity
-@DiscriminatorColumn(name="person_type")
+@DiscriminatorColumn(name = "person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
 public abstract class Person {
 
-    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
+    @JsonView(value = { Views.SimpleRide.class, Views.SimpleUser.class })
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
@@ -52,15 +49,15 @@ public abstract class Person {
     @Column
     private String password;
 
-    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
+    @JsonView(value = { Views.SimpleRide.class, Views.SimpleUser.class })
     @Column
     private String surname;
 
-    @JsonView(value = {Views.SimpleRide.class, Views.SimpleUser.class})
+    @JsonView(value = { Views.SimpleRide.class, Views.SimpleUser.class })
     @Column(name = "first_name")
     private String firstName;
 
-    @JsonView(value = {Views.SimpleUser.class, Views.DetailedRide.class})
+    @JsonView(value = { Views.SimpleUser.class, Views.DetailedRide.class })
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -76,7 +73,7 @@ public abstract class Person {
     @Column(name = "contact_by_mail")
     private boolean contactByMail;
 
-    @JsonView(value = {Views.DetailedUser.class, Views.DetailedRide.class})
+    @JsonView(value = { Views.DetailedUser.class, Views.DetailedRide.class })
     @Column
     private String photoPath;
 
@@ -107,7 +104,6 @@ public abstract class Person {
     @JsonView(Views.SimpleUser.class)
     @Column(name = "person_type", nullable = false, insertable = false, updatable = false)
     private String personType;
-
 
     public String getPersonType() {
         return personType;
@@ -168,6 +164,7 @@ public abstract class Person {
     public boolean getIsActivated() {
         return isActivated;
     }
+
     public void setIsActivated(boolean isActivated) {
         this.isActivated = isActivated;
     }
@@ -203,7 +200,7 @@ public abstract class Person {
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
-    
+
     public LocalDate getStartActivity() {
         return startActivity;
     }
@@ -248,6 +245,6 @@ public abstract class Person {
     }
 
     public String getShowedName() {
-        return this.firstName + " " + this.surname.charAt(0) + "." ;
+        return this.firstName + " " + this.surname.charAt(0) + ".";
     }
 }
