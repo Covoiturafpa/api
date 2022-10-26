@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.controllers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,6 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +37,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
 
 import fr.afpa.covoiturafpa.model.Car;
 import fr.afpa.covoiturafpa.model.Employee;
@@ -150,11 +157,68 @@ public class PersonController {
         return personRepository.findById(id);
     }
     
+    
+    @JsonView(Views.DetailedUser.class)
     @CrossOrigin
+    @Transactional
     @PatchMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Person update(@RequestBody Person person) {
-        return personRepository.save(person);
+    public ResponseEntity<Person> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @RequestBody Person updatedPerson) {
+        try {
+            String[] tokenArray = headerAuthorization.split(" ");
+            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+
+            if (userAuthentication.getIdUser().equals(updatedPerson.getId())) {
+                Optional<Person> optPerson = personRepository.findById(updatedPerson.getId());
+
+                if (optPerson.isPresent()) {
+                    Person person = optPerson.get();
+                    
+                    if (!person.getEmail().equals(updatedPerson.getEmail())) {
+                        Pattern email = Pattern.compile("^[a-zA-Z0-9_+&*]+(?:[\\.\\-][a-zA-Z0-9_+&*]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,15}$");
+                        Matcher mailMatcher = email.matcher(updatedPerson.getEmail());
+                        
+                        if (mailMatcher.matches() && !personRepository.findByEmail(updatedPerson.getEmail()).isPresent()) {
+                            person.setEmail(updatedPerson.getEmail());
+                        } else {
+                            return ResponseEntity.badRequest().build();
+                        }
+                    }
+                    
+                    if (!person.getPhoneNumber().equals(updatedPerson.getPhoneNumber())) {
+                        Pattern phoneNumber = Pattern.compile("^(\\+33|0|0033)[1-9]([. ]?[0-9]{2}){4}$");
+                        Matcher phoneNumberMatcher = phoneNumber.matcher(updatedPerson.getPhoneNumber());
+                        
+                        if (phoneNumberMatcher.matches()) {
+                            person.setPhoneNumber(updatedPerson.getPhoneNumber());
+                        } else {
+                            return ResponseEntity.badRequest().build();
+                        }
+                    }
+
+                    if (updatedPerson.getPassword() != null) {
+                        Pattern password = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$");
+                        Matcher passwordMatcher = password.matcher(updatedPerson.getPassword());
+                        
+                        if (passwordMatcher.matches()) {
+                            person.setPassword(context.getBean(PasswordEncoder.class).encode(updatedPerson.getPassword()));
+                        } else {
+                            return ResponseEntity.badRequest().build();
+                        }
+                    }
+                    if (updatedPerson.isContactByMail() != person.isContactByMail()) {
+                        person.setContactByMail(updatedPerson.isContactByMail());
+                    }
+                    if(updatedPerson.isContactBySms() != person.isContactBySms()) {
+                        person.setContactBySms(updatedPerson.isContactBySms());
+                    }
+                    return ResponseEntity.ok(personRepository.save(person));
+                }
+            }
+        } catch (JOSEException | ParseException | BadJOSEException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().build();
     }
     
     @CrossOrigin
@@ -184,13 +248,6 @@ public class PersonController {
             logger.error("Erreur lors de la conception de la réponse JSon" + e);
         }
         return null;
-    }
-
-    @CrossOrigin
-    @PatchMapping(value = "/users/{idPerson}/rides/{idRide}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateRide() {
-        //TODO: suivre trello, ou pas ?
     }
 
     @CrossOrigin
@@ -337,7 +394,23 @@ public class PersonController {
 
     @CrossOrigin
     @GetMapping(value = "/users/email_validity", params = "email", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public boolean isUnique(@RequestParam String email) {
-        return (personRepository.findByEmail(email).isPresent());
+    public boolean isNotTaken(@RequestParam String email, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) Optional<String> headerAuthorization) {
+        
+        if (headerAuthorization.isPresent()) {
+
+            String[] tokenArray = headerAuthorization.get().split(" ");
+            try {
+                CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+                Optional<Person> user = personRepository.findById(userAuthentication.getIdUser());
+                if (user.isPresent() && user.get().getEmail().equals(email)) {
+                    return true;
+                }
+            } catch (JOSEException | ParseException | BadJOSEException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return (!personRepository.findByEmail(email).isPresent());
     }
+
 }
