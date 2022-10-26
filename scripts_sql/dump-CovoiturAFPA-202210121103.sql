@@ -386,7 +386,6 @@ ALTER SEQUENCE covoiturafpa.destination_id_destination_seq OWNED BY covoiturafpa
 
 CREATE TABLE covoiturafpa.employee (
     id_person integer NOT NULL,
-    service character varying(50),
     is_admin boolean,
     id_centre integer NOT NULL,
     is_teacher boolean
@@ -953,9 +952,9 @@ INSERT INTO covoiturafpa.destination VALUES (2, 46.79087385, 0.2054939898438607,
 -- Data for Name: employee; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
 --
 
-INSERT INTO covoiturafpa.employee VALUES (97, 'restauration', true, 28, false);
-INSERT INTO covoiturafpa.employee VALUES (57, 'administration', true, 28, false);
-INSERT INTO covoiturafpa.employee VALUES (51, 'formateur', true, 28, true);
+INSERT INTO covoiturafpa.employee VALUES (97, true, 28, false);
+INSERT INTO covoiturafpa.employee VALUES (57, true, 28, false);
+INSERT INTO covoiturafpa.employee VALUES (51, true, 28, true);
 
 
 --
