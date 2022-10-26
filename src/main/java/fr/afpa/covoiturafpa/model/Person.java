@@ -244,7 +244,29 @@ public abstract class Person {
     public Person() {
     }
 
+    @JsonView(Views.SimpleUser.class)
     public String getShowedName() {
         return this.firstName + " " + this.surname.charAt(0) + ".";
+    }
+
+    public boolean hasValidFields() {
+        return false;
+    }
+
+    public boolean hasValidEmail() {
+        return false;
+    }
+
+    public boolean hasValidPassword() {
+        return false;
+    }
+
+    public boolean hasValidPhoneNumber() {
+//^(\+33|0|0033)[1-9]([. ]?[0-9]{2}){4}
+        return false;
+    }
+
+    public boolean hasValidPeriod() {
+        return this.startActivity.isBefore(endActivity);
     }
 }
