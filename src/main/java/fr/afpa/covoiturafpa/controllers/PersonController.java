@@ -1,9 +1,11 @@
 package fr.afpa.covoiturafpa.controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -309,11 +311,16 @@ public class PersonController {
         return (notificationRepository.countNewNotifications(id) > 0);
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     @CrossOrigin
-    @PatchMapping(value = "/users/{id}/roles", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    public Person giveAdminOrTeacherAccess(@RequestBody Person person) {
-        return personRepository.save(person);
+    @PatchMapping(value = "/users/{id}/roles", consumes = "application/json-patch+json")
+    public Person giveAdminOrTeacherAccess(@RequestBody Map<String, Boolean> data) {
+        for (String key : data.keySet()){
+            if (key == "isAdmin") {
+
+            }
+        }
+        return null;
     }
 
     @Secured({"ROLE_ADMIN","ROLE_TEACHER"})
