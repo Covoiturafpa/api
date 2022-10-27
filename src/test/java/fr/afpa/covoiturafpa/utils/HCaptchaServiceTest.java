@@ -1,6 +1,8 @@
 package fr.afpa.covoiturafpa.utils;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,15 @@ public class HCaptchaServiceTest {
     private HCaptchaService hCaptchaService;
 
     @Test
-    public void should_return_token_invalidity() {
+    public void should_return_token_validity() {
+        hCaptchaService.setSecret("0x0000000000000000000000000000000000000000");
         hCaptchaService.setCaptchaToken(new HCaptchaToken("10000000-aaaa-bbbb-cccc-000000000001"));
+        assertTrue(hCaptchaService.isValid());
+    }
+
+    @Test
+    public void should_return_token_invalidity() {
+        hCaptchaService.setCaptchaToken(new HCaptchaToken("10000000-aaaa-bbbb-cccc-000000000002"));
         assertFalse(hCaptchaService.isValid());
     }
 }
