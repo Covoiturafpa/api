@@ -56,7 +56,7 @@ public class RidesTest {
     private CityRepository cityRepository;
 
     @Autowired
-    RideController rideController;
+    private RideController rideController;
 
     private ObjectMapper mapper = new ObjectMapper();
 

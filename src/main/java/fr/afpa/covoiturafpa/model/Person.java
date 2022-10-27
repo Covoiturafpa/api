@@ -67,11 +67,11 @@ public abstract class Person {
 
     @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_sms")
-    private boolean contactBySms;
+    private boolean contactBySms = false;
 
     @JsonView(Views.DetailedUser.class)
     @Column(name = "contact_by_mail")
-    private boolean contactByMail;
+    private boolean contactByMail = false;
 
     @JsonView(value = { Views.DetailedUser.class, Views.DetailedRide.class })
     @Column
