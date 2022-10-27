@@ -11,7 +11,8 @@ import fr.afpa.covoiturafpa.model.Person;
 public class PersonChecker {
     
     public static boolean hasValidFields(Person person) {
-        return false;
+        boolean validity = (isValidEmail(person.getEmail()) && isValidPassword(person.getPassword()) && isValidPhoneNumber(person.getPhoneNumber()) && isValidPeriod(person.getStartActivity(), person.getEndActivity()));
+        return validity;
     }
 
     public static boolean isValidEmail(String email) {
@@ -23,10 +24,10 @@ public class PersonChecker {
     }
 
     public static boolean isValidPhoneNumber(String phoneNumber) {
-        return Pattern.compile("^(+33|0|0033)[1-9]([. ]?[0-9]{2}){4}").matcher(phoneNumber).matches();
+        return Pattern.compile("^(\\+33|0|0033)[1-9]([. ]?[0-9]{2}){4}$").matcher(phoneNumber).matches();
     }
 
-    public static boolean hasValidPeriod(LocalDate startActivity, LocalDate endActivity) {
+    public static boolean isValidPeriod(LocalDate startActivity, LocalDate endActivity) {
         return startActivity.isBefore(endActivity);
     }
 }
