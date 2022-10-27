@@ -28,7 +28,6 @@ public class OneTimeRide extends Ride {
     @Column(name = "departure_day")
     private LocalDate departureDay;
 
-
     public LocalDate getDepartureDay() {
         return departureDay;
     }

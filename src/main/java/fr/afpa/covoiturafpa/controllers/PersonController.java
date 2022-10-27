@@ -2,7 +2,6 @@ package fr.afpa.covoiturafpa.controllers;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -48,6 +47,7 @@ import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.RidePassenger;
 import fr.afpa.covoiturafpa.model.utils.NotifContentBuilder;
+import fr.afpa.covoiturafpa.model.utils.PersonChecker;
 import fr.afpa.covoiturafpa.model.utils.Views;
 import fr.afpa.covoiturafpa.repository.CarRepository;
 import fr.afpa.covoiturafpa.repository.EmployeeRepository;
@@ -124,14 +124,22 @@ public class PersonController {
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    public Person create(@RequestBody PersonCreationRequest personCreationRequest) {
-        HCaptchaService captchaService = new HCaptchaService(personCreationRequest.getCaptchaToken()) ;
-        if (captchaService.isValid()) {
-            Person newPerson = personCreationRequest.getNewPerson();
-            newPerson.setPassword(context.getBean(PasswordEncoder.class).encode(newPerson.getPassword()));
-            return personRepository.save(newPerson);
+    public Person register(@RequestBody PersonCreationRequest personCreationRequest) {
+        HCaptchaService captchaService = new HCaptchaService(personCreationRequest.getCaptchaToken());
+        Person newPerson = personCreationRequest.getNewPerson();
+        if (captchaService.isValid() && isValidNewPerson(newPerson)) {
+            return createPerson(newPerson);
         }
         return null;
+    }
+
+    public boolean isValidNewPerson(Person newPerson) {
+        return (PersonChecker.hasValidFields(newPerson) && personRepository.findByEmail(newPerson.getEmail()).isEmpty());
+    }
+
+    public Person createPerson(Person newPerson) {
+        newPerson.setPassword(context.getBean(PasswordEncoder.class).encode(newPerson.getPassword()));
+        return personRepository.save(newPerson);
     }
 
     @Secured("ROLE_ADMIN")
@@ -164,6 +172,7 @@ public class PersonController {
     @PatchMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Person> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @RequestBody Person updatedPerson) {
+        //TODO: passer par les méthodes de PersonChecker pour les REGEX
         try {
             String[] tokenArray = headerAuthorization.split(" ");
             CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);

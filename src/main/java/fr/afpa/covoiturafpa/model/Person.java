@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -98,7 +98,7 @@ public abstract class Person {
     private List<Car> cars;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private List<RidePassenger> rides = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleUser.class)
@@ -244,6 +244,7 @@ public abstract class Person {
     public Person() {
     }
 
+    @JsonView(Views.SimpleUser.class)
     public String getShowedName() {
         return this.firstName + " " + this.surname.charAt(0) + ".";
     }
