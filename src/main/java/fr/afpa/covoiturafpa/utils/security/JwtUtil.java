@@ -25,8 +25,8 @@ public abstract class JwtUtil {
     private static final int expireHourToken = 24;
     //private static final int expireHourRefreshToken = 72;
 
-    private static final String SECRET = "FBA898697394CDBC534E7ED86A97AA59F627FE6B309E0A21EEC6C9B130E0369C";
-
+    private static final String SECRET = "8FEC3E89AE60B3A3679012BCD891A882A1567E78F5685B04235FF250BCE6166E";
+                                        
 
     public static String createAccessToken(String username, Integer id, String issuer, List<String> roles) {
         try {
@@ -56,6 +56,11 @@ public abstract class JwtUtil {
         return null;
     }
 
+    public static boolean verifyToken(String token) throws JOSEException, ParseException {
+        byte[] secretKey = SECRET.getBytes();
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        return signedJWT.verify(new MACVerifier(secretKey));
+    }
     public static CustomUsernamePasswordAuthenticationToken parseToken(String token) throws JOSEException, ParseException,
             BadJOSEException {
 
