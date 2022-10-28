@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils;
+package fr.afpa.covoiturafpa.utils.captcha;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.afpa.covoiturafpa.Application;
-import fr.afpa.covoiturafpa.utils.captcha.HCaptchaService;
-import fr.afpa.covoiturafpa.utils.captcha.HCaptchaToken;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
