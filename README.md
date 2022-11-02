@@ -2,7 +2,7 @@
 
 ## Serveur Java et base de données (API et BDD)
 
-Code du serveur Java et scripts SQL de la base de données pour l'application Covoitur'Afpa.
+Code du serveur Java et scripts PostGreSQL de la base de données pour l'application Covoitur'Afpa.
 
 Covoitur'Afpa est une application dédiée au covoiturage allant et venant du centre Afpa de Rochefort (Charente-Maritime), utilisable par les stagiaires et les employés du centre.
 

@@ -1,16 +1,12 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +14,7 @@ import javax.transaction.Transactional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.postgresql.util.internal.Nullness;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -31,13 +25,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hackerrank.test.utility.Order;
 
 import fr.afpa.covoiturafpa.Application;
-import fr.afpa.covoiturafpa.controllers.RideController;
 import fr.afpa.covoiturafpa.model.City;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
-import fr.afpa.covoiturafpa.repository.CentreRepository;
 import fr.afpa.covoiturafpa.repository.CityRepository;
-import fr.afpa.covoiturafpa.repository.FormationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
 
