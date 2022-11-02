@@ -12,7 +12,7 @@ L'application Covoitur'Afpa est un projet conçu par les stagiaires de la sessio
 
 L'API est composée d'une couche contrôleurs, d'une couche modèles et d'une couche DAO, ainsi que d'une couche de sécurité utilisant des JWT, de l'authentification d'utilisateur et des captchas.
 
-Vous trouverez également des tests unitaires et d'intégration, organisés de façon à suivre 'architecture de l'API.
+Vous trouverez également des tests unitaires et d'intégration, organisés de façon à suivre l'architecture de l'API.
 
 ## Installation
 Après avoir cloné le projet, créez une nouvelle base de données appelée 'CovoiturAfpa' dans votre SGBD et sélectionnez-la comme base de données par défaut.
