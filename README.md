@@ -4,7 +4,7 @@
 
 Code du serveur Java et scripts SQL de la base de données pour l'application Covoitur'Afpa.
 
-Covoitur'Afpa est une application dédiée au covoiturage allant et venant du centre Afppa de Rochefort (Charente-Maritime), utilisable par les stagiaires et les employés du centre.
+Covoitur'Afpa est une application dédiée au covoiturage allant et venant du centre Afpa de Rochefort (Charente-Maritime), utilisable par les stagiaires et les employés du centre.
 
 L'application Covoitur'Afpa est un projet conçu par les stagiaires de la session 2022-2023 de la formation Concepteur Développeur d'Applications de l'Afpa de Rochefort, encadrée par le formateur Ludovic Esperce.
 
