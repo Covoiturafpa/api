@@ -16,6 +16,6 @@ Vous trouverez également des tests unitaires et d'intégration, organisés de f
 
 ## Installation
 Après avoir cloné le projet, créez une nouvelle base de données appelée 'CovoiturAfpa' dans votre SGBD et sélectionnez-la comme base de données par défaut.
-Puis lancez les script SQL issus de dump_starter.sql, fonction_distance.sql et userPostGre.sql dans votre SGBD.
+Puis lancez les script SQL issus de dump_starter.sql, fonction_distance.sql et user_PostGre.sql dans votre SGBD.
 
 
