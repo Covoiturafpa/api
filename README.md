@@ -16,6 +16,4 @@ Vous trouverez également des tests unitaires et d'intégration, organisés de f
 
 ## Installation
 Après avoir cloné le projet, créez une nouvelle base de données appelée 'CovoiturAfpa' dans votre client de base de données et sélectionnez-la comme base de données par défaut.
-Puis lancez les scripts SQL issus de dump_starter.sql, fonction_distance.sql et user_PostGre.sql dans votre client.
-
-
+Puis lancez le scripts SQL contenu dans le fichier DBDeploymentScript.sql dans votre client.
