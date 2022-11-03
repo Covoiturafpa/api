@@ -1,12 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 14.5
--- Dumped by pg_dump version 14.5
-
--- Started on 2022-10-12 11:03:14
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -18,20 +9,12 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- TOC entry 6 (class 2615 OID 33295)
--- Name: covoiturafpa; Type: SCHEMA; Schema: -; Owner: postgres
---
 
 CREATE SCHEMA covoiturafpa;
 
 
 ALTER SCHEMA covoiturafpa OWNER TO postgres;
 
---
--- TOC entry 855 (class 1247 OID 33297)
--- Name: car_type_name; Type: TYPE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TYPE covoiturafpa.car_type_name AS ENUM (
     'COMPACT',
@@ -44,10 +27,6 @@ CREATE TYPE covoiturafpa.car_type_name AS ENUM (
 
 ALTER TYPE covoiturafpa.car_type_name OWNER TO postgres;
 
---
--- TOC entry 858 (class 1247 OID 33308)
--- Name: day_name; Type: TYPE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TYPE covoiturafpa.day_name AS ENUM (
     'MONDAY',
@@ -62,10 +41,6 @@ CREATE TYPE covoiturafpa.day_name AS ENUM (
 
 ALTER TYPE covoiturafpa.day_name OWNER TO postgres;
 
---
--- TOC entry 861 (class 1247 OID 33324)
--- Name: notification_type; Type: TYPE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TYPE covoiturafpa.notification_type AS ENUM (
     'NEW_RESERVATION',
@@ -76,10 +51,6 @@ CREATE TYPE covoiturafpa.notification_type AS ENUM (
 
 ALTER TYPE covoiturafpa.notification_type OWNER TO postgres;
 
---
--- TOC entry 864 (class 1247 OID 33332)
--- Name: status_type; Type: TYPE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TYPE covoiturafpa.status_type AS ENUM (
     'PENDING',
@@ -94,10 +65,6 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
---
--- TOC entry 210 (class 1259 OID 33339)
--- Name: car; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.car (
     id_car integer NOT NULL,
@@ -111,10 +78,6 @@ CREATE TABLE covoiturafpa.car (
 
 ALTER TABLE covoiturafpa.car OWNER TO postgres;
 
---
--- TOC entry 211 (class 1259 OID 33342)
--- Name: car_id_car_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.car_id_car_seq
     AS integer
@@ -127,19 +90,9 @@ CREATE SEQUENCE covoiturafpa.car_id_car_seq
 
 ALTER TABLE covoiturafpa.car_id_car_seq OWNER TO postgres;
 
---
--- TOC entry 3523 (class 0 OID 0)
--- Dependencies: 211
--- Name: car_id_car_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.car_id_car_seq OWNED BY covoiturafpa.car.id_car;
 
-
---
--- TOC entry 212 (class 1259 OID 33343)
--- Name: car_type; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.car_type (
     id_car_type integer NOT NULL,
@@ -151,10 +104,6 @@ CREATE TABLE covoiturafpa.car_type (
 
 ALTER TABLE covoiturafpa.car_type OWNER TO postgres;
 
---
--- TOC entry 213 (class 1259 OID 33346)
--- Name: car_type_id_car_type_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.car_type_id_car_type_seq
     AS integer
@@ -167,19 +116,9 @@ CREATE SEQUENCE covoiturafpa.car_type_id_car_type_seq
 
 ALTER TABLE covoiturafpa.car_type_id_car_type_seq OWNER TO postgres;
 
---
--- TOC entry 3526 (class 0 OID 0)
--- Dependencies: 213
--- Name: car_type_id_car_type_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.car_type_id_car_type_seq OWNED BY covoiturafpa.car_type.id_car_type;
 
-
---
--- TOC entry 214 (class 1259 OID 33347)
--- Name: centre; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.centre (
     id_centre integer NOT NULL,
@@ -194,10 +133,6 @@ CREATE TABLE covoiturafpa.centre (
 
 ALTER TABLE covoiturafpa.centre OWNER TO postgres;
 
---
--- TOC entry 215 (class 1259 OID 33350)
--- Name: centre_id_centre_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.centre_id_centre_seq
     AS integer
@@ -210,19 +145,9 @@ CREATE SEQUENCE covoiturafpa.centre_id_centre_seq
 
 ALTER TABLE covoiturafpa.centre_id_centre_seq OWNER TO postgres;
 
---
--- TOC entry 3529 (class 0 OID 0)
--- Dependencies: 215
--- Name: centre_id_centre_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.centre_id_centre_seq OWNED BY covoiturafpa.centre.id_centre;
 
-
---
--- TOC entry 216 (class 1259 OID 33351)
--- Name: city; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.city (
     id_city integer NOT NULL,
@@ -232,10 +157,6 @@ CREATE TABLE covoiturafpa.city (
 
 ALTER TABLE covoiturafpa.city OWNER TO postgres;
 
---
--- TOC entry 217 (class 1259 OID 33354)
--- Name: city_id_city_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.city_id_city_seq
     AS integer
@@ -248,19 +169,9 @@ CREATE SEQUENCE covoiturafpa.city_id_city_seq
 
 ALTER TABLE covoiturafpa.city_id_city_seq OWNER TO postgres;
 
---
--- TOC entry 3532 (class 0 OID 0)
--- Dependencies: 217
--- Name: city_id_city_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.city_id_city_seq OWNED BY covoiturafpa.city.id_city;
 
-
---
--- TOC entry 218 (class 1259 OID 33355)
--- Name: day_timetable; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.day_timetable (
     id_day_timetable integer NOT NULL,
@@ -275,10 +186,6 @@ CREATE TABLE covoiturafpa.day_timetable (
 
 ALTER TABLE covoiturafpa.day_timetable OWNER TO postgres;
 
---
--- TOC entry 219 (class 1259 OID 33358)
--- Name: day_timetable_id_day_timetable_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.day_timetable_id_day_timetable_seq
     AS integer
@@ -291,19 +198,9 @@ CREATE SEQUENCE covoiturafpa.day_timetable_id_day_timetable_seq
 
 ALTER TABLE covoiturafpa.day_timetable_id_day_timetable_seq OWNER TO postgres;
 
---
--- TOC entry 3535 (class 0 OID 0)
--- Dependencies: 219
--- Name: day_timetable_id_day_timetable_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.day_timetable_id_day_timetable_seq OWNED BY covoiturafpa.day_timetable.id_day_timetable;
 
-
---
--- TOC entry 220 (class 1259 OID 33359)
--- Name: day_week; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.day_week (
     id_day_week integer NOT NULL,
@@ -313,10 +210,6 @@ CREATE TABLE covoiturafpa.day_week (
 
 ALTER TABLE covoiturafpa.day_week OWNER TO postgres;
 
---
--- TOC entry 221 (class 1259 OID 33362)
--- Name: day_week_id_day_week_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.day_week_id_day_week_seq
     AS integer
@@ -329,19 +222,9 @@ CREATE SEQUENCE covoiturafpa.day_week_id_day_week_seq
 
 ALTER TABLE covoiturafpa.day_week_id_day_week_seq OWNER TO postgres;
 
---
--- TOC entry 3538 (class 0 OID 0)
--- Dependencies: 221
--- Name: day_week_id_day_week_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.day_week_id_day_week_seq OWNED BY covoiturafpa.day_week.id_day_week;
 
-
---
--- TOC entry 222 (class 1259 OID 33363)
--- Name: destination; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.destination (
     id_destination integer NOT NULL,
@@ -354,10 +237,6 @@ CREATE TABLE covoiturafpa.destination (
 
 ALTER TABLE covoiturafpa.destination OWNER TO postgres;
 
---
--- TOC entry 223 (class 1259 OID 33366)
--- Name: destination_id_destination_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.destination_id_destination_seq
     AS integer
@@ -370,19 +249,9 @@ CREATE SEQUENCE covoiturafpa.destination_id_destination_seq
 
 ALTER TABLE covoiturafpa.destination_id_destination_seq OWNER TO postgres;
 
---
--- TOC entry 3541 (class 0 OID 0)
--- Dependencies: 223
--- Name: destination_id_destination_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.destination_id_destination_seq OWNED BY covoiturafpa.destination.id_destination;
 
-
---
--- TOC entry 224 (class 1259 OID 33367)
--- Name: employee; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.employee (
     id_person integer NOT NULL,
@@ -394,10 +263,6 @@ CREATE TABLE covoiturafpa.employee (
 
 ALTER TABLE covoiturafpa.employee OWNER TO postgres;
 
---
--- TOC entry 225 (class 1259 OID 33370)
--- Name: formation; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.formation (
     id_formation integer NOT NULL,
@@ -408,10 +273,6 @@ CREATE TABLE covoiturafpa.formation (
 
 ALTER TABLE covoiturafpa.formation OWNER TO postgres;
 
---
--- TOC entry 226 (class 1259 OID 33373)
--- Name: formation_id_formation_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.formation_id_formation_seq
     AS integer
@@ -424,19 +285,9 @@ CREATE SEQUENCE covoiturafpa.formation_id_formation_seq
 
 ALTER TABLE covoiturafpa.formation_id_formation_seq OWNER TO postgres;
 
---
--- TOC entry 3545 (class 0 OID 0)
--- Dependencies: 226
--- Name: formation_id_formation_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.formation_id_formation_seq OWNED BY covoiturafpa.formation.id_formation;
 
-
---
--- TOC entry 227 (class 1259 OID 33374)
--- Name: fuel; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.fuel (
     id_fuel integer NOT NULL,
@@ -447,10 +298,6 @@ CREATE TABLE covoiturafpa.fuel (
 
 ALTER TABLE covoiturafpa.fuel OWNER TO postgres;
 
---
--- TOC entry 228 (class 1259 OID 33377)
--- Name: fuel_id_fuel_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.fuel_id_fuel_seq
     AS integer
@@ -463,19 +310,9 @@ CREATE SEQUENCE covoiturafpa.fuel_id_fuel_seq
 
 ALTER TABLE covoiturafpa.fuel_id_fuel_seq OWNER TO postgres;
 
---
--- TOC entry 3548 (class 0 OID 0)
--- Dependencies: 228
--- Name: fuel_id_fuel_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.fuel_id_fuel_seq OWNED BY covoiturafpa.fuel.id_fuel;
 
-
---
--- TOC entry 230 (class 1259 OID 33385)
--- Name: notification; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.notification (
     id_notification integer NOT NULL,
@@ -489,10 +326,6 @@ CREATE TABLE covoiturafpa.notification (
 
 ALTER TABLE covoiturafpa.notification OWNER TO postgres;
 
---
--- TOC entry 231 (class 1259 OID 33388)
--- Name: notification_id_notification_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.notification_id_notification_seq
     AS integer
@@ -505,19 +338,9 @@ CREATE SEQUENCE covoiturafpa.notification_id_notification_seq
 
 ALTER TABLE covoiturafpa.notification_id_notification_seq OWNER TO postgres;
 
---
--- TOC entry 3551 (class 0 OID 0)
--- Dependencies: 231
--- Name: notification_id_notification_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.notification_id_notification_seq OWNED BY covoiturafpa.notification.id_notification;
 
-
---
--- TOC entry 232 (class 1259 OID 33389)
--- Name: one_time; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.one_time (
     id_ride integer NOT NULL,
@@ -527,10 +350,6 @@ CREATE TABLE covoiturafpa.one_time (
 
 ALTER TABLE covoiturafpa.one_time OWNER TO postgres;
 
---
--- TOC entry 233 (class 1259 OID 33392)
--- Name: partner; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.partner (
     id_partner integer NOT NULL,
@@ -542,10 +361,6 @@ CREATE TABLE covoiturafpa.partner (
 
 ALTER TABLE covoiturafpa.partner OWNER TO postgres;
 
---
--- TOC entry 234 (class 1259 OID 33395)
--- Name: partner_id_partner_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.partner_id_partner_seq
     AS integer
@@ -558,19 +373,9 @@ CREATE SEQUENCE covoiturafpa.partner_id_partner_seq
 
 ALTER TABLE covoiturafpa.partner_id_partner_seq OWNER TO postgres;
 
---
--- TOC entry 3555 (class 0 OID 0)
--- Dependencies: 234
--- Name: partner_id_partner_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.partner_id_partner_seq OWNED BY covoiturafpa.partner.id_partner;
 
-
---
--- TOC entry 235 (class 1259 OID 33396)
--- Name: person; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.person (
     id_person integer NOT NULL,
@@ -592,10 +397,6 @@ CREATE TABLE covoiturafpa.person (
 
 ALTER TABLE covoiturafpa.person OWNER TO postgres;
 
---
--- TOC entry 236 (class 1259 OID 33401)
--- Name: person_id_person_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.person_id_person_seq
     AS integer
@@ -608,19 +409,9 @@ CREATE SEQUENCE covoiturafpa.person_id_person_seq
 
 ALTER TABLE covoiturafpa.person_id_person_seq OWNER TO postgres;
 
---
--- TOC entry 3558 (class 0 OID 0)
--- Dependencies: 236
--- Name: person_id_person_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.person_id_person_seq OWNED BY covoiturafpa.person.id_person;
 
-
---
--- TOC entry 237 (class 1259 OID 33402)
--- Name: recurring; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.recurring (
     id_ride integer NOT NULL,
@@ -631,10 +422,6 @@ CREATE TABLE covoiturafpa.recurring (
 
 ALTER TABLE covoiturafpa.recurring OWNER TO postgres;
 
---
--- TOC entry 229 (class 1259 OID 33378)
--- Name: recurring_days; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.recurring_days (
     id_ride integer NOT NULL,
@@ -644,10 +431,6 @@ CREATE TABLE covoiturafpa.recurring_days (
 
 ALTER TABLE covoiturafpa.recurring_days OWNER TO postgres;
 
---
--- TOC entry 238 (class 1259 OID 33405)
--- Name: ride; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.ride (
     id_ride integer NOT NULL,
@@ -663,10 +446,6 @@ CREATE TABLE covoiturafpa.ride (
 
 ALTER TABLE covoiturafpa.ride OWNER TO postgres;
 
---
--- TOC entry 239 (class 1259 OID 33410)
--- Name: ride_id_ride_seq; Type: SEQUENCE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE SEQUENCE covoiturafpa.ride_id_ride_seq
     AS integer
@@ -679,19 +458,9 @@ CREATE SEQUENCE covoiturafpa.ride_id_ride_seq
 
 ALTER TABLE covoiturafpa.ride_id_ride_seq OWNER TO postgres;
 
---
--- TOC entry 3563 (class 0 OID 0)
--- Dependencies: 239
--- Name: ride_id_ride_seq; Type: SEQUENCE OWNED BY; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER SEQUENCE covoiturafpa.ride_id_ride_seq OWNED BY covoiturafpa.ride.id_ride;
 
-
---
--- TOC entry 240 (class 1259 OID 33411)
--- Name: ride_passenger; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.ride_passenger (
     id_person integer NOT NULL,
@@ -704,10 +473,6 @@ CREATE TABLE covoiturafpa.ride_passenger (
 
 ALTER TABLE covoiturafpa.ride_passenger OWNER TO postgres;
 
---
--- TOC entry 242 (class 1259 OID 49160)
--- Name: teacher_of; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.teacher_of (
     id_formation integer NOT NULL,
@@ -717,10 +482,6 @@ CREATE TABLE covoiturafpa.teacher_of (
 
 ALTER TABLE covoiturafpa.teacher_of OWNER TO postgres;
 
---
--- TOC entry 241 (class 1259 OID 33414)
--- Name: trainee; Type: TABLE; Schema: covoiturafpa; Owner: postgres
---
 
 CREATE TABLE covoiturafpa.trainee (
     id_person integer NOT NULL,
@@ -730,115 +491,45 @@ CREATE TABLE covoiturafpa.trainee (
 
 ALTER TABLE covoiturafpa.trainee OWNER TO postgres;
 
---
--- TOC entry 3265 (class 2604 OID 33417)
--- Name: car id_car; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.car ALTER COLUMN id_car SET DEFAULT nextval('covoiturafpa.car_id_car_seq'::regclass);
 
 
---
--- TOC entry 3266 (class 2604 OID 33418)
--- Name: car_type id_car_type; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.car_type ALTER COLUMN id_car_type SET DEFAULT nextval('covoiturafpa.car_type_id_car_type_seq'::regclass);
 
-
---
--- TOC entry 3267 (class 2604 OID 33419)
--- Name: centre id_centre; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.centre ALTER COLUMN id_centre SET DEFAULT nextval('covoiturafpa.centre_id_centre_seq'::regclass);
 
 
---
--- TOC entry 3268 (class 2604 OID 33420)
--- Name: city id_city; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.city ALTER COLUMN id_city SET DEFAULT nextval('covoiturafpa.city_id_city_seq'::regclass);
 
-
---
--- TOC entry 3269 (class 2604 OID 33421)
--- Name: day_timetable id_day_timetable; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.day_timetable ALTER COLUMN id_day_timetable SET DEFAULT nextval('covoiturafpa.day_timetable_id_day_timetable_seq'::regclass);
 
 
---
--- TOC entry 3270 (class 2604 OID 33422)
--- Name: day_week id_day_week; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.day_week ALTER COLUMN id_day_week SET DEFAULT nextval('covoiturafpa.day_week_id_day_week_seq'::regclass);
 
-
---
--- TOC entry 3271 (class 2604 OID 33423)
--- Name: destination id_destination; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.destination ALTER COLUMN id_destination SET DEFAULT nextval('covoiturafpa.destination_id_destination_seq'::regclass);
 
 
---
--- TOC entry 3272 (class 2604 OID 33424)
--- Name: formation id_formation; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.formation ALTER COLUMN id_formation SET DEFAULT nextval('covoiturafpa.formation_id_formation_seq'::regclass);
 
-
---
--- TOC entry 3273 (class 2604 OID 33425)
--- Name: fuel id_fuel; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.fuel ALTER COLUMN id_fuel SET DEFAULT nextval('covoiturafpa.fuel_id_fuel_seq'::regclass);
 
 
---
--- TOC entry 3274 (class 2604 OID 33427)
--- Name: notification id_notification; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.notification ALTER COLUMN id_notification SET DEFAULT nextval('covoiturafpa.notification_id_notification_seq'::regclass);
 
-
---
--- TOC entry 3275 (class 2604 OID 33428)
--- Name: partner id_partner; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.partner ALTER COLUMN id_partner SET DEFAULT nextval('covoiturafpa.partner_id_partner_seq'::regclass);
 
 
---
--- TOC entry 3276 (class 2604 OID 33429)
--- Name: person id_person; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.person ALTER COLUMN id_person SET DEFAULT nextval('covoiturafpa.person_id_person_seq'::regclass);
 
 
---
--- TOC entry 3277 (class 2604 OID 33430)
--- Name: ride id_ride; Type: DEFAULT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.ride ALTER COLUMN id_ride SET DEFAULT nextval('covoiturafpa.ride_id_ride_seq'::regclass);
 
-
---
--- TOC entry 3485 (class 0 OID 33343)
--- Dependencies: 212
--- Data for Name: car_type; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
---
 
 INSERT INTO covoiturafpa.car_type VALUES (1, 'COMPACT', 7.3, 1);
 INSERT INTO covoiturafpa.car_type VALUES (2, 'COMPACT', 7.3, 2);
@@ -867,20 +558,8 @@ INSERT INTO covoiturafpa.car_type VALUES (24, 'UTILITAIRE', 25.0, 4);
 INSERT INTO covoiturafpa.car_type VALUES (25, 'UTILITAIRE', 18.6, 5);
 
 
---
--- TOC entry 3487 (class 0 OID 33347)
--- Dependencies: 214
--- Data for Name: centre; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
---
-
 INSERT INTO covoiturafpa.centre VALUES (28, 'Centre Afpa de Rochefort', '57 Avenue Bernadotte', 45.958593, -0.963835, '+33472864830', true);
 
-
---
--- TOC entry 3491 (class 0 OID 33355)
--- Dependencies: 218
--- Data for Name: day_timetable; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
---
 
 INSERT INTO covoiturafpa.day_timetable VALUES (1, 'MONDAY', '09:00:00', '12:00:00', '13:00:00', '18:00:00', 28);
 INSERT INTO covoiturafpa.day_timetable VALUES (2, 'TUESDAY', '08:00:00', '12:00:00', '13:00:00', '18:00:00', 28);
@@ -891,12 +570,6 @@ INSERT INTO covoiturafpa.day_timetable VALUES (6, 'SATURDAY', NULL, NULL, NULL, 
 INSERT INTO covoiturafpa.day_timetable VALUES (7, 'SUNDAY', NULL, NULL, NULL, NULL, 28);
 
 
---
--- TOC entry 3493 (class 0 OID 33359)
--- Dependencies: 220
--- Data for Name: day_week; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
---
-
 INSERT INTO covoiturafpa.day_week VALUES (1, 'MONDAY');
 INSERT INTO covoiturafpa.day_week VALUES (2, 'TUESDAY');
 INSERT INTO covoiturafpa.day_week VALUES (3, 'WEDNESDAY');
@@ -906,24 +579,12 @@ INSERT INTO covoiturafpa.day_week VALUES (6, 'SATURDAY');
 INSERT INTO covoiturafpa.day_week VALUES (7, 'SUNDAY');
 
 
---
--- TOC entry 3500 (class 0 OID 33374)
--- Dependencies: 227
--- Data for Name: fuel; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
---
-
 INSERT INTO covoiturafpa.fuel VALUES (1, 'ESSENCE', 1.82);
 INSERT INTO covoiturafpa.fuel VALUES (2, 'ESSENCE SUPERTHANOL', 0.82);
 INSERT INTO covoiturafpa.fuel VALUES (3, 'GAZOLE', 1.82);
 INSERT INTO covoiturafpa.fuel VALUES (4, ' ELECTRIQUE', 0.17);
 INSERT INTO covoiturafpa.fuel VALUES (5, 'GPL', 0.87);
 
-
---
--- TOC entry 3506 (class 0 OID 33392)
--- Dependencies: 233
--- Data for Name: partner; Type: TABLE DATA; Schema: covoiturafpa; Owner: postgres
---
 
 INSERT INTO covoiturafpa.partner VALUES (1, 'Afaq_9001', 'Afaq_9001.png', 28);
 INSERT INTO covoiturafpa.partner VALUES (2, 'France Relance', 'france-relance.png', 28);
@@ -933,514 +594,268 @@ INSERT INTO covoiturafpa.partner VALUES (5, 'region Nouvelle-Aquitaine', 'region
 INSERT INTO covoiturafpa.partner VALUES (4, 'opqf', 'opqf.png', 28);
 
 
---
--- TOC entry 3568 (class 0 OID 0)
--- Dependencies: 211
--- Name: car_id_car_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.car_id_car_seq', 1, false);
 
-
---
--- TOC entry 3569 (class 0 OID 0)
--- Dependencies: 213
--- Name: car_type_id_car_type_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
 
 SELECT pg_catalog.setval('covoiturafpa.car_type_id_car_type_seq', 1, true);
 
 
---
--- TOC entry 3570 (class 0 OID 0)
--- Dependencies: 215
--- Name: centre_id_centre_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.centre_id_centre_seq', 1, false);
 
-
---
--- TOC entry 3571 (class 0 OID 0)
--- Dependencies: 217
--- Name: city_id_city_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
 
 SELECT pg_catalog.setval('covoiturafpa.city_id_city_seq', 1, true);
 
 
---
--- TOC entry 3572 (class 0 OID 0)
--- Dependencies: 219
--- Name: day_timetable_id_day_timetable_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.day_timetable_id_day_timetable_seq', 1, true);
 
-
---
--- TOC entry 3573 (class 0 OID 0)
--- Dependencies: 221
--- Name: day_week_id_day_week_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
 
 SELECT pg_catalog.setval('covoiturafpa.day_week_id_day_week_seq', 1, false);
 
 
---
--- TOC entry 3574 (class 0 OID 0)
--- Dependencies: 223
--- Name: destination_id_destination_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.destination_id_destination_seq', 15, true);
 
-
---
--- TOC entry 3575 (class 0 OID 0)
--- Dependencies: 226
--- Name: formation_id_formation_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
 
 SELECT pg_catalog.setval('covoiturafpa.formation_id_formation_seq', 1, false);
 
 
---
--- TOC entry 3576 (class 0 OID 0)
--- Dependencies: 228
--- Name: fuel_id_fuel_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.fuel_id_fuel_seq', 1, false);
 
-
---
--- TOC entry 3577 (class 0 OID 0)
--- Dependencies: 231
--- Name: notification_id_notification_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
 
 SELECT pg_catalog.setval('covoiturafpa.notification_id_notification_seq', 1, false);
 
 
---
--- TOC entry 3578 (class 0 OID 0)
--- Dependencies: 234
--- Name: partner_id_partner_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.partner_id_partner_seq', 1, false);
 
-
---
--- TOC entry 3579 (class 0 OID 0)
--- Dependencies: 236
--- Name: person_id_person_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
 
 SELECT pg_catalog.setval('covoiturafpa.person_id_person_seq', 1, false);
 
 
---
--- TOC entry 3580 (class 0 OID 0)
--- Dependencies: 239
--- Name: ride_id_ride_seq; Type: SEQUENCE SET; Schema: covoiturafpa; Owner: postgres
---
-
 SELECT pg_catalog.setval('covoiturafpa.ride_id_ride_seq', 1, true);
 
-
---
--- TOC entry 3279 (class 2606 OID 33432)
--- Name: car car_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.car
 ADD CONSTRAINT car_pkey PRIMARY KEY (id_car);
 
 
---
--- TOC entry 3281 (class 2606 OID 33434)
--- Name: car_type car_type_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.car_type
 ADD CONSTRAINT car_type_pkey PRIMARY KEY (id_car_type);
 
-
---
--- TOC entry 3283 (class 2606 OID 33438)
--- Name: centre centre_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.centre
 ADD CONSTRAINT centre_pkey PRIMARY KEY (id_centre);
 
 
---
--- TOC entry 3285 (class 2606 OID 33440)
--- Name: city city_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.city
 ADD CONSTRAINT city_pkey PRIMARY KEY (id_city);
 
-
---
--- TOC entry 3287 (class 2606 OID 49206)
--- Name: city city_un; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.city
 ADD CONSTRAINT city_un UNIQUE (name);
 
 
---
--- TOC entry 3289 (class 2606 OID 33442)
--- Name: day_timetable day_timetable_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.day_timetable
 ADD CONSTRAINT day_timetable_pkey PRIMARY KEY (id_day_timetable);
 
-
---
--- TOC entry 3291 (class 2606 OID 33444)
--- Name: day_week day_week_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.day_week
 ADD CONSTRAINT day_week_pkey PRIMARY KEY (id_day_week);
 
 
---
--- TOC entry 3293 (class 2606 OID 33446)
--- Name: destination destination_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.destination
 ADD CONSTRAINT destination_pkey PRIMARY KEY (id_destination);
 
-
---
--- TOC entry 3309 (class 2606 OID 40967)
--- Name: person email_un; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.person
 ADD CONSTRAINT email_un UNIQUE (email);
 
 
---
--- TOC entry 3295 (class 2606 OID 33448)
--- Name: employee employee_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.employee
 ADD CONSTRAINT employee_pkey PRIMARY KEY (id_person);
 
-
---
--- TOC entry 3297 (class 2606 OID 33450)
--- Name: formation formation_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.formation
 ADD CONSTRAINT formation_pkey PRIMARY KEY (id_formation);
 
 
---
--- TOC entry 3299 (class 2606 OID 33452)
--- Name: fuel fuel_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.fuel
 ADD CONSTRAINT fuel_pkey PRIMARY KEY (id_fuel);
 
-
---
--- TOC entry 3301 (class 2606 OID 33454)
--- Name: recurring_days happen_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.recurring_days
 ADD CONSTRAINT happen_pkey PRIMARY KEY (id_ride, id_day_week);
 
 
---
--- TOC entry 3303 (class 2606 OID 33458)
--- Name: notification notification_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.notification
 ADD CONSTRAINT notification_pkey PRIMARY KEY (id_notification);
 
-
---
--- TOC entry 3305 (class 2606 OID 33460)
--- Name: one_time one_time_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.one_time
 ADD CONSTRAINT one_time_pkey PRIMARY KEY (id_ride);
 
 
---
--- TOC entry 3307 (class 2606 OID 33462)
--- Name: partner partner_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.partner
 ADD CONSTRAINT partner_pkey PRIMARY KEY (id_partner);
 
-
---
--- TOC entry 3311 (class 2606 OID 33464)
--- Name: person person_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.person
 ADD CONSTRAINT person_pkey PRIMARY KEY (id_person);
 
 
---
--- TOC entry 3313 (class 2606 OID 33466)
--- Name: recurring recurring_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.recurring
 ADD CONSTRAINT recurring_pkey PRIMARY KEY (id_ride);
 
-
---
--- TOC entry 3317 (class 2606 OID 33468)
--- Name: ride_passenger ride_passenger_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.ride_passenger
 ADD CONSTRAINT ride_passenger_pkey PRIMARY KEY (id_person, id_ride);
 
 
---
--- TOC entry 3315 (class 2606 OID 33470)
--- Name: ride ride_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.ride
 ADD CONSTRAINT ride_pkey PRIMARY KEY (id_ride);
 
-
---
--- TOC entry 3321 (class 2606 OID 49164)
--- Name: teacher_of teacher_of_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.teacher_of
 ADD CONSTRAINT teacher_of_pkey PRIMARY KEY (id_formation, id_teacher);
 
 
---
--- TOC entry 3319 (class 2606 OID 33472)
--- Name: trainee trainee_pkey; Type: CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.trainee
 ADD CONSTRAINT trainee_pkey PRIMARY KEY (id_person);
 
-
---
--- TOC entry 3322 (class 2606 OID 33473)
--- Name: car car_id_car_type_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.car
 ADD CONSTRAINT car_id_car_type_fkey FOREIGN KEY (id_car_type) REFERENCES covoiturafpa.car_type(id_car_type);
 
 
---
--- TOC entry 3323 (class 2606 OID 33478)
--- Name: car car_id_person_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.car
 ADD CONSTRAINT car_id_person_fkey FOREIGN KEY (id_person) REFERENCES covoiturafpa.person(id_person);
 
-
---
--- TOC entry 3324 (class 2606 OID 33483)
--- Name: car_type car_type_id_fuel_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.car_type
 ADD CONSTRAINT car_type_id_fuel_fkey FOREIGN KEY (id_fuel) REFERENCES covoiturafpa.fuel(id_fuel);
 
 
---
--- TOC entry 3325 (class 2606 OID 33493)
--- Name: day_timetable day_timetable_id_centre_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.day_timetable
 ADD CONSTRAINT day_timetable_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES covoiturafpa.centre(id_centre);
 
-
---
--- TOC entry 3326 (class 2606 OID 49200)
--- Name: destination destination_id_city_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.destination
 ADD CONSTRAINT destination_id_city_fkey FOREIGN KEY (id_city) REFERENCES covoiturafpa.city(id_city) ON DELETE CASCADE;
 
 
---
--- TOC entry 3327 (class 2606 OID 33503)
--- Name: employee employee_id_centre_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.employee
 ADD CONSTRAINT employee_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES covoiturafpa.centre(id_centre);
 
-
---
--- TOC entry 3328 (class 2606 OID 33508)
--- Name: employee employee_id_person_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.employee
 ADD CONSTRAINT employee_id_person_fkey FOREIGN KEY (id_person) REFERENCES covoiturafpa.person(id_person);
 
 
---
--- TOC entry 3329 (class 2606 OID 33513)
--- Name: formation formation_id_centre_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.formation
 ADD CONSTRAINT formation_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES covoiturafpa.centre(id_centre);
 
-
---
--- TOC entry 3330 (class 2606 OID 33518)
--- Name: recurring_days happen_id_day_week_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.recurring_days
 ADD CONSTRAINT happen_id_day_week_fkey FOREIGN KEY (id_day_week) REFERENCES covoiturafpa.day_week(id_day_week);
 
 
---
--- TOC entry 3331 (class 2606 OID 33523)
--- Name: recurring_days happen_id_ride_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.recurring_days
 ADD CONSTRAINT happen_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES covoiturafpa.recurring(id_ride);
 
-
---
--- TOC entry 3332 (class 2606 OID 33528)
--- Name: notification notification_id_person_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.notification
 ADD CONSTRAINT notification_id_person_fkey FOREIGN KEY (id_person) REFERENCES covoiturafpa.person(id_person);
 
 
---
--- TOC entry 3333 (class 2606 OID 49180)
--- Name: one_time one_time_id_ride_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.one_time
 ADD CONSTRAINT one_time_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES covoiturafpa.ride(id_ride) ON DELETE CASCADE;
 
-
---
--- TOC entry 3334 (class 2606 OID 33538)
--- Name: partner partner_id_centre_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.partner
 ADD CONSTRAINT partner_id_centre_fkey FOREIGN KEY (id_centre) REFERENCES covoiturafpa.centre(id_centre);
 
 
---
--- TOC entry 3335 (class 2606 OID 49175)
--- Name: recurring recurring_id_ride_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.recurring
 ADD CONSTRAINT recurring_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES covoiturafpa.ride(id_ride) ON DELETE CASCADE;
 
-
---
--- TOC entry 3336 (class 2606 OID 33548)
--- Name: ride ride_id_car_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.ride
 ADD CONSTRAINT ride_id_car_fkey FOREIGN KEY (id_car) REFERENCES covoiturafpa.car(id_car);
 
 
---
--- TOC entry 3337 (class 2606 OID 49195)
--- Name: ride ride_id_destination_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.ride
 ADD CONSTRAINT ride_id_destination_fkey FOREIGN KEY (id_destination) REFERENCES covoiturafpa.destination(id_destination) ON DELETE CASCADE;
 
-
---
--- TOC entry 3338 (class 2606 OID 33558)
--- Name: ride_passenger ride_passenger_id_person_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.ride_passenger
 ADD CONSTRAINT ride_passenger_id_person_fkey FOREIGN KEY (id_person) REFERENCES covoiturafpa.person(id_person);
 
 
---
--- TOC entry 3339 (class 2606 OID 49190)
--- Name: ride_passenger ride_passenger_id_ride_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.ride_passenger
 ADD CONSTRAINT ride_passenger_id_ride_fkey FOREIGN KEY (id_ride) REFERENCES covoiturafpa.ride(id_ride) ON DELETE CASCADE;
 
-
---
--- TOC entry 3343 (class 2606 OID 49170)
--- Name: teacher_of teacher_of_id_formation_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.teacher_of
 ADD CONSTRAINT teacher_of_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES covoiturafpa.formation(id_formation);
 
 
---
--- TOC entry 3342 (class 2606 OID 49165)
--- Name: teacher_of teacher_of_id_teacher_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.teacher_of
 ADD CONSTRAINT teacher_of_id_teacher_fkey FOREIGN KEY (id_teacher) REFERENCES covoiturafpa.employee(id_person);
 
-
---
--- TOC entry 3340 (class 2606 OID 33568)
--- Name: trainee trainee_id_formation_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
 
 ALTER TABLE ONLY covoiturafpa.trainee
 ADD CONSTRAINT trainee_id_formation_fkey FOREIGN KEY (id_formation) REFERENCES covoiturafpa.formation(id_formation);
 
 
---
--- TOC entry 3341 (class 2606 OID 33573)
--- Name: trainee trainee_id_person_fkey; Type: FK CONSTRAINT; Schema: covoiturafpa; Owner: postgres
---
-
 ALTER TABLE ONLY covoiturafpa.trainee
 ADD CONSTRAINT trainee_id_person_fkey FOREIGN KEY (id_person) REFERENCES covoiturafpa.person(id_person);
+
+
+
+
+CREATE extension cube SCHEMA covoiturafpa;
+CREATE extension earthdistance SCHEMA covoiturafpa;
+
+CREATE OR REPLACE FUNCTION covoiturafpa.get_distance(latitude_1 double precision, longitude_1 double precision, latitude_2 double precision, longitude_2 double precision)
+RETURNS double precision
+LANGUAGE sql
+IMMUTABLE STRICT
+RETURN covoiturafpa.earth_distance(covoiturafpa.ll_to_earth(latitude_1, longitude_1), covoiturafpa.ll_to_earth(latitude_2, longitude_2)) / 1000;
+
+
+
+
+CREATE ROLE "afpaUser" WITH
+	LOGIN
+	NOSUPERUSER
+	NOCREATEDB
+	NOCREATEROLE
+	INHERIT
+	NOREPLICATION
+	CONNECTION LIMIT -1
+	PASSWORD 'Afpa4apfA!'; 
+COMMENT ON ROLE "afpaUser" IS 'Classic User for CovoiturAfpa';
+
+GRANT USAGE ON SCHEMA "covoiturafpa" TO "afpaUser"; 
+
+GRANT ALL ON TABLE "covoiturafpa".car TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".car_type TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".centre TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".city TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".day_timetable TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".destination TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".employee TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".formation TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".fuel TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".notification TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".one_time TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".partner TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".person TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".recurring TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".ride TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".ride_passenger TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".trainee TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".day_week TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".recurring_days TO "afpaUser";
+GRANT ALL ON TABLE "covoiturafpa".teacher_of TO "afpaUser";
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA "covoiturafpa" TO "afpaUser";
+GRANT EXECUTE ON FUNCTION covoiturafpa.get_distance(float8, float8, float8, float8) TO "afpaUser";
