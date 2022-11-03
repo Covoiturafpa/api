@@ -13,7 +13,7 @@ SET row_security = off;
 CREATE SCHEMA covoiturafpa;
 
 
-ALTER SCHEMA covoiturafpa OWNER TO postgres;
+ALTER SCHEMA covoiturafpa OWNER TO jfrbnsrgohiorm;
 
 
 CREATE TYPE covoiturafpa.car_type_name AS ENUM (
