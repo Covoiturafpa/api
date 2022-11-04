@@ -15,7 +15,5 @@ L'API est composée d'une couche contrôleurs, d'une couche modèles et d'une co
 Vous trouverez également des tests unitaires et d'intégration, organisés de façon à suivre l'architecture de l'API.
 
 ## Installation
-Après avoir cloné le projet, créez une nouvelle base de données appelée 'CovoiturAfpa' dans votre SGBD et sélectionnez-la comme base de données par défaut.
-Puis lancez les script SQL issus de dump_starter.sql, fonction_distance.sql et user_PostGre.sql dans votre SGBD.
-
-
+Après avoir cloné le projet, créez une nouvelle base de données appelée 'CovoiturAfpa' dans votre client de base de données et sélectionnez-la comme base de données par défaut.
+Puis lancez le scripts SQL contenu dans le fichier DBDeploymentScript.sql dans votre client.
