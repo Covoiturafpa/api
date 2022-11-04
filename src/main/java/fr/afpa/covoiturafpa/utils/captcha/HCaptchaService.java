@@ -23,7 +23,7 @@ public class HCaptchaService {
     private String secret;
 
     @Value("${hcaptcha.uri.string}")
-    private URI hCaptchaURIString;
+    private String hCaptchaURIString;
     
     public HCaptchaToken getCaptchaToken() {
         return captchaToken;
@@ -37,7 +37,7 @@ public class HCaptchaService {
         this.captchaToken = captchaToken;
     }
 
-    public URI getHCaptchaURIString() {
+    public String getHCaptchaURIString() {
         return hCaptchaURIString;
     }
 
@@ -58,7 +58,7 @@ public class HCaptchaService {
             String body = "response=" + this.captchaToken.getToken() + "&secret=" + this.secret;
             HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(hCaptchaURIString)
+                .uri(URI.create(hCaptchaURIString))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .timeout(Duration.ofSeconds(10))
                 .POST(BodyPublishers.ofString(body))
