@@ -21,12 +21,13 @@ public class PostgreConfiguration {
     Environment environment;
 
     @Bean
-    public DataSource getDataSource() {
+    public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         Logger logger = LoggerFactory.getLogger(PostgreConfiguration.class);
 
         try {
             String databaseUrl = environment.getProperty("spring.datasource.url");
+            logger.info(databaseUrl);
             Pattern regexPattern = Pattern.compile("^(.+):(.+):(.+)@(.+):(\\d+)/(.+)$");
             Matcher matcher = regexPattern.matcher(databaseUrl);
 
