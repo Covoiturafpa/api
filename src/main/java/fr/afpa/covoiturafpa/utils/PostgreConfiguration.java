@@ -9,22 +9,20 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@ConditionalOnClass(DataSource.class)
 public class PostgreConfiguration {
 
     @Autowired
     Environment environment;
 
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = null;
+    public DataSource getDataSource() {
+        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         Logger logger = LoggerFactory.getLogger(PostgreConfiguration.class);
 
         try {
@@ -41,18 +39,16 @@ public class PostgreConfiguration {
 
                 String dbUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName + "?currentSchema=covoiturafpa&stringtype=unspecified";
                 String driverClassName = environment.getProperty("spring.datasource.driver-class-name");
-                dataSource = new DriverManagerDataSource();
-
-                dataSource.setDriverClassName(driverClassName);
-                dataSource.setUrl(dbUrl);
-                dataSource.setUsername(username);
-                dataSource.setPassword(password);
+                dataSourceBuilder.driverClassName(driverClassName);
+                dataSourceBuilder.url(dbUrl);
+                dataSourceBuilder.username(username);
+                dataSourceBuilder.password(password);
             }  
         } catch (PatternSyntaxException | IllegalStateException | IndexOutOfBoundsException e) {
             logger.error("Mauvaise URL de base de données. Vérifiez votre \"application.properties\"", e);
             throw new Error();
         }
 
-        return dataSource;
+        return dataSourceBuilder.build();
     }
 }
