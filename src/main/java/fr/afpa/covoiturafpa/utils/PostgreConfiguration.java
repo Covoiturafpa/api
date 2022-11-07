@@ -28,20 +28,20 @@ public class PostgreConfiguration {
         try {
             String databaseUrl = environment.getProperty("spring.datasource.url");
             logger.info("URL Récupérée par PostgreConfiguration : " + databaseUrl);
-            Pattern regexPattern = Pattern.compile("^(.+):(.+):(.+)@(.+):(\\d+)/(.+)$");
+            Pattern regexPattern = Pattern.compile("^jdbc:(.+)://(.+):(\\d+)/(.+)\\?password=(.+)&sslmode=require&user=(.+)$");
             Matcher matcher = regexPattern.matcher(databaseUrl);
 
             if (matcher.find()) {
-                String username = matcher.group(2);
-                logger.info("Username: " + username);
-                String password = matcher.group(3);
-                logger.info("Password: " + password);
-                String host = matcher.group(4);
+                String host = matcher.group(2);
                 logger.info("Host: " + host);
-                String port = matcher.group(5);
+                String port = matcher.group(3);
                 logger.info("Port: " + port);
-                String dbName = matcher.group(6);
+                String dbName = matcher.group(4);
                 logger.info("DBName:" + dbName);
+                String password = matcher.group(5);
+                logger.info("Password: " + password);
+                String username = matcher.group(6);
+                logger.info("Username: " + username);
 
                 String dbUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName + "?currentSchema=covoiturafpa&stringtype=unspecified";
                 String driverClassName = environment.getProperty("spring.datasource.driver-class-name");

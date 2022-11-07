@@ -59,9 +59,7 @@ public class HCaptchaService {
     }
 
     public JsonNode getValidityResponseAsJson() {
-        try {
-            System.out.println(this.uristring);
-            System.out.println(this.secret);            
+        try {         
             String body = "response=" + this.captchaToken.getToken() + "&secret=" + this.secret;
             HttpRequest request = HttpRequest
                 .newBuilder()
