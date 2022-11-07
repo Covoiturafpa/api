@@ -8,7 +8,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,30 +17,33 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Component
+@ConfigurationProperties(prefix = "hcaptcha")
 public class HCaptchaService {
 
     private HCaptchaToken captchaToken;
 
-    @Value("${hcaptcha.secret}")
     private String secret;
 
-    @Value("${hcaptcha.uri.string}")
-    private String hCaptchaURIString;
+    private String uristring;
     
     public HCaptchaToken getCaptchaToken() {
         return captchaToken;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
     }
 
     public void setCaptchaToken(HCaptchaToken captchaToken) {
         this.captchaToken = captchaToken;
     }
 
-    public String getHCaptchaURIString() {
-        return hCaptchaURIString;
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    public String getURIString() {
+        return uristring;
+    }
+
+    public void setURIString(String uriString) {
+        this.uristring = uriString;
     }
 
     public HCaptchaService() {
@@ -57,10 +60,12 @@ public class HCaptchaService {
 
     public JsonNode getValidityResponseAsJson() {
         try {
+            System.out.println(this.uristring);
+            System.out.println(this.secret);            
             String body = "response=" + this.captchaToken.getToken() + "&secret=" + this.secret;
             HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(hCaptchaURIString))
+                .uri(URI.create(uristring))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .timeout(Duration.ofSeconds(10))
                 .POST(BodyPublishers.ofString(body))
