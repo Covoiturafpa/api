@@ -1,7 +1,5 @@
 package fr.afpa.covoiturafpa.utils;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -35,11 +33,11 @@ public class PostgreConfiguration {
             Matcher matcher = regexPattern.matcher(databaseUrl);
 
             if (matcher.find()) {
-                String username = matcher.group(1);
-                String password = matcher.group(2);
-                String host = matcher.group(3);
-                String port = matcher.group(4);
-                String dbName = matcher.group(5);
+                String username = matcher.group(2);
+                String password = matcher.group(3);
+                String host = matcher.group(4);
+                String port = matcher.group(5);
+                String dbName = matcher.group(6);
 
                 String dbUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName + "?currentSchema=covoiturafpa&stringtype=unspecified";
                 String driverClassName = environment.getProperty("spring.datasource.driver-class-name");
