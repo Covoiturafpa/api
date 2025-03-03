@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import fr.afpa.covoiturafpa.model.utils.Views;
 
 @Entity
-@Table(name = "city")
+@Table(name = "city", schema = "heroku_ext")
 public class City {
 
     @Id

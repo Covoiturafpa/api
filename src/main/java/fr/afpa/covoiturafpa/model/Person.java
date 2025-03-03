@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -20,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
 
@@ -33,7 +34,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @Entity
 @DiscriminatorColumn(name = "person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "person")
+@Table(name = "person", schema = "heroku_ext")
 public abstract class Person {
 
     @JsonView(value = { Views.SimpleRide.class, Views.SimpleUser.class })

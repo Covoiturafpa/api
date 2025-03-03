@@ -13,7 +13,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 
 @JsonTypeName("T")
 @Entity
-@Table(name = "trainee")
+@Table(name = "trainee", schema = "heroku_ext")
 @DiscriminatorValue("T")
 public class Trainee extends Person {
 

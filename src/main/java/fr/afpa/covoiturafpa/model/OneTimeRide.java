@@ -18,7 +18,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 
 @JsonTypeName("O")
 @Entity
-@Table(name = "one_time")
+@Table(name = "one_time", schema = "heroku_ext")
 @DiscriminatorValue("O")
 public class OneTimeRide extends Ride {
 

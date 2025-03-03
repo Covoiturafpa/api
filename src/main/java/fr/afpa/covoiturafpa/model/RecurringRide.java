@@ -9,8 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -28,7 +28,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonTypeName("R")
 @Entity
-@Table(name = "recurring")
+@Table(name = "recurring", schema = "heroku_ext")
 @DiscriminatorValue("R")
 public class RecurringRide extends Ride {
 

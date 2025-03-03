@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "notification")
+@Table(name = "notification", schema = "heroku_ext")
 public class Notification {
 
     @Id

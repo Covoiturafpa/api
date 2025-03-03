@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import fr.afpa.covoiturafpa.model.utils.Views;
 
 @Entity
-@Table(name = "formation")
+@Table(name = "formation", schema = "heroku_ext")
 public class Formation {
 
     @Id

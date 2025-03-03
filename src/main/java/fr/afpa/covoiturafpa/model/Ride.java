@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
@@ -30,8 +31,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 import fr.afpa.covoiturafpa.model.RidePassenger.Status;
 import fr.afpa.covoiturafpa.model.utils.Views;
-
-import com.fasterxml.jackson.annotation.JsonView;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "rideType")
 @JsonSubTypes({
@@ -41,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ride_type")
-@Table(name = "ride")
+@Table(name = "ride", schema = "heroku_ext")
 public class Ride {
 
     @JsonView(Views.SimpleRide.class)
