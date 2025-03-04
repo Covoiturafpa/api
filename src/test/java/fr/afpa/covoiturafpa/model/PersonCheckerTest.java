@@ -30,14 +30,29 @@ public class PersonCheckerTest {
 
     @Test
     public void should_return_password_validity() {
-        String validPassword = "Testreussi2!";
+        String validPassword = "Testreussi2#";
+        String validPassword2 = "TestTEst59-_ç?#£";
+        String validPassword3 = "5Testuiuni\'edqdqsd";
+        String validPassword4 = "5Test^$*ù*~~ù[-_-]ù";
+        String validPassword5= "Testreussi2!";
+        
         assertTrue(PersonChecker.isValidPassword(validPassword));
+        assertTrue(PersonChecker.isValidPassword(validPassword2));
+        assertTrue(PersonChecker.isValidPassword(validPassword3));
+        assertTrue(PersonChecker.isValidPassword(validPassword4));
+        assertTrue(PersonChecker.isValidPassword(validPassword5));
     }
 
     @Test
     public void should_return_password_invalidity() {
-        String invalidPassword = "testrate10";
-        assertFalse(PersonChecker.isValidPassword(invalidPassword));
+        String invalidPassword2 = "testrate10";
+        String invalidPassword3 = "Tpnçsivns";
+        String invalidPassword4 = "T45654";
+        String invalidPassword5= "TestTest-_";
+        assertFalse(PersonChecker.isValidPassword(invalidPassword2));
+        assertFalse(PersonChecker.isValidPassword(invalidPassword3));
+        assertFalse(PersonChecker.isValidPassword(invalidPassword4));
+        assertFalse(PersonChecker.isValidPassword(invalidPassword5));
     }
 
     @Test
