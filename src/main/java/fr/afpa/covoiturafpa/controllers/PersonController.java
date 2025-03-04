@@ -84,6 +84,9 @@ public class PersonController {
     @Autowired
     private ApplicationContext context;
 
+    @Autowired
+    private HCaptchaService hCaptchaService;
+
     
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
@@ -120,14 +123,16 @@ public class PersonController {
         return null;
     }
     
+    // TODO renvoyer un objet de la classe "ResponseEntity" dans le cas d'un problème de création d'utilisateur car le status est sytématiquement 201
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
     @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Person register(@RequestBody PersonCreationRequest personCreationRequest) {
-        HCaptchaService captchaService = new HCaptchaService(personCreationRequest.getCaptchaToken());
+        hCaptchaService.setCaptchaToken(personCreationRequest.getCaptchaToken());
         Person newPerson = personCreationRequest.getNewPerson();
-        if (captchaService.isValid() && isValidNewPerson(newPerson)) {
+
+        if (hCaptchaService.isValid() && isValidNewPerson(newPerson)) {
             return createPerson(newPerson);
         }
         return null;

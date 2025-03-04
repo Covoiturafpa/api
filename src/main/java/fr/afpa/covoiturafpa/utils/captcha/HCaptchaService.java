@@ -3,12 +3,11 @@ package fr.afpa.covoiturafpa.utils.captcha;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,39 +16,21 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Component
-@ConfigurationProperties(prefix = "hcaptcha")
 public class HCaptchaService {
 
     private HCaptchaToken captchaToken;
 
-    private String secret;
+    private final HCaptchaConfig hCaptchaConfig;
 
-    private String uristring;
-    
+    public HCaptchaService(HCaptchaConfig hCaptchaConfig) {
+        this.hCaptchaConfig = hCaptchaConfig;
+    }
+
     public HCaptchaToken getCaptchaToken() {
         return captchaToken;
     }
 
     public void setCaptchaToken(HCaptchaToken captchaToken) {
-        this.captchaToken = captchaToken;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public String getURIString() {
-        return uristring;
-    }
-
-    public void setURIString(String uriString) {
-        this.uristring = uriString;
-    }
-
-    public HCaptchaService() {
-    }
-    
-    public HCaptchaService(HCaptchaToken captchaToken) {
         this.captchaToken = captchaToken;
     }
 
@@ -59,23 +40,24 @@ public class HCaptchaService {
     }
 
     public JsonNode getValidityResponseAsJson() {
-        try {         
-            String body = "response=" + this.captchaToken.getToken() + "&secret=" + this.secret;
+        try {
+            String body = "response=" + this.captchaToken.getToken() + "&secret=" + this.hCaptchaConfig.getSecret();
             HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(uristring))
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .timeout(Duration.ofSeconds(10))
-                .POST(BodyPublishers.ofString(body))
-                .build();
+                    .newBuilder()
+                    .uri(URI.create(this.hCaptchaConfig.getUri()))
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .timeout(Duration.ofSeconds(10))
+                    .POST(BodyPublishers.ofString(body))
+                    .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readTree(response.body());
-            } catch (Exception e) {
-                e.printStackTrace();
-                ObjectNode successJson = JsonNodeFactory.instance.objectNode();
-                successJson.put("success", false);
-                return successJson;
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ObjectNode successJson = JsonNodeFactory.instance.objectNode();
+            successJson.put("success", false);
+            return successJson;
+        }
     }
+
 }

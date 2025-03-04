@@ -1,10 +1,9 @@
 package fr.afpa.covoiturafpa.model;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.time.LocalDate;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,5 +64,10 @@ public class PersonCheckerTest {
         LocalDate invalidStartActivity = LocalDate.ofYearDay(2022, 364);
         LocalDate invalidEndActivity = LocalDate.ofYearDay(2022, 1);
         assertFalse(PersonChecker.isValidPeriod(invalidStartActivity, invalidEndActivity));
+    }
+
+    @Test
+    public void null_period_should_return_invalidity() {
+        assertFalse(PersonChecker.isValidPeriod(null, null));
     }
 }

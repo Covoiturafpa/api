@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.model.RidePassenger;
+import fr.afpa.covoiturafpa.model.RidePassengerId;
 
 @Repository
-public interface RidePassengerRepository extends CrudRepository<RidePassenger, Integer> {
+public interface RidePassengerRepository extends CrudRepository<RidePassenger, RidePassengerId> {
 
     @Query("SELECT rp FROM RidePassenger rp WHERE rp.person = :person AND rp.ride = :ride")
     public Optional<RidePassenger> findByPersonAndRide(@Param("person") Person person, @Param("ride") Ride ride);
