@@ -18,7 +18,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @JsonTypeName("E")
 @Entity
 @DiscriminatorValue("E")
-@Table(name = "employee", schema = "heroku_ext")
+@Table(name = "employee", schema = "covoiturafpa")
 public class Employee extends Person {
 
     @JsonView(Views.SimpleUser.class)
@@ -29,11 +29,14 @@ public class Employee extends Person {
     @Column(name = "is_teacher")
     private boolean isTeacher = false;
 
+    @JsonView(Views.SimpleUser.class)
+    @Column(name = "id_centre")
+    public int idCentre = 1;
+
     @JsonView(Views.DetailedUser.class)
     @ManyToMany
     @JoinTable(name = "teacher_of", joinColumns = @JoinColumn(name = "id_teacher"), inverseJoinColumns = @JoinColumn(name = "id_formation"))
     public List<Formation> taughtFormations;
-
 
     public List<Formation> getTaughtFormations() {
         return taughtFormations;
@@ -58,7 +61,6 @@ public class Employee extends Person {
     public void setIsTeacher(boolean isTeacher) {
         this.isTeacher = isTeacher;
     }
-
 
     public Employee() {
     }

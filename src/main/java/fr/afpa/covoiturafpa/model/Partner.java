@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "partner", schema = "heroku_ext")
+@Table(name = "partner", schema = "covoiturafpa")
 public class Partner {
 
     @Id

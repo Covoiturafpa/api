@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "day_timetable", schema = "heroku_ext")
+@Table(name = "day_timetable", schema = "covoiturafpa")
 public class DayTimetable {
 
     @Id

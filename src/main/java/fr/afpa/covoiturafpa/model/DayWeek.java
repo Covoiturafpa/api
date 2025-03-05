@@ -20,7 +20,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 
 @JsonIdentityInfo(generator=ObjectIdGenerators.None.class, property="idDayWeek")
 @Entity
-@Table(name = "day_week", schema = "heroku_ext")
+@Table(name = "day_week", schema = "covoiturafpa")
 public class DayWeek {
 
     @JsonView(Views.SimpleRide.class)

@@ -15,7 +15,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 
 
 @Entity
-@Table(name = "car", schema = "heroku_ext")
+@Table(name = "car", schema = "covoiturafpa")
 public class Car {
 
     @JsonView(Views.DetailedUser.class)

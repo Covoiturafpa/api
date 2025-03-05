@@ -40,7 +40,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ride_type")
-@Table(name = "ride", schema = "heroku_ext")
+@Table(name = "ride", schema = "covoiturafpa")
 public class Ride {
 
     @JsonView(Views.SimpleRide.class)
