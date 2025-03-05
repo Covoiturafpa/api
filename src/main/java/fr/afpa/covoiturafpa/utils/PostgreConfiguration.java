@@ -43,7 +43,7 @@ public class PostgreConfiguration {
                 String username = matcher.group(6);
                 logger.info("Username: " + username);
 
-                String dbUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName + "?currentSchema=heroku_ext&stringtype=unspecified";
+                String dbUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName + "?currentSchema=covoiturAfpa&stringtype=unspecified";
                 String driverClassName = environment.getProperty("spring.datasource.driver-class-name");
                 dataSourceBuilder.driverClassName(driverClassName);
                 dataSourceBuilder.url(dbUrl);

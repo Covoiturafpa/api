@@ -28,7 +28,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonTypeName("R")
 @Entity
-@Table(name = "recurring", schema = "heroku_ext")
+@Table(name = "recurring", schema = "covoiturafpa")
 @DiscriminatorValue("R")
 public class RecurringRide extends Ride {
 

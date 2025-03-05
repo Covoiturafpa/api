@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import fr.afpa.covoiturafpa.model.utils.Views;
 
 @Entity
-@Table(name = "car_type",schema="heroku_ext")
+@Table(name = "car_type",schema="covoiturafpa")
 public class CarType {
 
     @Id

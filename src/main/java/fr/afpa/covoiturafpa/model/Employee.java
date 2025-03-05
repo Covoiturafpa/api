@@ -18,7 +18,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @JsonTypeName("E")
 @Entity
 @DiscriminatorValue("E")
-@Table(name = "employee", schema = "heroku_ext")
+@Table(name = "employee", schema = "covoiturafpa")
 public class Employee extends Person {
 
     @JsonView(Views.SimpleUser.class)

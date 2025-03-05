@@ -48,7 +48,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers("/login").permitAll()
+                        // .antMatchers("/login").permitAll()
+                        .antMatchers("/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/users").permitAll()
                         .antMatchers(HttpMethod.GET, "/centre/formations").permitAll()
                         .antMatchers(HttpMethod.GET, "/users/email_validity").permitAll()

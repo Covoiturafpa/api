@@ -25,7 +25,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 
 
 @Entity
-@Table(name = "ride_passenger", schema = "heroku_ext")
+@Table(name = "ride_passenger", schema = "covoiturafpa")
 public class RidePassenger {
 
     @JsonIgnore

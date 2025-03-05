@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "centre", schema = "heroku_ext")
+@Table(name = "centre", schema = "covoiturafpa")
 
 public class Centre {
 
