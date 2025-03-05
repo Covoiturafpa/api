@@ -92,16 +92,16 @@ public class PersonController {
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
     @GetMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public ArrayList<Person> list(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization) {
+    public Iterable<Person> list(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization) {
         try {
             String[] tokenArray = headerAuthorization.split(" ");
             CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
             String roles = userAuthentication.getAuthorities().toString();
             if (roles.contains("ROLE_TEACHER") && roles.contains("ROLE_ADMIN")) {
-                ArrayList<Person> result = new ArrayList<Person>();
-                Iterable<Person> allTrainee = personRepository.findAll();
-                allTrainee.forEach(result::add);
-                return result;
+                // ArrayList<Person> result = new ArrayList<Person>();
+                // Iterable<Person> allTrainee = personRepository.findAll();
+                // allTrainee.forEach(result::add);
+                return personRepository.findAll();
             } else if (roles.contains("ROLE_TEACHER")) {
                 Employee teacher = employeeRepository.findById(userAuthentication.getIdUser()).get();
                 List<Formation> formations = teacher.getTaughtFormations();
@@ -390,11 +390,13 @@ public class PersonController {
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     @CrossOrigin
     @PatchMapping(value = "/users/{id}/activation", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Person activateAccount(@PathVariable(required = true) int id, @RequestBody Person user) {
-        Optional<Person> person = personRepository.findById(id);
-        if (person.isPresent()) {
-            person.get().setIsActivated(true);
-            return personRepository.save(person.get());
+    public Person activateAccount(@PathVariable(required = true) int id) {
+        Optional<Person> personOptional = personRepository.findById(id);
+        
+        if (personOptional.isPresent()) {
+            Person person = personOptional.get();
+            person.setIsActivated(true);
+            return personRepository.save(person);
         }
         return null;
     }
