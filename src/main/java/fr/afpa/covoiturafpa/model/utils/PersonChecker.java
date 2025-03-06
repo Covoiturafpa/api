@@ -20,7 +20,7 @@ public class PersonChecker {
     }
 
     public static boolean isValidPassword(String password) {
-        return Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$").matcher(password).matches();
+        return Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\-\\[\\{\\}\\]:;',?/*~$^+=<>]).{8,20}$").matcher(password).matches();
     }
 
     public static boolean isValidPhoneNumber(String phoneNumber) {

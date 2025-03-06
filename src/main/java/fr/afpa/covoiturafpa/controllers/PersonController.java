@@ -87,55 +87,52 @@ public class PersonController {
     @Autowired
     private HCaptchaService hCaptchaService;
 
-    
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
-    @GetMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public ArrayList<Person> list(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization) {
         try {
             String[] tokenArray = headerAuthorization.split(" ");
             CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
             String roles = userAuthentication.getAuthorities().toString();
-            if(roles.contains("ROLE_TEACHER") && roles.contains("ROLE_ADMIN")) {
+            if (roles.contains("ROLE_TEACHER") && roles.contains("ROLE_ADMIN")) {
                 ArrayList<Person> result = new ArrayList<Person>();
-                Iterable<Person> allTrainee =  personRepository.findAll();
+                Iterable<Person> allTrainee = personRepository.findAll();
                 allTrainee.forEach(result::add);
                 return result;
-            }
-            else if (roles.contains("ROLE_TEACHER")) {
+            } else if (roles.contains("ROLE_TEACHER")) {
                 Employee teacher = employeeRepository.findById(userAuthentication.getIdUser()).get();
                 List<Formation> formations = teacher.getTaughtFormations();
                 ArrayList<Person> traineePerson = new ArrayList<Person>();
                 for (Formation formation : formations) {
-                    Iterator<Person> requestResult = personRepository.findByIdFormation(formation.getId()).iterator(); 
+                    Iterator<Person> requestResult = personRepository.findByIdFormation(formation.getId()).iterator();
                     while (requestResult.hasNext()) {
                         traineePerson.add(requestResult.next());
                     }
                 }
                 return traineePerson;
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(PersonController.class);
             logger.error("Erreur lors de la conception de la réponse JSon" + e);
         }
         return null;
     }
-    
+
     // TODO renvoyer un objet de la classe "ResponseEntity" dans le cas d'un problème de création d'utilisateur car le status est sytématiquement 201
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
-    @PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.CREATED)
-    public Person register(@RequestBody PersonCreationRequest personCreationRequest) {
+    @PostMapping(value = "/users", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> register(@RequestBody PersonCreationRequest personCreationRequest) {
         hCaptchaService.setCaptchaToken(personCreationRequest.getCaptchaToken());
         Person newPerson = personCreationRequest.getNewPerson();
-
         if (hCaptchaService.isValid() && isValidNewPerson(newPerson)) {
-            return createPerson(newPerson);
+            return ResponseEntity.ok(createPerson(newPerson));
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "not created"));
     }
 
     public boolean isValidNewPerson(Person newPerson) {
@@ -149,14 +146,14 @@ public class PersonController {
 
     @Secured("ROLE_ADMIN")
     @CrossOrigin
-    @DeleteMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInactivePersonsForSixMonths() {
         //TODO: personRepository.deleteInactiveForSixMonths();
     }
 
     @CrossOrigin
-    @GetMapping(value = "/users/username/{username}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/username/{username}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public Optional<Person> getByEmail(@PathVariable(required = true) String username) {
         return personRepository.findByEmail(username);
@@ -164,17 +161,16 @@ public class PersonController {
 
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
-    @GetMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public Optional<Person> get(@PathVariable(required = true) Integer id) {
         return personRepository.findById(id);
     }
-    
-    
+
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
     @Transactional
-    @PatchMapping(value = "/users/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/users/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Person> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @RequestBody Person updatedPerson) {
         //TODO: passer par les méthodes de PersonChecker pour les REGEX
@@ -187,22 +183,22 @@ public class PersonController {
 
                 if (optPerson.isPresent()) {
                     Person person = optPerson.get();
-                    
+
                     if (!person.getEmail().equals(updatedPerson.getEmail())) {
                         Pattern email = Pattern.compile("^[a-zA-Z0-9_+&*]+(?:[\\.\\-][a-zA-Z0-9_+&*]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,15}$");
                         Matcher mailMatcher = email.matcher(updatedPerson.getEmail());
-                        
+
                         if (mailMatcher.matches() && !personRepository.findByEmail(updatedPerson.getEmail()).isPresent()) {
                             person.setEmail(updatedPerson.getEmail());
                         } else {
                             return ResponseEntity.badRequest().build();
                         }
                     }
-                    
+
                     if (!person.getPhoneNumber().equals(updatedPerson.getPhoneNumber())) {
                         Pattern phoneNumber = Pattern.compile("^(\\+33|0|0033)[1-9]([. ]?[0-9]{2}){4}$");
                         Matcher phoneNumberMatcher = phoneNumber.matcher(updatedPerson.getPhoneNumber());
-                        
+
                         if (phoneNumberMatcher.matches()) {
                             person.setPhoneNumber(updatedPerson.getPhoneNumber());
                         } else {
@@ -213,7 +209,7 @@ public class PersonController {
                     if (updatedPerson.getPassword() != null) {
                         Pattern password = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$");
                         Matcher passwordMatcher = password.matcher(updatedPerson.getPassword());
-                        
+
                         if (passwordMatcher.matches()) {
                             person.setPassword(context.getBean(PasswordEncoder.class).encode(updatedPerson.getPassword()));
                         } else {
@@ -223,7 +219,7 @@ public class PersonController {
                     if (updatedPerson.isContactByMail() != person.isContactByMail()) {
                         person.setContactByMail(updatedPerson.isContactByMail());
                     }
-                    if(updatedPerson.isContactBySms() != person.isContactBySms()) {
+                    if (updatedPerson.isContactBySms() != person.isContactBySms()) {
                         person.setContactBySms(updatedPerson.isContactBySms());
                     }
                     return ResponseEntity.ok(personRepository.save(person));
@@ -234,9 +230,9 @@ public class PersonController {
         }
         return ResponseEntity.badRequest().build();
     }
-    
+
     @CrossOrigin
-    @DeleteMapping(value = "/users/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping(value = "/users/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(required = true) int id) {
         Optional<Person> optPerson = personRepository.findById(id);
@@ -248,7 +244,7 @@ public class PersonController {
 
     @JsonView(Views.DetailedRide.class)
     @CrossOrigin
-    @GetMapping(value = "/users/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/{id}/rides", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Ride> getRidesOfPerson(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) Integer id) {
         try {
@@ -257,7 +253,7 @@ public class PersonController {
             if (userAuthentication.getIdUser().equals(id)) {
                 return rideRepository.findRidesByPerson(id);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(PersonController.class);
             logger.error("Erreur lors de la conception de la réponse JSon" + e);
         }
@@ -278,45 +274,42 @@ public class PersonController {
                 Ride updateRide = ride.manageBooking(passenger, isAccepted);
                 rideRepository.save(updateRide);
                 saveBookingNotification(ride, passenger, isAccepted);
-                if(isAccepted) {
+                if (isAccepted) {
                     responseMessage.put("type", "success");
                     responseMessage.put("message", "Le passager a bien était accepté");
                     return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
-                }else {
+                } else {
                     RidePassenger ridePassenger = ridePassengerRepository.findByPersonAndRide(passenger, ride).get();
                     ridePassengerRepository.delete(ridePassenger);
                     responseMessage.put("type", "success");
                     responseMessage.put("message", "Le passager a bien était refusé");
                     return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
                 }
-            }else {
+            } else {
                 responseMessage.put("type", "error");
                 responseMessage.put("message", "Vous n'êtes pas propriétaire de ce trajet");
                 return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             responseMessage.put("type", "error");
             responseMessage.put("message", "Impossible de traité le JSON");
             return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
         }
-        
-        
+
     }
 
     public void saveBookingNotification(Ride ride, Person passenger, boolean isAccepted) {
         if (isAccepted) {
             Notification newNotification = new Notification(Notification.TypeNotif.ACCEPTED_RESERVATION, NotifContentBuilder.createAcceptedBookingContent(ride), passenger);
             notificationRepository.save(newNotification);
-        }
-        else {
+        } else {
             Notification newNotification = new Notification(Notification.TypeNotif.REJECTED_RESERVATION, NotifContentBuilder.createRejectedBookingContent(ride), passenger);
             notificationRepository.save(newNotification);
         }
     }
 
     @CrossOrigin
-    @PostMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/users/{id}/cars", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public Car createCar(@PathVariable(required = true) int id, @RequestBody Car car) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
@@ -327,7 +320,7 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PatchMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/users/{id}/cars", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public Car updateCar(@PathVariable(required = true) int id, @RequestBody Car car) {
         if (car.getPerson().getId() == id) {
             return carRepository.save(car);
@@ -336,7 +329,7 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{id}/cars", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping(value = "/users/{id}/cars", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void deleteCar(@PathVariable(required = true) int id, @RequestBody Car car) {
         if (car.getPerson().getId() == id) {
             carRepository.delete(car);
@@ -344,7 +337,7 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/users/{id}/notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/{id}/notifications", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public List<Notification> getNotifications(@PathVariable(required = true) int id) {
         Optional<Person> person = personRepository.findById(id);
@@ -355,7 +348,7 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/users/{id}/notifications", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/users/{id}/notifications", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public int setAsReadNotifications(@PathVariable(required = true) int id) {
         return notificationRepository.updateAllUnreadByPerson(id);
@@ -376,7 +369,7 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/users/{id}/new_notifications", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/{id}/new_notifications", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public boolean checkNewNotifications(@PathVariable(required = true) int id) {
         return (notificationRepository.countNewNotifications(id) > 0);
@@ -386,7 +379,7 @@ public class PersonController {
     @CrossOrigin
     @PatchMapping(value = "/users/{id}/roles", consumes = "application/json-patch+json")
     public Person giveAdminOrTeacherAccess(@RequestBody Map<String, Boolean> data) {
-        for (String key : data.keySet()){
+        for (String key : data.keySet()) {
             if (key == "isAdmin") {
 
             }
@@ -394,9 +387,9 @@ public class PersonController {
         return null;
     }
 
-    @Secured({"ROLE_ADMIN","ROLE_TEACHER"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     @CrossOrigin
-    @PatchMapping(value = "/users/{id}/activation", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/users/{id}/activation", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Person activateAccount(@PathVariable(required = true) int id, @RequestBody Person user) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
@@ -407,9 +400,9 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/users/email_validity", params = "email", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/users/email_validity", params = "email", produces = {MediaType.APPLICATION_JSON_VALUE})
     public boolean isNotTaken(@RequestParam String email, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) Optional<String> headerAuthorization) {
-        
+
         if (headerAuthorization.isPresent()) {
 
             String[] tokenArray = headerAuthorization.get().split(" ");
@@ -423,7 +416,7 @@ public class PersonController {
                 e.printStackTrace();
             }
         }
-        
+
         return (!personRepository.findByEmail(email).isPresent());
     }
 
