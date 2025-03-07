@@ -104,7 +104,7 @@ public class RideController {
     }
 
     @JsonView(Views.DetailedRide.class)
-    @Transactional
+    // @Transactional
     @CrossOrigin
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
@@ -113,21 +113,30 @@ public class RideController {
         try {
             if (ride instanceof RecurringRide) {
                 RecurringRide recurringRide = (RecurringRide) ride;
-                existingRide = rideRepository.findRecurringRidesByDateTimeAndDestination(
-                        recurringRide.getDestination().getCity().getName(), recurringRide.getBeginning(),
-                        recurringRide.getEnding(), recurringRide.getDestination().getIsFromAfpa());
+                existingRide= rideRepository.findRecurringRidesByDateTimeAndDestination(recurringRide.getDestination().getCity().getName(),
+                                                                                        recurringRide.getBeginning(),
+                                                                                        recurringRide.getEnding(),
+                                                                                        recurringRide.getDestination().getIsFromAfpa());
             } else {
                 OneTimeRide oneTimeRide = (OneTimeRide) ride;
                 existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(), oneTimeRide.getDestination().getIsFromAfpa());
             }
+
             if (existingRide.size() == 0) {
                 // Début de la création d'un ride
                 Optional<Person> driver = personRepository.findById(ride.getCar().getPerson().getId());
                 ride.setDriver(driver.get());
-                Optional<City> city = cityRepository.findByName(ride.getDestination().getCity().getName());
-                if (city.isPresent()) {
-                    ride.getDestination().setCity(city.get());
+
+                
+                Optional<City> optCity = cityRepository.findByName(ride.getDestination().getCity().getName());
+                if (optCity.isPresent()) {
+                    ride.getDestination().setCity(optCity.get());
+                } else {
+                    cityRepository.save(ride.getDestination().getCity());
                 }
+
+
+
                 if (ride instanceof RecurringRide) {
                     RecurringRide recurringRide = (RecurringRide) ride;
                     List<DayWeek> daysList = new ArrayList<DayWeek>();

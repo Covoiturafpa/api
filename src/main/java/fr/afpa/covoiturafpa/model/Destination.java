@@ -1,6 +1,5 @@
 package fr.afpa.covoiturafpa.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +35,7 @@ public class Destination {
     private boolean isFromAfpa;
 
     @JsonView(Views.SimpleRide.class)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "id_city")
     private City city;
 

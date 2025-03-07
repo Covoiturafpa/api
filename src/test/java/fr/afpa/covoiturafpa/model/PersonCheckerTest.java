@@ -35,7 +35,7 @@ public class PersonCheckerTest {
         String validPassword3 = "5Testuiuni\'edqdqsd";
         String validPassword4 = "5Test^$*ù*~~ù[-_-]ù";
         String validPassword5= "Testreussi2!";
-        
+
         assertTrue(PersonChecker.isValidPassword(validPassword));
         assertTrue(PersonChecker.isValidPassword(validPassword2));
         assertTrue(PersonChecker.isValidPassword(validPassword3));
