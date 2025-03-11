@@ -17,7 +17,7 @@ import fr.afpa.covoiturafpa.repository.PersonRepository;
 @Configuration
 public class ApplicationConfiguration {
 
-    private final String SECRET_PASSWORD_PEPPER = "secretmagicpepper";
+    // private final String SECRET_PASSWORD_PEPPER = "secretmagicpepper";
     
     private final PersonRepository personRepository;
 

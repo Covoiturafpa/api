@@ -7,5 +7,4 @@ import fr.afpa.covoiturafpa.model.Formation;
 
 @Repository
 public interface FormationRepository extends CrudRepository<Formation, Integer> {
-   
 }

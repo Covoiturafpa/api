@@ -11,14 +11,14 @@ import fr.afpa.covoiturafpa.utils.PersonInfoChecker;
 
 /**
  * Classe regroupant la logique métier permettant de traiter les objets de la classe "Person"
- * 
+ *
  */
 @Service
 public class PersonService {
 
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;

@@ -1,11 +1,8 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +73,7 @@ public class AuthenticationController {
 
     /**
      * Traite les requête de connexion d'un utilisateur
-     * 
+     *
      * @param userDto DTO permettant de récupérer les informations de connexion
      * @return La réponse de connexion
      */
@@ -88,7 +85,7 @@ public class AuthenticationController {
 
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("id", authenticatedUser.getId());
-     
+
         // création du JWT
         String jwtToken = jwtService.generateToken(extraClaims, authenticatedUser);
 

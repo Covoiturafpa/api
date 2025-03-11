@@ -13,11 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.afpa.covoiturafpa.controllers.CentreController;
 import fr.afpa.covoiturafpa.services.authentication.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -43,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtAuthenticationFilter(
         JwtService jwtService,
         UserDetailsService userDetailsService
-        // ,
+        // TODO voir ce truc
         // HandlerExceptionResolver handlerExceptionResolver
     ) {
         this.jwtService = jwtService;

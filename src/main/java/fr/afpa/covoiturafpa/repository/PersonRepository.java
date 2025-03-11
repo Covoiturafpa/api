@@ -1,10 +1,12 @@
 package fr.afpa.covoiturafpa.repository;
 
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import fr.afpa.covoiturafpa.model.Employee;
 import fr.afpa.covoiturafpa.model.Person;
 
@@ -22,6 +24,6 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
     public Employee setAdmin(@Param("id") Integer id);
 
     // @Query(value="SELECT per FROM Person per WHERE per.email = :email")
-// /    public Optional<Person> findByEmail(@Param("email") String email);
+    // public Optional<Person> findByEmail(@Param("email") String email);
     public Optional<Person> findByEmail(String email);
 }

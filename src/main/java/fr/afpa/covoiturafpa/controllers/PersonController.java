@@ -199,6 +199,7 @@ public class PersonController {
         String[] tokenArray = headerAuthorization.split(" ");
 
         Integer userId = jwtService.extractId(tokenArray[1]);
+        
         Optional<Person> optionalPerson = personService.findPersonById(userId);
 
         if (optionalPerson.isPresent()) {

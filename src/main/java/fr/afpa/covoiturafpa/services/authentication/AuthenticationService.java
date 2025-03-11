@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import fr.afpa.covoiturafpa.controllers.CentreController;
 import fr.afpa.covoiturafpa.dto.LoginUserDto;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
@@ -73,7 +72,7 @@ public class AuthenticationService {
         try {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
+                        input.getUsername(),
                         input.getPassword()
                 )
             );
@@ -82,6 +81,6 @@ public class AuthenticationService {
             logger.info(e.getMessage());
         }
 
-        return personRepository.findByEmail(input.getEmail()).orElseThrow();
+        return personRepository.findByEmail(input.getUsername()).orElseThrow();
     }
 }
