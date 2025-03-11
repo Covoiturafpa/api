@@ -15,6 +15,7 @@ import fr.afpa.covoiturafpa.Application;
 import fr.afpa.covoiturafpa.model.Person;
 import fr.afpa.covoiturafpa.model.Trainee;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
+import fr.afpa.covoiturafpa.services.PersonService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -22,6 +23,9 @@ public class PersonControllerTest {
 
     @Autowired
     private PersonController personController;
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private PersonRepository personRepository;
@@ -37,8 +41,10 @@ public class PersonControllerTest {
         newTrainee.setPhoneNumber("+336 05 04 03 02");
         newTrainee.setStartActivity(LocalDate.ofYearDay(2022, 1));
         newTrainee.setEndActivity(LocalDate.ofYearDay(2022, 364));
-        assertTrue(personController.isValidNewPerson(newTrainee));
-        Person savedPerson = personController.createPerson(newTrainee);
+        assertTrue(personService.isValidNewPerson(newTrainee));
+
+        Person savedPerson = personService.createPerson(newTrainee);
+
         assertTrue(savedPerson.getPersonType().equals("T"));
         assertTrue(savedPerson.getEmail().equals("testemail@domain.com"));
         assertFalse(savedPerson.getPassword().equals("Testreussi2!"));
@@ -59,10 +65,15 @@ public class PersonControllerTest {
         newTrainee.setPhoneNumber("+336 05 04 03 02");
         newTrainee.setStartActivity(LocalDate.ofYearDay(2022, 1));
         newTrainee.setEndActivity(LocalDate.ofYearDay(2022, 364));
-        assertTrue(personController.isValidNewPerson(newTrainee));
-        Person savedPerson = personController.createPerson(newTrainee);
-        assertFalse(personController.isValidNewPerson(newTrainee));
+
+        assertTrue(personService.isValidNewPerson(newTrainee));
+
+        Person savedPerson = personService.createPerson(newTrainee);
+
+        assertFalse(personService.isValidNewPerson(newTrainee));
+
         personRepository.deleteById(savedPerson.getId());
+
         assertTrue(personRepository.findById(savedPerson.getId()).isEmpty());
     }
 

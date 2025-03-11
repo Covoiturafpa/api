@@ -1,7 +1,5 @@
 package fr.afpa.covoiturafpa.controllers;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +23,10 @@ import fr.afpa.covoiturafpa.model.Partner;
 import fr.afpa.covoiturafpa.repository.CentreRepository;
 import fr.afpa.covoiturafpa.repository.FormationRepository;
 import fr.afpa.covoiturafpa.repository.PartnerRepository;
+import jakarta.annotation.PostConstruct;
 
 @RestController
+@RequestMapping("/api/centre")
 public class CentreController {
 
     @Autowired
@@ -47,7 +48,7 @@ public class CentreController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre get() {
         Iterable<Centre> result = centreRepository.findAll();
@@ -56,21 +57,21 @@ public class CentreController {
     
     @Secured("ROLE_ADMIN")
     @CrossOrigin
-    @PutMapping(value = "/centre", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Centre update(@RequestBody Centre centre) {
         return centreRepository.save(centre);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Partner> getPartner() {
         return partnerRepository.findAll();
     }
 
     @CrossOrigin
-    @PostMapping(value = "/centre/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/partners", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Partner createPartner(@RequestBody(required = true) Partner partner) {
         partner.setCentre(get());
@@ -78,28 +79,28 @@ public class CentreController {
     }
     
     @CrossOrigin
-    @PutMapping(value = "/centre/partners/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/partners/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Partner updatePartner(@PathVariable(required = true) int id, @RequestBody(required = true) Partner partner) {
         return partnerRepository.save(partner);
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/centre/partners/{id}")
+    @DeleteMapping(value = "/partners/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePartner(@PathVariable(required = true) int id) {
         partnerRepository.deleteById(id);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/centre/formations", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/formations", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Formation> getFormation() {
         return formationRepository.findAll();
     }
 
     @CrossOrigin
-    @PostMapping(value = "/centre/formations", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/formations", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Formation createFormation(@RequestBody(required = true) Formation formation) {
         formation.setCentre(get());
@@ -107,14 +108,14 @@ public class CentreController {
     }
     
     @CrossOrigin
-    @PutMapping(value = "/centre/formations/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/formations/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Formation updateFormation(@PathVariable(required = true) int id, @RequestBody(required = true) Formation formation) {
         return formationRepository.save(formation);
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/centre/formations/{id}")
+    @DeleteMapping(value = "/formations/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFormation(@PathVariable(required = true) int id) {
         formationRepository.deleteById(id);

@@ -14,12 +14,14 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
     @Query(value = "SELECT * FROM person JOIN trainee ON person.id_person = trainee.id_person WHERE trainee.id_formation = :idFormation", nativeQuery = true)
     public Iterable<Person> findByIdFormation(@Param("idFormation") int idFormation);
 
-    @Query(value="DELETE FROM Person usr WHERE AGE(usr.lastLogin, current_date) > '6 months'")
-    public void deleteInactiveForSixMonths();
+    // TODO à réactiver quand la fonctionnalité sera implémentée
+    // @Query(value="DELETE FROM Person usr WHERE AGE(usr.lastLogin, current_date) > '6 months'")
+    // public void deleteInactiveForSixMonths();
 
     @Query(value="UPDATE Employee emp SET emp.isAdmin = TRUE WHERE emp.id = :id")
     public Employee setAdmin(@Param("id") Integer id);
 
-    @Query(value="SELECT per FROM Person per WHERE per.email = :email")
-    public Optional<Person> findByEmail(@Param("email") String email);
+    // @Query(value="SELECT per FROM Person per WHERE per.email = :email")
+// /    public Optional<Person> findByEmail(@Param("email") String email);
+    public Optional<Person> findByEmail(String email);
 }

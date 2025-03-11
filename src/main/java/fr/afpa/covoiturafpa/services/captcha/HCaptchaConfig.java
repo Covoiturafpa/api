@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils.captcha;
+package fr.afpa.covoiturafpa.services.captcha;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

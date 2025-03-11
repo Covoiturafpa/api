@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.afpa.covoiturafpa.Application;
+import fr.afpa.covoiturafpa.services.captcha.HCaptchaConfig;
+import fr.afpa.covoiturafpa.services.captcha.HCaptchaService;
+import fr.afpa.covoiturafpa.services.captcha.HCaptchaToken;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import fr.afpa.covoiturafpa.model.Fuel;
 import fr.afpa.covoiturafpa.repository.FuelRepository;
 
 @RestController
+@RequestMapping("/api/fuels")
 public class FuelController {
     
     @Autowired
@@ -26,7 +28,7 @@ public class FuelController {
     private Logger logger = LoggerFactory.getLogger(FuelController.class);
 
     @CrossOrigin
-    @GetMapping(value = "/fuels", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Iterable<Fuel>> list() {
         Iterable<Fuel> fuels = fuelRepository.findAll();
 
@@ -38,7 +40,7 @@ public class FuelController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/fuels/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Fuel> get(@PathVariable(required = true) int id) {
         Optional<Fuel> foundFuel = null;
         try {
@@ -56,7 +58,7 @@ public class FuelController {
     }
     
     @CrossOrigin
-    @PutMapping(value = "/fuels/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Fuel> updatePrice(@PathVariable(required = true) int id, @RequestBody Fuel fuel) {
         try {
             fuelRepository.save(fuel);

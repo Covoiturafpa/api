@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,7 @@ import fr.afpa.covoiturafpa.model.Ride;
 import fr.afpa.covoiturafpa.repository.CityRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
+import jakarta.transaction.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)

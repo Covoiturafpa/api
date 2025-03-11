@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
 
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @JsonTypeName("R")
 @Entity
 @Table(name = "recurring", schema = "covoiturafpa")
@@ -45,7 +45,7 @@ public class RecurringRide extends Ride {
 
     @JsonView(Views.SimpleRide.class)
     @JoinTable(name = "recurring_days", joinColumns = @JoinColumn(name = "id_ride"), inverseJoinColumns = @JoinColumn(name = "id_day_week"))
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}) // fetch = FetchType.LAZY, 
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }) // fetch = FetchType.LAZY,
     private List<DayWeek> daysWeek = new ArrayList<>();
 
     public LocalDate getBeginning() {

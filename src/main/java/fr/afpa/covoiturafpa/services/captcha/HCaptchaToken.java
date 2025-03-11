@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils.captcha;
+package fr.afpa.covoiturafpa.services.captcha;
 
 public class HCaptchaToken {
     private String token;

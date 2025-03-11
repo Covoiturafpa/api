@@ -1,4 +1,4 @@
-package fr.afpa.covoiturafpa.utils;
+package fr.afpa.covoiturafpa.config;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +14,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+/**
+ * Classe de configuration de la connexion à une base postgre SQL
+ * 
+ * TODO voir si c'est vraiment nécessaire, ne suffit-il pas de passer par les informations du "application.properties" ?
+ */
 @Configuration
 public class PostgreConfiguration {
 

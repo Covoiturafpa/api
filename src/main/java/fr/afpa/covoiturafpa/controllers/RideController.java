@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,10 +42,11 @@ import fr.afpa.covoiturafpa.repository.CityRepository;
 import fr.afpa.covoiturafpa.repository.NotificationRepository;
 import fr.afpa.covoiturafpa.repository.PersonRepository;
 import fr.afpa.covoiturafpa.repository.RideRepository;
-import fr.afpa.covoiturafpa.utils.security.CustomUsernamePasswordAuthenticationToken;
-import fr.afpa.covoiturafpa.utils.security.JwtUtil;
+import fr.afpa.covoiturafpa.services.PersonService;
+import fr.afpa.covoiturafpa.services.authentication.JwtService;
 
 @RestController
+@RequestMapping("/api/rides")
 public class RideController {
 
     @Autowired
@@ -60,6 +60,13 @@ public class RideController {
 
     @Autowired
     private CityRepository cityRepository;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private PersonService personService;
+
 
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin
@@ -113,13 +120,16 @@ public class RideController {
         try {
             if (ride instanceof RecurringRide) {
                 RecurringRide recurringRide = (RecurringRide) ride;
-                existingRide= rideRepository.findRecurringRidesByDateTimeAndDestination(recurringRide.getDestination().getCity().getName(),
-                                                                                        recurringRide.getBeginning(),
-                                                                                        recurringRide.getEnding(),
-                                                                                        recurringRide.getDestination().getIsFromAfpa());
+                existingRide = rideRepository.findRecurringRidesByDateTimeAndDestination(
+                        recurringRide.getDestination().getCity().getName(),
+                        recurringRide.getBeginning(),
+                        recurringRide.getEnding(),
+                        recurringRide.getDestination().getIsFromAfpa());
             } else {
                 OneTimeRide oneTimeRide = (OneTimeRide) ride;
-                existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(), oneTimeRide.getDestination().getIsFromAfpa());
+                existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(
+                        oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(),
+                        oneTimeRide.getDestination().getIsFromAfpa());
             }
 
             if (existingRide.size() == 0) {
@@ -127,15 +137,12 @@ public class RideController {
                 Optional<Person> driver = personRepository.findById(ride.getCar().getPerson().getId());
                 ride.setDriver(driver.get());
 
-                
                 Optional<City> optCity = cityRepository.findByName(ride.getDestination().getCity().getName());
                 if (optCity.isPresent()) {
                     ride.getDestination().setCity(optCity.get());
                 } else {
                     cityRepository.save(ride.getDestination().getCity());
                 }
-
-
 
                 if (ride instanceof RecurringRide) {
                     RecurringRide recurringRide = (RecurringRide) ride;
@@ -158,16 +165,17 @@ public class RideController {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/rides/{idRide}")
+    @PutMapping(value = "/{idRide}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HashMap<String, String>> book(@PathVariable(required = true) int idRide, @RequestParam int idPassenger) throws Exception {
+    public ResponseEntity<HashMap<String, String>> book(@PathVariable(required = true) int idRide,
+            @RequestParam int idPassenger) throws Exception {
         Ride ride = rideRepository.findById(idRide).get();
         Person passenger = personRepository.findById(idPassenger).get();
         HashMap<String, String> responseMessage = new HashMap<String, String>();
         if (!ride.hasBooking(passenger) && ride.addBooking(passenger)) {
             rideRepository.save(ride);
             Notification newNotification = new Notification(Notification.TypeNotif.NEW_RESERVATION,
-                NotifContentBuilder.createNewBookingContent(passenger, ride), ride.getDriver());
+                    NotifContentBuilder.createNewBookingContent(passenger, ride), ride.getDriver());
             notificationRepository.save(newNotification);
             responseMessage.put("type", "success");
             responseMessage.put("message", "Demande de réservation effectuée");
@@ -179,24 +187,31 @@ public class RideController {
         }
     }
 
-
     @CrossOrigin
-    @PutMapping(value = "/update/rides/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/update/{idRide}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HashMap<String, String>> updateRide(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) int idRide, @RequestBody Ride ride) {
+    public ResponseEntity<HashMap<String, String>> updateRide(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization,
+            @PathVariable(required = true) int idRide,
+            @RequestBody Ride ride) {
         HashMap<String, String> responseMessage = new HashMap<String, String>();
         try {
             String[] tokenArray = headerAuthorization.split(" ");
-            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+
+            Integer requestUserId = jwtService.extractId(tokenArray[1]);
+            // TODO le if pour traiter le cas s'il n'y a pas d'utilisateur avec l'ID passé en paramètre
+            Person reqestPerson = personService.findPersonById(requestUserId).get();
+    
             Optional<Ride> optionalRide = rideRepository.findById(idRide);
             if (optionalRide.isPresent()) {
-                Integer idUser = optionalRide.get().getDriver().getId();
-                if (userAuthentication.getIdUser().equals(idUser)) {
+                Integer rideUserId = optionalRide.get().getDriver().getId();
+
+                if (reqestPerson.getId() == rideUserId) {
                     Ride newRide = optionalRide.get();
                     if (newRide.getComment().equals(ride.getComment())) {
                         newRide.setComment(ride.getComment());
                     }
-                    if(newRide.getIsActive() == (ride.getIsActive())) {
+                    if (newRide.getIsActive() == (ride.getIsActive())) {
                         newRide.setIsActive(ride.getIsActive());
                     }
 
@@ -204,18 +219,18 @@ public class RideController {
                     responseMessage.put("type", "success");
                     responseMessage.put("message", "Le trajet est modifié");
                     return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
-                }else {
+                } else {
                     responseMessage.put("type", "error");
                     responseMessage.put("message", "Vous n'êtes pas propriétaire de ce trajet");
                     return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
                 }
-            }else {
+            } else {
                 responseMessage.put("type", "error");
                 responseMessage.put("message", "Il y a un problème sur ce trajet");
                 return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
             }
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             responseMessage.put("type", "error");
             responseMessage.put("message", "Impossible de traité le JSON");
             return new ResponseEntity<HashMap<String, String>>(responseMessage, HttpStatus.CREATED);
@@ -224,33 +239,39 @@ public class RideController {
 
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin
-    @GetMapping(value = "/rides/{idRide}")
+    @GetMapping(value = "/{idRide}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Ride> get( @PathVariable(required = true) int idRide) {
+    public Optional<Ride> get(@PathVariable(required = true) int idRide) {
         return rideRepository.findById(idRide);
     }
 
     @JsonView(Views.SimpleRide.class)
     @CrossOrigin
-    @DeleteMapping(value = "/rides/{idRide}")
+    @DeleteMapping(value = "@RequestMapping(\"/api/centre\")\r\n" + //
+            "{idRide}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization, @PathVariable(required = true) Integer idRide) {
+    public void delete(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization,
+            @PathVariable(required = true) Integer idRide) {
         try {
             String[] tokenArray = headerAuthorization.split(" ");
-            CustomUsernamePasswordAuthenticationToken userAuthentication = JwtUtil.parseToken(tokenArray[1]);
+
+            Integer requestUserId = jwtService.extractId(tokenArray[1]);
+            // TODO le if pour traiter le cas s'il n'y a pas d'utilisateur avec l'ID passé en paramètre
+            Person reqestPerson = personService.findPersonById(requestUserId).get();
+
             Optional<Ride> ride = rideRepository.findById(idRide);
             if (ride.isPresent()) {
                 Integer idUser = ride.get().getDriver().getId();
-                if (userAuthentication.getIdUser().equals(idUser)) {
+                if (reqestPerson.getId() == idUser) {
                     rideRepository.deleteById(idRide);
                 }
             }
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(PersonController.class);
             logger.error("Erreur lors de la conception de la réponse JSon" + e);
         }
-        
+
     }
-    
+
 }

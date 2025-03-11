@@ -1,17 +1,16 @@
 package fr.afpa.covoiturafpa.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 
 @Entity
@@ -45,6 +44,9 @@ public class Car {
     @ManyToOne
     @JoinColumn(name= "id_person")
     private Person person;
+        
+    public Car() {
+    }
 
     public int getId() {
         return id;
@@ -92,8 +94,5 @@ public class Car {
 
     public void setPerson(Person person) {
         this.person = person;
-    }
-    
-    public Car() {
     }
 }

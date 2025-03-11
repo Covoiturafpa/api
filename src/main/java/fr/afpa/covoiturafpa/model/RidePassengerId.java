@@ -3,8 +3,9 @@ package fr.afpa.covoiturafpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
 
 @Embeddable
 public class RidePassengerId implements Serializable {
@@ -16,7 +17,6 @@ public class RidePassengerId implements Serializable {
 
     @Column(name="id_ride")
     private Integer idRide;
-
 
     public int getIdPerson() {
         return idPerson;

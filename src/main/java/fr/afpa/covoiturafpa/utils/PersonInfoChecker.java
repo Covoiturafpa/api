@@ -1,15 +1,17 @@
 //REGEX pour l'email : https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
 //REGEX pour le mot de passe : https://mkyong.com/regular-expressions/how-to-validate-password-with-regular-expression/
 
-package fr.afpa.covoiturafpa.model.utils;
+package fr.afpa.covoiturafpa.utils;
 
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 import fr.afpa.covoiturafpa.model.Person;
 
-public class PersonChecker {
+public class PersonInfoChecker {
     
+    // TODO déplacer cette méthode dans le service "Person"
+    // on va essayer de ne pas coupler "PersonInfoChecker" avec "Person" (sinon couplage avec le model)
     public static boolean hasValidFields(Person person) {
         boolean validity = (isValidEmail(person.getEmail()) && isValidPassword(person.getPassword()) && isValidPhoneNumber(person.getPhoneNumber()) && isValidPeriod(person.getStartActivity(), person.getEndActivity()));
         return validity;

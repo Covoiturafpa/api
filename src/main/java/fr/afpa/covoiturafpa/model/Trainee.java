@@ -1,10 +1,14 @@
 package fr.afpa.covoiturafpa.model;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -31,5 +35,16 @@ public class Trainee extends Person {
     }
 
     public Trainee() {
+    }
+
+    /**
+     * Réimplémentation de "getAuthorities" afin d'ajouter le role "TRAINEE"
+     * 
+     * Euh... wait. Pas de rôle "TRAINEE" ? TODO or NOT TODO ?
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO OR MAYBE NOT ?
+        return super.getAuthorities();
     }
 }

@@ -3,19 +3,25 @@ package fr.afpa.covoiturafpa.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -35,7 +41,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 @DiscriminatorColumn(name = "person_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person", schema = "covoiturafpa")
-public abstract class Person {
+public abstract class Person implements UserDetails {
 
     @JsonView(value = { Views.SimpleRide.class, Views.SimpleUser.class })
     @Id
@@ -99,7 +105,7 @@ public abstract class Person {
     private List<Car> cars;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private List<RidePassenger> rides = new ArrayList<RidePassenger>();
 
     @JsonView(Views.SimpleUser.class)
@@ -248,5 +254,54 @@ public abstract class Person {
     @JsonView(Views.SimpleUser.class)
     public String getShowedName() {
         return this.firstName + " " + this.surname.charAt(0) + ".";
+    }
+
+    /**
+     * Renvoie les "authorités" de l'utilisateur
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // l'utilisateur est forcément "USER"
+        // Bien ré-implémenter "getAuthorities" dans toutes les classes filles
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    /**
+     * Permet de retourner une liste d'autorités sous la forme de chaîne de caractères.
+     * @return Liste de chaînes de caractères représentant les autorités
+     */
+    public List<String> getStringAuthorities() {
+        return getAuthorities().stream().map(authority -> authority.getAuthority()).toList();
+    }
+
+    /**
+     * Username == email.
+     * C'est comme ça (et dû au fait que la notion de "username" est utilisée par Spring Security pour gérer la connexion)
+     * 
+     * Pour toute réclamation contacter une des personnes suivantes : https://spring.io/authors
+     */
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isActivated;
     }
 }
