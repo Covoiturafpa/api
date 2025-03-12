@@ -91,7 +91,9 @@ public class AuthenticationController {
 
         // création de la réponse client
         LoginResponseDto loginResponse = new LoginResponseDto().setToken(jwtToken)
-                .setExpiresIn(jwtService.getExpirationTime());
+                                                                .setExpiresIn(jwtService.getExpirationTime())
+                                                                .setUserId(authenticatedUser.getId())
+                                                                .setRoles(authenticatedUser.getStringAuthorities());
         return ResponseEntity.ok(loginResponse);
     }
 }

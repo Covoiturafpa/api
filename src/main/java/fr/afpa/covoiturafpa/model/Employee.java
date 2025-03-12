@@ -2,10 +2,15 @@ package fr.afpa.covoiturafpa.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.model.utils.Views;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -13,11 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonView;
-
-import fr.afpa.covoiturafpa.model.utils.Views;
 
 @JsonTypeName("E")
 @Entity
@@ -72,10 +72,10 @@ public class Employee extends Person {
     /**
      * Réimplémentation de "getAuthorities" pour ajouter les rôles "TEACHER" et/ou "ADMIN"
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        @SuppressWarnings("unchecked")
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) super.getAuthorities().stream().toList();
+        List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>) super.getAuthorities().stream().collect(Collectors.toList());
 
         if (this.isTeacher) {
             authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
