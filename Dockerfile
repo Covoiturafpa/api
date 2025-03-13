@@ -20,3 +20,4 @@ EXPOSE 8000/tcp
 WORKDIR /opt/api
 COPY --from=builder /opt/api/target/covoiturafpa-1.0.0-SNAPSHOT.jar covoiturafpa-1.0.0-SNAPSHOT.jar
 ENTRYPOINT ["java","-jar","/opt/api/covoiturafpa-1.0.0-SNAPSHOT.jar"]
+# kspqdkq
