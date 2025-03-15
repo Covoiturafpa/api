@@ -2,11 +2,6 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -15,6 +10,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @JsonTypeName("O")
 @Entity
@@ -23,7 +22,7 @@ import fr.afpa.covoiturafpa.model.utils.Views;
 public class OneTimeRide extends Ride {
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class) 
+    @JsonSerialize(using = LocalDateSerializer.class)
     @JsonView(Views.SimpleRide.class)
     @Column(name = "departure_day")
     private LocalDate departureDay;

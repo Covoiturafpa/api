@@ -46,7 +46,7 @@ import fr.afpa.covoiturafpa.services.PersonService;
 import fr.afpa.covoiturafpa.services.authentication.JwtService;
 
 @RestController
-@RequestMapping("/api/rides")
+@RequestMapping("/api")
 public class RideController {
 
     @Autowired
@@ -111,13 +111,12 @@ public class RideController {
     }
 
     @JsonView(Views.DetailedRide.class)
-    // @Transactional
     @CrossOrigin
     @PostMapping(value = "/rides", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Ride create(@RequestBody Ride ride) {
-        List<Ride> existingRide;
         try {
+            List<? extends Ride> existingRide;
             if (ride instanceof RecurringRide) {
                 RecurringRide recurringRide = (RecurringRide) ride;
                 existingRide = rideRepository.findRecurringRidesByDateTimeAndDestination(
@@ -125,18 +124,26 @@ public class RideController {
                         recurringRide.getBeginning(),
                         recurringRide.getEnding(),
                         recurringRide.getDestination().getIsFromAfpa());
-            } else {
+            } else if (ride instanceof OneTimeRide) {
                 OneTimeRide oneTimeRide = (OneTimeRide) ride;
                 existingRide = rideRepository.findOneTimeRidesByDateTimeAndDestination(
-                        oneTimeRide.getDestination().getCity().getName(), oneTimeRide.getDepartureDay(),
+                        oneTimeRide.getDestination().getCity().getName(),
+                        oneTimeRide.getDepartureDay(),
                         oneTimeRide.getDestination().getIsFromAfpa());
+            } else {
+                existingRide = new ArrayList<>();
             }
 
-            if (existingRide.size() == 0) {
-                // Début de la création d'un ride
-                Optional<Person> driver = personRepository.findById(ride.getCar().getPerson().getId());
-                ride.setDriver(driver.get());
+            if (existingRide.isEmpty()) {
+                // Affectation du driver
+                Optional<Person> driverOpt = personRepository.findById(ride.getCar().getPerson().getId());
+                if (driverOpt.isPresent()) {
+                    ride.setDriver(driverOpt.get());
+                } else {
+                    throw new RuntimeException("Driver not found");
+                }
 
+                // Mise à jour de la ville dans la destination
                 Optional<City> optCity = cityRepository.findByName(ride.getDestination().getCity().getName());
                 if (optCity.isPresent()) {
                     ride.getDestination().setCity(optCity.get());
@@ -146,23 +153,25 @@ public class RideController {
 
                 if (ride instanceof RecurringRide) {
                     RecurringRide recurringRide = (RecurringRide) ride;
-                    List<DayWeek> daysList = new ArrayList<DayWeek>();
+                    List<DayWeek> daysList = new ArrayList<>();
                     for (DayWeek day : recurringRide.getDaysWeek()) {
                         Optional<DayWeek> dataDay = rideRepository.findByDay(day.getIdDayWeek());
-                        daysList.add(dataDay.get());
+                        dataDay.ifPresent(daysList::add);
                     }
                     recurringRide.setDaysWeek(daysList);
-                    RecurringRide recurRide = rideRepository.save(recurringRide);
-                    return recurRide;
+                    return rideRepository.save(recurringRide);
+                } else if (ride instanceof OneTimeRide) {
+                    return rideRepository.save((OneTimeRide) ride);
                 }
                 return rideRepository.save(ride);
             }
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(RideController.class);
-            logger.error("Erreur : Une erreur est survenu lors de la création");
+            logger.error("Erreur : Une erreur est survenue lors de la création", e);
         }
         return null;
     }
+
 
     @CrossOrigin
     @PutMapping(value = "/{idRide}")

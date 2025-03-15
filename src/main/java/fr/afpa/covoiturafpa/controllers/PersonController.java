@@ -177,15 +177,13 @@ public class PersonController {
     }
 
     @JsonView(Views.DetailedUser.class)
-    @CrossOrigin
-    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<Person> get(@PathVariable(required = true) Integer id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Person> get(@PathVariable int id) {
+        return personRepository.findById(id)
+                                .map(person -> ResponseEntity.ok(person))
+                                .orElseGet(() -> ResponseEntity.notFound().build());
+}
 
-        // TODO que se passe-t-il si pas d'utilisateur ?
-        // peut être ResponseEntity à renvoyer
-        return personRepository.findById(id);
-    }
 
     @JsonView(Views.DetailedUser.class)
     @CrossOrigin
