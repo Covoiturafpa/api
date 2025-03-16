@@ -1,5 +1,6 @@
 package fr.afpa.covoiturafpa.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import fr.afpa.covoiturafpa.model.utils.Views;
@@ -43,6 +44,7 @@ public class Car {
     @JsonView(Views.SimpleRide.class)
     @ManyToOne
     @JoinColumn(name= "id_person")
+    @JsonBackReference
     private Person person;
         
     public Car() {

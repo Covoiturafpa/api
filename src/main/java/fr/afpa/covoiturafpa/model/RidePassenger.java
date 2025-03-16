@@ -6,6 +6,11 @@ package fr.afpa.covoiturafpa.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import fr.afpa.covoiturafpa.model.utils.Views;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -13,16 +18,10 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-
-import fr.afpa.covoiturafpa.model.utils.Views;
 
 
 @Entity
@@ -40,6 +39,7 @@ public class RidePassenger {
     @JoinColumn(name="id_person")
     private Person person;
 
+    @JsonBackReference
     @ManyToOne
     @MapsId("idRide")
     @JoinColumn(name="id_ride")

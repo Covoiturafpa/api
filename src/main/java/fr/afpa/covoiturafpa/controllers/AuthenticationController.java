@@ -84,7 +84,7 @@ public class AuthenticationController {
         Person authenticatedUser = authenticationService.login(userDto);
 
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("id", authenticatedUser.getId());
+        extraClaims.put("userId", authenticatedUser.getId());
 
         // création du JWT
         String jwtToken = jwtService.generateToken(extraClaims, authenticatedUser);

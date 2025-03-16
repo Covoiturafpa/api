@@ -101,6 +101,7 @@ public abstract class Person implements UserDetails {
 
     @JsonView(Views.DetailedUser.class)
     @OneToMany(mappedBy = "person")
+    @JsonManagedReference
     private List<Car> cars;
 
     @JsonBackReference

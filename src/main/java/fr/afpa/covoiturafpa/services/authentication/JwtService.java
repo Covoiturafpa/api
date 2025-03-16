@@ -21,7 +21,7 @@ import io.jsonwebtoken.security.Keys;
  * - création d'un JWT ;
  * - vérification de la validité de token ;
  * - extraction des "claims" de token.
- * 
+ *
  * Cette classe est une ré-implémentation de la classe proposée ici : https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac#4ada
  */
 @Service
@@ -49,8 +49,9 @@ public class JwtService {
     }
 
     public Integer extractId(String token) {
-        return Integer.parseInt(extractClaim(token, Claims::getId));
+        return extractClaim(token, claims -> claims.get("userId", Integer.class));
     }
+    
 
     /**
      * Extrait toute les "claims" d'un JWT

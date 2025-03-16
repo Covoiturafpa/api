@@ -286,27 +286,33 @@ public class PersonController {
      * @param id L'identifiant de la personne concerné
      * @return Liste de trajet
      */
-    @JsonView(Views.DetailedRide.class)
-    @CrossOrigin
     @GetMapping(value = "/{id}/rides", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Ride> getRidesOfPerson(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuthorization,
             @PathVariable(required = true) Integer id) {
         try {
-            // TODO mettre cette logique de traitement du token ailleurs
+            Logger logger = LoggerFactory.getLogger(PersonController.class);
+            logger.info("Authorization header: " + headerAuthorization);
             String[] tokenArray = headerAuthorization.split(" ");
+            if(tokenArray.length < 2 || tokenArray[1] == null) {
+                logger.error("Token is missing from the Authorization header.");
+                return null;
+            }
             Integer idUserRequest = jwtService.extractId(tokenArray[1]);
-
-            // vérification de l'utilisateur a l'origine de la requête
-            if (idUserRequest == id) {
+            logger.info("ID from token: " + idUserRequest + ", ID from URL: " + id);
+            
+            if (idUserRequest.equals(id)) {
                 return rideRepository.findRidesByPerson(id);
+            } else {
+                logger.warn("L'ID extrait du token ne correspond pas à l'ID passé dans l'URL.");
             }
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(PersonController.class);
-            logger.error("Erreur lors de la conception de la réponse JSon" + e);
+            logger.error("Erreur lors de la conception de la réponse JSon: " + e);
         }
         return null;
     }
+    
 
     @CrossOrigin
     @PutMapping(value = "/{idDriver}/rides/{idRide}")
