@@ -182,7 +182,7 @@ public class PersonController {
         return personRepository.findById(id)
                                 .map(person -> ResponseEntity.ok(person))
                                 .orElseGet(() -> ResponseEntity.notFound().build());
-}
+    }
 
 
     @JsonView(Views.DetailedUser.class)

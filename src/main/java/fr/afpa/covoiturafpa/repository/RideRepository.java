@@ -30,17 +30,17 @@ public interface RideRepository extends CrudRepository<Ride, Integer>, RideRepos
 
 
 @Query(value = "SELECT r.*, ot.* " +
-               "FROM one_time AS ot " +
-               "JOIN ride AS r ON ot.id_ride = r.id_ride " +
-               "JOIN destination AS d ON r.id_destination = d.id_destination " +
-               "JOIN city AS c ON d.id_city = c.id_city " +
-               "WHERE c.name = :cityName " +
-               "  AND ot.departure_day = :departureDay " +
-               "  AND d.is_from_afpa = :isFromAfpa", 
-       nativeQuery = true)
+                "FROM one_time AS ot " +
+                "JOIN ride AS r ON ot.id_ride = r.id_ride " +
+                "JOIN destination AS d ON r.id_destination = d.id_destination " +
+                "JOIN city AS c ON d.id_city = c.id_city " +
+                "WHERE c.name = :cityName " +
+                "  AND ot.departure_day = :departureDay " +
+                "  AND d.is_from_afpa = :isFromAfpa",
+        nativeQuery = true)
 public List<OneTimeRide> findOneTimeRidesByDateTimeAndDestination(
-    @Param("cityName") String cityName, 
-    @Param("departureDay") LocalDate departureDay, 
+    @Param("cityName") String cityName,
+    @Param("departureDay") LocalDate departureDay,
     @Param("isFromAfpa") boolean isFromAfpa);
 
     @Query(value = "SELECT r.*, rr.*, NULL as departure_day " +
